@@ -8,6 +8,8 @@ public class Bestellung {
 	String name;
 	String datum;
 	
+	String testPhilipp;
+	
 	public Bestellung(int bestellnummer, String bestellart, double bestellwert, String name, String datum) {
 		bestellnummer = this.bestellnummer;
 		bestellart = this.bestellart;
