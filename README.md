@@ -10,8 +10,9 @@
 4. Soll Prozess => https://academic.signavio.com/p/explorer#/directory/784d9262c8464fb9864bd9f17ec0af15
 
 # Regeln:
-1. Immer ein **lauffähiges Programm hochladen** hochladen! 
+1. Immer ein **lauffähiges Programm** hochladen! 
 2. Zu jeder **Änderung (Commit)** im Supplyfly_Repository folgendes Schema einhalten:
   - Klassenname nennen + Änderung in ein paar Worten beschreiben.
   - wichtige Informationen / Gedanken online unter dem Commit _kommentieren_.
+3. **Vor dem Programmieren** immer das aktuelle Projekt **pullen**!
 
