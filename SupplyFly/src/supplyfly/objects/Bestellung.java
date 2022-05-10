@@ -7,8 +7,6 @@ public class Bestellung {
 	Double bestellwert;
 	String name;
 	String datum;
-	String lieferzeit;
-	String Rechentempo;
 	
 	public Bestellung(int bestellnummer, String bestellart, double bestellwert, String name, String datum) {
 		bestellnummer = this.bestellnummer;
