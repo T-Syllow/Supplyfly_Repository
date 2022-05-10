@@ -56,6 +56,4 @@ public class Bestellung {
 		this.datum = datum;
 	}
 	
-	
-	
 }

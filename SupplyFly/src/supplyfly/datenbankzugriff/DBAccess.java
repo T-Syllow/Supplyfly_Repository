@@ -43,7 +43,7 @@ public class DBAccess {
 	
 	
 
-	//Connection Methods due Bestellungen.
+	//Connection Methods der Bestellungen.
 	
 	public static Bestellung getBestellungByNr() {
 		return null;
@@ -75,7 +75,7 @@ public class DBAccess {
 //		return alleBestellungen;
 //	}
 
-	//Connection methods due Nutzer
+	//Connection methods der Nutzer
 	
 	public boolean checkForLogin(String username, String password) {
 		getConnectionToDatabase();
