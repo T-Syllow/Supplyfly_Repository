@@ -33,7 +33,7 @@ public class LoginGUI {
 	private JFrame frmSupplyfly;
 	private JTextField txtField_username;
 	private JPasswordField pwdField_password;
-
+	
 	/**
 	 * Launch the application.
 	 */
