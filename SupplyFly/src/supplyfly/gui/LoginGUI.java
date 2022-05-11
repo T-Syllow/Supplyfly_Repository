@@ -47,9 +47,7 @@ public class LoginGUI {
 					e.printStackTrace();
 				}
 			}
-		});
-		
-		
+		});	
 		
 	}
 
