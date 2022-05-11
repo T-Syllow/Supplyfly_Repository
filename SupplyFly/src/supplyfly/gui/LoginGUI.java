@@ -56,7 +56,7 @@ public class LoginGUI {
 	 * Create the application.
 	 */
 	public LoginGUI() {
-		initialize();
+		initialize();	//initializing..
 	}
 
 	/**
