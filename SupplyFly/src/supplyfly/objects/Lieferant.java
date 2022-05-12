@@ -2,14 +2,26 @@ package supplyfly.objects;
 
 public class Lieferant {
 	
+	private String name;
 	private String ansprechpartner;
 	private Integer idNr;
 	private String standort;
 	
-	public Lieferant(String ansprechpartner, Integer idNr, String standort) {
+	public Lieferant(String name, String ansprechpartner, Integer idNr, String standort) {
+		this.name = name;
 		this.ansprechpartner = ansprechpartner;
 		this.idNr = idNr;
 		this.standort = standort;
+	}
+
+	//Getter und Setter
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getAnsprechpartner() {
