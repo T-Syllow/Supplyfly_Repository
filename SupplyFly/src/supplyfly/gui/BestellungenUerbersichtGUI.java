@@ -19,10 +19,14 @@ import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 import java.awt.Font;
 import java.awt.Component;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JTable;
 
 public class BestellungenUerbersichtGUI {
 
 	private JFrame frmSupplyfly;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -57,129 +61,22 @@ public class BestellungenUerbersichtGUI {
 		frmSupplyfly.setTitle("SupplyFly");
 		frmSupplyfly.setBounds(100, 100, 450, 300);
 		frmSupplyfly.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmSupplyfly.getContentPane().setLayout(new BorderLayout(0, 0));
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{450, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{99, 29, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		frmSupplyfly.getContentPane().setLayout(gridBagLayout);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		frmSupplyfly.getContentPane().add(tabbedPane, BorderLayout.NORTH);
-		
-		JPanel pnl_tab_Bestellungen = new JPanel();
-		pnl_tab_Bestellungen.setToolTipText("");
-		tabbedPane.addTab("Bestellungen", null, pnl_tab_Bestellungen, null);
-		GridBagLayout gbl_pnl_tab_Bestellungen = new GridBagLayout();
-		gbl_pnl_tab_Bestellungen.columnWidths = new int[]{0, 0, 0, 0, 2};
-		gbl_pnl_tab_Bestellungen.rowHeights = new int[]{0, 0, 0, 2};
-		gbl_pnl_tab_Bestellungen.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbl_pnl_tab_Bestellungen.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		pnl_tab_Bestellungen.setLayout(gbl_pnl_tab_Bestellungen);
-		
-		JLabel lbl_HEAD_Bestell_id = new JLabel("Bestellung");
-		lbl_HEAD_Bestell_id.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		GridBagConstraints gbc_lbl_HEAD_Bestell_id = new GridBagConstraints();
-		gbc_lbl_HEAD_Bestell_id.weightx = 1.0;
-		gbc_lbl_HEAD_Bestell_id.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lbl_HEAD_Bestell_id.insets = new Insets(0, 0, 5, 5);
-		gbc_lbl_HEAD_Bestell_id.gridx = 0;
-		gbc_lbl_HEAD_Bestell_id.gridy = 0;
-		pnl_tab_Bestellungen.add(lbl_HEAD_Bestell_id, gbc_lbl_HEAD_Bestell_id);
-		
-		JLabel lbl_HEAD_Datum = new JLabel("Datum");
-		lbl_HEAD_Datum.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		GridBagConstraints gbc_lbl_HEAD_Datum = new GridBagConstraints();
-		gbc_lbl_HEAD_Datum.weightx = 1.0;
-		gbc_lbl_HEAD_Datum.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lbl_HEAD_Datum.insets = new Insets(0, 0, 5, 5);
-		gbc_lbl_HEAD_Datum.gridx = 1;
-		gbc_lbl_HEAD_Datum.gridy = 0;
-		pnl_tab_Bestellungen.add(lbl_HEAD_Datum, gbc_lbl_HEAD_Datum);
-		
-		JLabel lbl_HEAD_Mitarbeiter = new JLabel("Mitarbeiter");
-		lbl_HEAD_Mitarbeiter.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		GridBagConstraints gbc_lbl_HEAD_Mitarbeiter = new GridBagConstraints();
-		gbc_lbl_HEAD_Mitarbeiter.weightx = 1.0;
-		gbc_lbl_HEAD_Mitarbeiter.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lbl_HEAD_Mitarbeiter.insets = new Insets(0, 0, 5, 5);
-		gbc_lbl_HEAD_Mitarbeiter.gridx = 2;
-		gbc_lbl_HEAD_Mitarbeiter.gridy = 0;
-		pnl_tab_Bestellungen.add(lbl_HEAD_Mitarbeiter, gbc_lbl_HEAD_Mitarbeiter);
-		
-		JLabel lbl_HEAD_Bestellart = new JLabel("Bestellart");
-		lbl_HEAD_Bestellart.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		GridBagConstraints gbc_lbl_HEAD_Bestellart = new GridBagConstraints();
-		gbc_lbl_HEAD_Bestellart.weightx = 1.0;
-		gbc_lbl_HEAD_Bestellart.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lbl_HEAD_Bestellart.insets = new Insets(0, 0, 5, 0);
-		gbc_lbl_HEAD_Bestellart.gridx = 3;
-		gbc_lbl_HEAD_Bestellart.gridy = 0;
-		pnl_tab_Bestellungen.add(lbl_HEAD_Bestellart, gbc_lbl_HEAD_Bestellart);
-		
-		JPanel pnl_Bestell_idsListed = new JPanel();
-		GridBagConstraints gbc_pnl_Bestell_idsListed = new GridBagConstraints();
-		gbc_pnl_Bestell_idsListed.anchor = GridBagConstraints.NORTHWEST;
-		gbc_pnl_Bestell_idsListed.insets = new Insets(0, 0, 5, 5);
-		gbc_pnl_Bestell_idsListed.gridx = 0;
-		gbc_pnl_Bestell_idsListed.gridy = 1;
-		pnl_tab_Bestellungen.add(pnl_Bestell_idsListed, gbc_pnl_Bestell_idsListed);
-		pnl_Bestell_idsListed.setLayout(new BoxLayout(pnl_Bestell_idsListed, BoxLayout.Y_AXIS));
-		
-		JLabel lblNewLabel_2 = new JLabel("New label");
-		pnl_Bestell_idsListed.add(lblNewLabel_2);
-		
-		JLabel lblNewLabel = new JLabel("New label");
-		pnl_Bestell_idsListed.add(lblNewLabel);
-		
-		JPanel pnl_datumListed = new JPanel();
-		GridBagConstraints gbc_pnl_datumListed = new GridBagConstraints();
-		gbc_pnl_datumListed.anchor = GridBagConstraints.NORTHWEST;
-		gbc_pnl_datumListed.insets = new Insets(0, 0, 5, 5);
-		gbc_pnl_datumListed.gridx = 1;
-		gbc_pnl_datumListed.gridy = 1;
-		pnl_tab_Bestellungen.add(pnl_datumListed, gbc_pnl_datumListed);
-		pnl_datumListed.setLayout(new BoxLayout(pnl_datumListed, BoxLayout.Y_AXIS));
-		
-		JLabel lblNewLabel_4 = new JLabel("New label");
-		pnl_datumListed.add(lblNewLabel_4);
-		
-		JLabel lblNewLabel_5 = new JLabel("New label");
-		pnl_datumListed.add(lblNewLabel_5);
-		
-		JPanel pnl_mitarbeiterListed = new JPanel();
-		GridBagConstraints gbc_pnl_mitarbeiterListed = new GridBagConstraints();
-		gbc_pnl_mitarbeiterListed.anchor = GridBagConstraints.NORTHWEST;
-		gbc_pnl_mitarbeiterListed.insets = new Insets(0, 0, 5, 5);
-		gbc_pnl_mitarbeiterListed.gridx = 2;
-		gbc_pnl_mitarbeiterListed.gridy = 1;
-		pnl_tab_Bestellungen.add(pnl_mitarbeiterListed, gbc_pnl_mitarbeiterListed);
-		pnl_mitarbeiterListed.setLayout(new BoxLayout(pnl_mitarbeiterListed, BoxLayout.Y_AXIS));
-		
-		JLabel lblNewLabel_6 = new JLabel("New label");
-		lblNewLabel_6.setAlignmentX(Component.CENTER_ALIGNMENT);
-		pnl_mitarbeiterListed.add(lblNewLabel_6);
-		
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		pnl_mitarbeiterListed.add(lblNewLabel_1);
-		
-		JPanel pnl_bestellartListed = new JPanel();
-		GridBagConstraints gbc_pnl_bestellartListed = new GridBagConstraints();
-		gbc_pnl_bestellartListed.anchor = GridBagConstraints.NORTHWEST;
-		gbc_pnl_bestellartListed.insets = new Insets(0, 0, 5, 0);
-		gbc_pnl_bestellartListed.gridx = 3;
-		gbc_pnl_bestellartListed.gridy = 1;
-		pnl_tab_Bestellungen.add(pnl_bestellartListed, gbc_pnl_bestellartListed);
-		pnl_bestellartListed.setLayout(new BoxLayout(pnl_bestellartListed, BoxLayout.Y_AXIS));
-		
-		JLabel lblNewLabel_7 = new JLabel("New label");
-		pnl_bestellartListed.add(lblNewLabel_7);
-		
-		JLabel lblNewLabel_3 = new JLabel("New label");
-		pnl_bestellartListed.add(lblNewLabel_3);
-		
-		JButton btn_bestellungHinzufuegen = new JButton("Bestellung hinzufügen");
-		GridBagConstraints gbc_btn_bestellungHinzufuegen = new GridBagConstraints();
-		gbc_btn_bestellungHinzufuegen.anchor = GridBagConstraints.SOUTHEAST;
-		gbc_btn_bestellungHinzufuegen.gridx = 3;
-		gbc_btn_bestellungHinzufuegen.gridy = 2;
-		pnl_tab_Bestellungen.add(btn_bestellungHinzufuegen, gbc_btn_bestellungHinzufuegen);
+		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
+		gbc_tabbedPane.gridwidth = 4;
+		gbc_tabbedPane.anchor = GridBagConstraints.NORTH;
+		gbc_tabbedPane.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tabbedPane.insets = new Insets(0, 0, 5, 0);
+		gbc_tabbedPane.gridx = 0;
+		gbc_tabbedPane.gridy = 0;
+		frmSupplyfly.getContentPane().add(tabbedPane, gbc_tabbedPane);
 		
 		JPanel pnl_tab_Produkte = new JPanel();
 		tabbedPane.addTab("Produkte", null, pnl_tab_Produkte, null);
@@ -291,6 +188,32 @@ public class BestellungenUerbersichtGUI {
 		
 		JPanel pnl_tab_Lieferanten = new JPanel();
 		tabbedPane.addTab("Lieferanten", null, pnl_tab_Lieferanten, null);
+		
+		JPanel pnl_tab_Bestellung = new JPanel();
+		tabbedPane.addTab("Bestellung", null, pnl_tab_Bestellung, null);
+		GridBagLayout gbl_pnl_tab_Bestellung = new GridBagLayout();
+		gbl_pnl_tab_Bestellung.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_pnl_tab_Bestellung.rowHeights = new int[]{0, 0, 0};
+		gbl_pnl_tab_Bestellung.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnl_tab_Bestellung.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		pnl_tab_Bestellung.setLayout(gbl_pnl_tab_Bestellung);
+		
+		table = new JTable();
+		GridBagConstraints gbc_table = new GridBagConstraints();
+		gbc_table.insets = new Insets(0, 0, 5, 0);
+		gbc_table.gridwidth = 7;
+		gbc_table.fill = GridBagConstraints.BOTH;
+		gbc_table.gridx = 0;
+		gbc_table.gridy = 0;
+		pnl_tab_Bestellung.add(table, gbc_table);
+		
+		JButton btnNewButton = new JButton("Bestellung hinzufügen");
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.anchor = GridBagConstraints.NORTH;
+		gbc_btnNewButton.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnNewButton.gridx = 3;
+		gbc_btnNewButton.gridy = 1;
+		frmSupplyfly.getContentPane().add(btnNewButton, gbc_btnNewButton);
 	}
 
 }
