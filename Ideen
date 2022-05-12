@@ -1,0 +1,14 @@
+<Produktportfolio>
+
+- Produktportfolio wird in Datenbank eingetragen
+- KLasse "Produkte" nimmt die Daten vom Produktportfolio
+- Attribute sind "Artikelnummer" , "Menge" , "Preis"
+- Preis ist variabel je nach Lieferant --> Zwischentabelle erstellen --> Produkte werden laut ihrer ID bestimmt 
+  --> Preise dann je nach Lieferant eingetragen
+- Tabelle Produktportfolio: hat die Attribute "ID", "Änderungsdatum" (Bezeichnung wird über ID geholt)
+  (Da jeden Monat eventuell Produkte hinzugefügt oder emtfernt werden können)
+  - Zwischentabelle für variablen Preis hat die Attribute "Lieferant", "ID", "ProduktID", "LieferantenID", "Preis", "Lieferzeit"
+    "ID" ist ne Bezeichnung für die Kombination aus "ProduktID" und "LieferantenID"
+- Tabelle Lieferant: hat die Attribute "LieferantenID", "Bezeichnung/Name", "Ansprechpartner" und "Standort"
+- Eilbestellung wird sortiert nach "Lieferzeit" 
+- Reguläre Bestellung wird sortiert nach "Preis"
