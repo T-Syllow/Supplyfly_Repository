@@ -12,3 +12,18 @@
 - Tabelle Lieferant: hat die Attribute "LieferantenID", "Bezeichnung/Name", "Ansprechpartner" und "Standort"
 - Eilbestellung wird sortiert nach "Lieferzeit" 
 - Reguläre Bestellung wird sortiert nach "Preis"
+- ER-Modell basiert komplett auf Datenbankzugriff (alle Befehle werden über die Datenbank ausgeführt)
+
+<Bestellung>
+
+- Klasse "Einkäufer":
+  * Methode zum Anlegen einer Bestellung
+  * Boolean Methode zum überprüfen (Bestellung wird im GUI nochmal angezeigt und kann bestätigt werden)
+  
+- Klasse "Bestellung": 
+  * Auswahl ob Eilbestellung oder reguläre Bestellung
+    - Bestellung: Anzeige GUI --> (Eilbestellung) Produkte (sortiert nach Lieferzeit) /  (reguläre Bestellung) Produkte (sortiert nach Preis)
+      --> (nach Auswahl) Datum, Preis, Mitarbeiter anzeigen --> Lieferanten mit Ansprechpartner, Lieferntennummer und Standort anzeigen 
+      --> Am Ende Bestellübersicht und Bestellnummer
+      
+- 
