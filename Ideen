@@ -12,7 +12,7 @@
 - Tabelle Lieferant: hat die Attribute "LieferantenID", "Bezeichnung/Name", "Ansprechpartner" und "Standort"
 - Eilbestellung wird sortiert nach "Lieferzeit" 
 - Reguläre Bestellung wird sortiert nach "Preis"
-- ER-Modell basiert komplett auf Datenbankzugriff (alle Befehle werden über die Datenbank ausgeführt)
+- ER-Modell basiert komplett auf (Package) Supplyfly.Datenbankzugriff --> (Klasse) DBAccess.java (alle Befehle werden über die Datenbank ausgeführt)
 
 <Bestellung>
 
