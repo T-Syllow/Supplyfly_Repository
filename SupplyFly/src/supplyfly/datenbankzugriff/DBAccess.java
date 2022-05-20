@@ -49,31 +49,31 @@ public class DBAccess {
 		return null;
 	}
 																//funktioniert noch nicht richtig..
-//	public static ArrayList<Bestellung> getAlleBestellung() {	//ruft alle Bestellungen aus Datebank ab und speichert sie in ArrayList
-//		if(conn == null) {
-//			getConnectionToDatabase();
-//		}
-//		Bestellung bestellung = null;
-//		ArrayList<Bestellung> alleBestellungen = new ArrayList<>();
-//		
-//		try {
-//			Statement stmt = conn.createStatement();
-//			ResultSet rs = stmt.executeQuery("SELECT BestellNr, Bestellart, Bestellwert, Mitarbeiter, Datum FROM bestellungen");
-//			
-//			while (rs.next()) {
-//				Integer bestellNr = rs.getInt("BestellNr");
-//				String bestellArt = rs.getString("Bestellart");
-//				Double bestellwert = Double.parseDouble(rs.getString("Bestellwert"));
-//				String mitarbeiter = rs.getString("Mitarbeiter");
-//				String datum = rs.getString("Datum");
-//				alleBestellungen.add(new Bestellung(bestellNr, bestellArt, bestellwert, mitarbeiter, datum));
-//			}
-//			System.out.println(alleBestellungen);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return alleBestellungen;
-//	}
+	public static ArrayList<Bestellung> getAlleBestellung() {	//ruft alle Bestellungen aus Datebank ab und speichert sie in ArrayList
+		if(conn == null) {
+			getConnectionToDatabase();
+		}
+		Bestellung bestellung = null;
+		ArrayList<Bestellung> alleBestellungen = new ArrayList<>();
+		
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT BestellNr, Bestellart, Bestellwert, Mitarbeiter, Datum FROM bestellung");
+			
+			while (rs.next()) {
+				Integer bestellNr = rs.getInt("BestellNr");
+				String bestellArt = rs.getString("Bestellart");
+				Double bestellwert = Double.parseDouble(rs.getString("Bestellwert"));
+				String mitarbeiter = rs.getString("Mitarbeiter");
+				String datum = rs.getString("Datum");
+				alleBestellungen.add(new Bestellung(bestellNr, bestellArt, bestellwert, mitarbeiter, datum));
+			}
+			System.out.println(alleBestellungen);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return alleBestellungen;
+	}
 
 	//Connection methods der Nutzer
 	
