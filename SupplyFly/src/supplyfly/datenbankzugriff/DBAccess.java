@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.table.DefaultTableModel;
+
 import supplyfly.objects.Bestellung;
 import supplyfly.objects.Lieferant;
 import supplyfly.objects.Produkte;
@@ -76,6 +78,28 @@ public class DBAccess {
 			e.printStackTrace();
 		}
 		return alleBestellungen;
+	}
+	
+	//Diese Methode fügt alle produkte in unsere Tabelle hinzu.
+	public void getAlleProdukte(DefaultTableModel m) throws Exception{
+		try {
+			getConnectionToDatabase();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT ProduktID, Produktbezeichnung, Mindestbestand, Menge, Produktspezifikation FROM produkt");
+			
+			while(rs.next()) {
+				Integer produktID = rs.getInt("BestellNr");
+				String produktbezeichnung = rs.getString("Bestellart");
+				
+				m.addRow(new Object[] {produktID, produktbezeichnung});
+			}
+			
+		}catch(Exception e){
+			System.out.println(e);
+		}
+		finally {
+			System.out.println("Produkte erfolgreich der Tabelle hinzugefügt");
+		}
 	}
 
 	//Connection methods der Nutzer

@@ -29,6 +29,10 @@ import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
+
+import supplyfly.datenbankzugriff.DBAccess;
+
 import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -49,6 +53,7 @@ public class BestellungenUerbersichtGUI {
 	private JButton btn_hinzufuegen;
 	private JTable table_2;
 	private JTextField searchFieldProdukte;
+	DBAccess db = new DBAccess();
 
 	/**
 	 * Launch the application.
@@ -70,8 +75,9 @@ public class BestellungenUerbersichtGUI {
 
 	/**
 	 * Create the application.
+	 * @throws Exception 
 	 */
-	public BestellungenUerbersichtGUI() {
+	public BestellungenUerbersichtGUI(){
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
@@ -84,8 +90,9 @@ public class BestellungenUerbersichtGUI {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws Exception 
 	 */
-	private void initialize() {
+	private void initialize(){
 		
 		frmSupplyfly = new JFrame();
 		frmSupplyfly.setTitle("SupplyFly");
@@ -100,6 +107,8 @@ public class BestellungenUerbersichtGUI {
 		pnl_tab_Produkte.setLayout(new BorderLayout(0, 0));
 		
 		table_2 = new JTable();
+//		DefaultTableModel model = (DefaultTableModel) table_2.getModel();
+//		db.getAlleProdukte(model);
 		
 		table_2.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent me) {
