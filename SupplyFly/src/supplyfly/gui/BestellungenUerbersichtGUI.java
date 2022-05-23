@@ -105,12 +105,12 @@ public class BestellungenUerbersichtGUI {
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		pnl_tab_Produkte.add(panel, BorderLayout.NORTH);
 		
-		JButton btnNewButton = new JButton("Produkt hinzuf\u00FCgen");
-		panel.add(btnNewButton);
+		JButton btn_produktHinzufuegen = new JButton("Produkt hinzuf\u00FCgen");
+		panel.add(btn_produktHinzufuegen);
 		
-		JLabel lblNewLabel = new JLabel("Suche:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
-		panel.add(lblNewLabel);
+		JLabel lbl_search = new JLabel("Suche:");
+		lbl_search.setFont(new Font("Tahoma", Font.BOLD, 11));
+		panel.add(lbl_search);
 		
 		searchFieldProdukte = new JTextField();
 		panel.add(searchFieldProdukte);
