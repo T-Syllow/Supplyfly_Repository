@@ -50,7 +50,7 @@ public class LieferantenProdukteHinzufuegenGUI {
 		frmLieferantenprodukteVerwalten = new JFrame();
 		frmLieferantenprodukteVerwalten.setTitle("Lieferantenprodukte verwalten");
 		frmLieferantenprodukteVerwalten.setBounds(100, 100, 633, 410);
-		frmLieferantenprodukteVerwalten.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmLieferantenprodukteVerwalten.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
 		frmLieferantenprodukteVerwalten.getContentPane().add(panel, BorderLayout.NORTH);
