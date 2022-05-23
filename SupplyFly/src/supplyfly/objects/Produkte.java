@@ -4,15 +4,36 @@ public class Produkte {
 
 	private Integer menge;
 	private Integer artikelNr;
-	private Double preis;
+	private String bezeichnung;
+	private Integer mindestbestand;
+	//private static Integer zaehler = 1006;
 	
-	public Produkte(Integer menge, Integer artikelNr, Double preis) {
+	public Produkte(Integer menge, Integer artikelNr, String bezeichnung,Integer mindestbestand) {
 		this.menge = menge;
+		//zaehler++;
 		this.artikelNr = artikelNr;
-		this.preis = preis;
+		this. bezeichnung =  bezeichnung;
+		this.mindestbestand = mindestbestand;
+		
 	}
 	
 	//Getter & Setter
+
+	public String getBezeichnung() {
+		return bezeichnung;
+	}
+
+	public void setBezeichnung(String bezeichnung) {
+		this.bezeichnung = bezeichnung;
+	}
+
+	public Integer getMindestbestand() {
+		return mindestbestand;
+	}
+
+	public void setMindestbestand(Integer mindestbestand) {
+		this.mindestbestand = mindestbestand;
+	}
 
 	public Integer getMenge() {
 		return menge;
@@ -30,16 +51,4 @@ public class Produkte {
 		this.artikelNr = artikelNr;
 	}
 
-	public Double getPreis() {
-		return preis;
-	}
-
-	public void setPreis(Double preis) {
-		this.preis = preis;
-	}
-	
-	
-	
-	
-	
 }

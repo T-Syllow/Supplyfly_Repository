@@ -17,6 +17,8 @@ import java.awt.Taskbar;
 import javax.swing.JTextField;
 
 import supplyfly.datenbankzugriff.DBAccess;
+import supplyfly.objects.Lieferant;
+import supplyfly.objects.Produkte;
 
 import javax.swing.JPasswordField;
 import javax.print.DocFlavor.URL;
@@ -36,8 +38,9 @@ public class LoginGUI {
 	
 	/**
 	 * Launch the application.
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

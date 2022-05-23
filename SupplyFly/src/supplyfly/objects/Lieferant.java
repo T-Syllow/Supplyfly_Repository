@@ -5,13 +5,19 @@ public class Lieferant {
 	private String name;
 	private String ansprechpartner;
 	private Integer idNr;
-	private String standort;
+	private String strasse;
+	private int hausnummer;
+	private int PLZ;
+	private String ort;
 	
-	public Lieferant(String name, String ansprechpartner, Integer idNr, String standort) {
+	public Lieferant(String name, String ansprechpartner, Integer idNr, String strasse, int hausnummer,  int PLZ, String ort) {
 		this.name = name;
 		this.ansprechpartner = ansprechpartner;
 		this.idNr = idNr;
-		this.standort = standort;
+		this.strasse = strasse;
+		this.hausnummer = hausnummer;
+		this.PLZ = PLZ;
+		this.ort = ort;
 	}
 
 	//Getter und Setter
@@ -39,15 +45,39 @@ public class Lieferant {
 	public void setIdNr(Integer idNr) {
 		this.idNr = idNr;
 	}
-
-	public String getStandort() {
-		return standort;
+	
+	public String getStrasse() {
+		return strasse;
 	}
 
-	public void setStandort(String standort) {
-		this.standort = standort;
+	public void setStrasse(String strasse) {
+		this.strasse = strasse;
 	}
-	
-	
+
+	public int getHausnummer() {
+		return hausnummer;
+	}
+
+	public void setHausnummer(int hausnummer) {
+		this.hausnummer = hausnummer;
+	}
+
+	public int getPLZ() {
+		return PLZ;
+	}
+
+	public void setPLZ(int pLZ) {
+		PLZ = pLZ;
+	}
+
+	public String getOrt() {
+		return ort;
+	}
+
+	public void setOrt(String ort) {
+		this.ort = ort;
+	}
+
+
 
 }
