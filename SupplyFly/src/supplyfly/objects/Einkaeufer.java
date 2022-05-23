@@ -1,11 +1,11 @@
 package supplyfly.objects;
 
-public class Einkäufer {
+public class Einkaeufer {
 	
 	private String nutzername;
 	private Integer nutzerId;
 	
-	public Einkäufer(String nutzername, Integer nutzerId) {
+	public Einkaeufer(String nutzername, Integer nutzerId) {
 		this.nutzername = nutzername;
 		this.nutzerId = nutzerId;
 	}
