@@ -26,6 +26,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
+import java.awt.Color;
 
 public class BestellungenUerbersichtGUI {
 
@@ -41,6 +42,7 @@ public class BestellungenUerbersichtGUI {
 	private JTable table_1;
 	private JButton btn_hinzufuegen;
 	private JTable table_2;
+	private JTextField searchFieldProdukte;
 
 	/**
 	 * Launch the application.
@@ -80,22 +82,39 @@ public class BestellungenUerbersichtGUI {
 		
 		JPanel pnl_tab_Produkte = new JPanel();
 		tabbedPane.addTab("Produkte", null, pnl_tab_Produkte, null);
+		pnl_tab_Produkte.setLayout(new BorderLayout(0, 0));
 		
 		table_2 = new JTable();
-		GroupLayout gl_pnl_tab_Produkte = new GroupLayout(pnl_tab_Produkte);
-		gl_pnl_tab_Produkte.setHorizontalGroup(
-			gl_pnl_tab_Produkte.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnl_tab_Produkte.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(table_2, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE))
-		);
-		gl_pnl_tab_Produkte.setVerticalGroup(
-			gl_pnl_tab_Produkte.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnl_tab_Produkte.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(table_2, GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE))
-		);
-		pnl_tab_Produkte.setLayout(gl_pnl_tab_Produkte);
+		
+		table_2.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent me) {
+				if (me.getClickCount() == 2) {//schaut ob zwei mal geklickt wurde
+					JTable zeile = (JTable) me.getSource();
+					int row = zeile.getSelectedRow();
+					
+					System.out.println(zeile);
+				}
+			}
+		});
+		
+		pnl_tab_Produkte.add(table_2, BorderLayout.CENTER);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+		flowLayout.setAlignment(FlowLayout.RIGHT);
+		pnl_tab_Produkte.add(panel, BorderLayout.NORTH);
+		
+		JButton btnNewButton = new JButton("Produkt hinzuf\u00FCgen");
+		panel.add(btnNewButton);
+		
+		JLabel lblNewLabel = new JLabel("Suche:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		panel.add(lblNewLabel);
+		
+		searchFieldProdukte = new JTextField();
+		panel.add(searchFieldProdukte);
+		searchFieldProdukte.setColumns(20);
 		
 		JPanel pnl_tab_Lieferanten = new JPanel();
 		tabbedPane.addTab("Lieferanten", null, pnl_tab_Lieferanten, null);
