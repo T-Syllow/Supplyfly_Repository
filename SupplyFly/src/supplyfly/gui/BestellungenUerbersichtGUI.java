@@ -15,6 +15,7 @@ import java.sql.DriverManager;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 import java.awt.Font;
@@ -24,11 +25,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JTextField;
 import java.awt.Color;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
 
 public class BestellungenUerbersichtGUI {
 
@@ -86,12 +90,13 @@ public class BestellungenUerbersichtGUI {
 		frmSupplyfly = new JFrame();
 		frmSupplyfly.setTitle("SupplyFly");
 		frmSupplyfly.setBounds(100, 100, 633, 410);
-		frmSupplyfly.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmSupplyfly.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
 		JPanel pnl_tab_Produkte = new JPanel();
 		tabbedPane.addTab("Produkte", null, pnl_tab_Produkte, null);
+		tabbedPane.setBackgroundAt(0, SystemColor.menu);
 		pnl_tab_Produkte.setLayout(new BorderLayout(0, 0));
 		
 		table_2 = new JTable();
@@ -135,7 +140,7 @@ public class BestellungenUerbersichtGUI {
 		JPanel pnl_tab_Lieferanten = new JPanel();
 		tabbedPane.addTab("Lieferanten", null, pnl_tab_Lieferanten, null);
 		
-		JLabel lbl_titelLieferantenHinzufuegen = new JLabel("Lieferanten hinzuf\u00fcgen");
+		JLabel lbl_titelLieferantenHinzufuegen = new JLabel("<HTML><U>Lieferanten hinzuf\u00fcgen</U></HTML>");
 		lbl_titelLieferantenHinzufuegen.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		
 		JLabel lbl_lieferantenName = new JLabel("Lieferantenname:");
@@ -169,7 +174,7 @@ public class BestellungenUerbersichtGUI {
 		txt_ort = new JTextField();
 		txt_ort.setColumns(10);
 		
-		JLabel lbl_titelProdukte = new JLabel("Produkte");
+		JLabel lbl_titelProdukte = new JLabel("<HTML><U>Produkte:</U></HTML>");
 		
 		table_1 = new JTable();
 		
@@ -187,34 +192,29 @@ public class BestellungenUerbersichtGUI {
 					.addContainerGap()
 					.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
 						.addComponent(lbl_titelLieferantenHinzufuegen)
-						.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING, false)
-							.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
-								.addComponent(lbl_adresse)
-								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(txt_strasse, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
+						.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
+							.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
+								.addComponent(lbl_ansprechpartner)
+								.addComponent(lbl_lieferantenNummer)
 								.addComponent(lbl_telefon)
-								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(txt_telefon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
-								.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
-									.addComponent(lbl_ansprechpartner)
-									.addComponent(lbl_lieferantenNummer))
-								.addGap(12)
-								.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
-									.addComponent(txt_lieferantennNummer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(txt_ansprechPartner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(txt_lieferanntenName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-							.addComponent(txt_plz, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(txt_ort, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lbl_adresse))
+							.addGap(12)
+							.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(txt_telefon)
+								.addComponent(txt_lieferanntenName, GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+								.addComponent(txt_lieferantennNummer)
+								.addComponent(txt_ansprechPartner)
+								.addComponent(txt_strasse)
+								.addComponent(txt_plz)
+								.addComponent(txt_ort)))
 						.addComponent(lbl_lieferantenName))
-					.addPreferredGap(ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
 					.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
-						.addComponent(lbl_titelProdukte)
 						.addComponent(btn_produkteHinzufuegen)
 						.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.TRAILING)
-							.addComponent(btn_hinzufuegen)
-							.addComponent(table_1, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(table_1, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lbl_titelProdukte)
+							.addComponent(btn_hinzufuegen)))
 					.addGap(22))
 		);
 		gl_pnl_tab_Lieferanten.setVerticalGroup(
@@ -222,9 +222,9 @@ public class BestellungenUerbersichtGUI {
 				.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
 					.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
-							.addContainerGap()
+							.addGap(23)
 							.addComponent(lbl_titelProdukte)
-							.addGap(18)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(table_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 						.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
 							.addComponent(lbl_titelLieferantenHinzufuegen)
@@ -245,17 +245,21 @@ public class BestellungenUerbersichtGUI {
 								.addComponent(lbl_telefon)
 								.addComponent(txt_telefon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lbl_adresse)
 								.addComponent(txt_strasse, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(txt_plz, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
-						.addComponent(txt_ort, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btn_produkteHinzufuegen))
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(btn_hinzufuegen))
+						.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
+							.addComponent(btn_produkteHinzufuegen)
+							.addPreferredGap(ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+							.addComponent(btn_hinzufuegen)
+							.addContainerGap())
+						.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
+							.addComponent(txt_ort, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(92))))
 		);
 		pnl_tab_Lieferanten.setLayout(gl_pnl_tab_Lieferanten);
 		GroupLayout groupLayout = new GroupLayout(frmSupplyfly.getContentPane());
@@ -290,7 +294,7 @@ public class BestellungenUerbersichtGUI {
 			gl_pnl_tab_Bestellung.createParallelGroup(Alignment.TRAILING)
 				.addComponent(table, GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
 				.addGroup(gl_pnl_tab_Bestellung.createSequentialGroup()
-					.addContainerGap(411, Short.MAX_VALUE)
+					.addContainerGap(454, Short.MAX_VALUE)
 					.addComponent(btn_bestellungenHinzufuegen)
 					.addContainerGap())
 		);
@@ -298,8 +302,9 @@ public class BestellungenUerbersichtGUI {
 			gl_pnl_tab_Bestellung.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnl_tab_Bestellung.createSequentialGroup()
 					.addComponent(table, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(btn_bestellungenHinzufuegen))
+					.addGap(18)
+					.addComponent(btn_bestellungenHinzufuegen)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		pnl_tab_Bestellung.setLayout(gl_pnl_tab_Bestellung);
 		frmSupplyfly.getContentPane().setLayout(groupLayout);
