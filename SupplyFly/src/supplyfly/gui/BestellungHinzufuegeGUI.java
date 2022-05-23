@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
 
 public class BestellungHinzufuegeGUI {
 
-	private JFrame frame;
+	private JFrame frmNeueBestellung;
 	private JTable table_produkteDerBestellung;
 
 	/**
@@ -27,7 +27,7 @@ public class BestellungHinzufuegeGUI {
 			public void run() {
 				try {
 					BestellungHinzufuegeGUI window = new BestellungHinzufuegeGUI();
-					window.frame.setVisible(true);
+					window.frmNeueBestellung.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -46,12 +46,13 @@ public class BestellungHinzufuegeGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 633, 410);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmNeueBestellung = new JFrame();
+		frmNeueBestellung.setTitle("Bestellung erstellen");
+		frmNeueBestellung.setBounds(100, 100, 633, 410);
+		frmNeueBestellung.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		frmNeueBestellung.getContentPane().add(panel, BorderLayout.CENTER);
 		
 		table_produkteDerBestellung = new JTable();
 		
@@ -59,7 +60,7 @@ public class BestellungHinzufuegeGUI {
 		
 		JButton btn_zurueck = new JButton("Zur\u00fcck");
 		btn_zurueck.addActionListener(e -> {
-			frame.setVisible(false);
+			frmNeueBestellung.setVisible(false);
 		});
 		
 		JButton btn_bestellungBestaetigen = new JButton("Best\u00e4tigen");
@@ -79,45 +80,48 @@ public class BestellungHinzufuegeGUI {
 		JLabel lbl_wertBestelltVon = new JLabel("New label");
 		
 		JLabel lbl_wertStatus = new JLabel("New label");
+		
+		JButton btn_produktHinzufuegen = new JButton("Produkt hinzufügen");
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-					.addContainerGap(393, Short.MAX_VALUE)
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap(430, Short.MAX_VALUE)
 					.addComponent(btn_bestellungBestaetigen)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btn_zurueck))
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(19)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btn_bestellungbearbeiten)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(btn_produktHinzufuegen))
+						.addComponent(table_produkteDerBestellung, GroupLayout.PREFERRED_SIZE, 314, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(btn_bestellungbearbeiten)
-							.addContainerGap())
+							.addComponent(lbl_gesamtwert)
+							.addPreferredGap(ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+							.addComponent(lbl_wertGesamtwert)
+							.addGap(63))
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(table_produkteDerBestellung, GroupLayout.PREFERRED_SIZE, 314, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(lbl_gesamtwert)
-									.addPreferredGap(ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
-									.addComponent(lbl_wertGesamtwert)
-									.addGap(63))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addComponent(lbl_bestellnummer)
-										.addComponent(lbl_bestelltVon)
-										.addComponent(lbl_status))
-									.addGap(70)
-									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addComponent(lbl_wertStatus)
-										.addComponent(lbl_wertBestelltVon)
-										.addComponent(lbl_wertBestellnummer))
-									.addContainerGap(90, Short.MAX_VALUE))))))
+								.addComponent(lbl_bestellnummer)
+								.addComponent(lbl_bestelltVon)
+								.addComponent(lbl_status))
+							.addGap(70)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lbl_wertStatus)
+								.addComponent(lbl_wertBestelltVon)
+								.addComponent(lbl_wertBestellnummer))
+							.addContainerGap(44, Short.MAX_VALUE))))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(31)
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
@@ -131,11 +135,11 @@ public class BestellungHinzufuegeGUI {
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lbl_status)
 								.addComponent(lbl_wertStatus))
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lbl_gesamtwert)
 								.addComponent(lbl_wertGesamtwert)))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(18)
 							.addComponent(table_produkteDerBestellung, GroupLayout.PREFERRED_SIZE, 292, GroupLayout.PREFERRED_SIZE)))
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
@@ -146,7 +150,9 @@ public class BestellungHinzufuegeGUI {
 								.addComponent(btn_bestellungBestaetigen)))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btn_bestellungbearbeiten)))
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btn_bestellungbearbeiten)
+								.addComponent(btn_produktHinzufuegen))))
 					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
