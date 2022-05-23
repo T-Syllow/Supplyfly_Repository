@@ -37,6 +37,7 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
+import javax.swing.JScrollPane;
 
 public class BestellungenUerbersichtGUI {
 
@@ -51,9 +52,9 @@ public class BestellungenUerbersichtGUI {
 	private JTextField txt_ort;
 	private JTable table_1;
 	private JButton btn_hinzufuegen;
-	private JTable table_2;
 	private JTextField searchFieldProdukte;
 	DBAccess db = new DBAccess();
+	private JTable table_2;
 
 	/**
 	 * Launch the application.
@@ -106,23 +107,6 @@ public class BestellungenUerbersichtGUI {
 		tabbedPane.setBackgroundAt(0, SystemColor.menu);
 		pnl_tab_Produkte.setLayout(new BorderLayout(0, 0));
 		
-		table_2 = new JTable();
-//		DefaultTableModel model = (DefaultTableModel) table_2.getModel();
-//		db.getAlleProdukte(model);
-		
-		table_2.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent me) {
-				if (me.getClickCount() == 2) {//schaut ob zwei mal geklickt wurde
-					JTable zeile = (JTable) me.getSource();
-					int row = zeile.getSelectedRow();
-					
-					System.out.println(zeile);
-				}
-			}
-		});
-		
-		pnl_tab_Produkte.add(table_2, BorderLayout.CENTER);
-		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
@@ -145,6 +129,26 @@ public class BestellungenUerbersichtGUI {
 		searchFieldProdukte = new JTextField();
 		panel.add(searchFieldProdukte);
 		searchFieldProdukte.setColumns(20);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		pnl_tab_Produkte.add(scrollPane, BorderLayout.CENTER);
+		
+		table_2 = new JTable();
+		table_2.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"ProduktID", "Produktname"
+			}
+		));
+		DefaultTableModel model = (DefaultTableModel) table_2.getModel();
+		try {
+			db.getAlleProdukte(model);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		scrollPane.setViewportView(table_2);
 		
 		JPanel pnl_tab_Lieferanten = new JPanel();
 		tabbedPane.addTab("Lieferanten", null, pnl_tab_Lieferanten, null);

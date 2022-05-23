@@ -81,16 +81,15 @@ public class DBAccess {
 	}
 	
 	//Diese Methode fügt alle produkte in unsere Tabelle hinzu.
-	public void getAlleProdukte(DefaultTableModel m) throws Exception{
+	public static void getAlleProdukte(DefaultTableModel m) throws Exception{
 		try {
 			getConnectionToDatabase();
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT ProduktID, Produktbezeichnung, Mindestbestand, Menge, Produktspezifikation FROM produkt");
+			ResultSet rs = stmt.executeQuery("SELECT ProduktID, Produktbezeichnung FROM produkt");
 			
 			while(rs.next()) {
-				Integer produktID = rs.getInt("BestellNr");
-				String produktbezeichnung = rs.getString("Bestellart");
-				
+				Integer produktID = rs.getInt("ProduktID");
+				String produktbezeichnung = rs.getString("Produktbezeichnung");
 				m.addRow(new Object[] {produktID, produktbezeichnung});
 			}
 			

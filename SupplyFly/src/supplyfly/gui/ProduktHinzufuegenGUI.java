@@ -66,7 +66,7 @@ public class ProduktHinzufuegenGUI {
 		textField_2.setColumns(10);
 		frame = new JFrame();
 		frame.setBounds(100, 100, 633, 410);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
