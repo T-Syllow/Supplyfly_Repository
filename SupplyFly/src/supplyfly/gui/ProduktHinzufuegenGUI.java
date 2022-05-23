@@ -26,13 +26,14 @@ import javax.swing.JComboBox;
 public class ProduktHinzufuegenGUI {
 
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txtField_proName;
+	private JTextField txtField_artNummer;
 	/**
 	 * @wbp.nonvisual location=-30,-29
 	 */
 	private final JTextField textField_2 = new JTextField();
-	private JTextField textField_3;
+	private JTextField txtField_mindMenge;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -74,19 +75,19 @@ public class ProduktHinzufuegenGUI {
 		
 		JLabel lbl_artikelnummer = new JLabel("Artikelnummer:");
 		
-		JLabel lbl_produktpreis = new JLabel("Produktpreis:");
+		JLabel lbl_mindestmenge = new JLabel("Mindestmenge:");
 		
 		JLabel lbl_produktspezifikation = new JLabel("<HTML><U>Produktspezifikationen:</U></HTML>");
 		lbl_produktspezifikation.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		txtField_proName = new JTextField();
+		txtField_proName.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		txtField_artNummer = new JTextField();
+		txtField_artNummer.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
+		txtField_mindMenge = new JTextField();
+		txtField_mindMenge.setColumns(10);
 		
 		JTextArea textArea = new JTextArea();
 		textArea.setLineWrap(true);
@@ -94,24 +95,33 @@ public class ProduktHinzufuegenGUI {
 		JComboBox comBox_lieferantenAuswahl = new JComboBox();
 		
 		JLabel lbl_standardlieferant = new JLabel("Standardlieferant:");
+		
+		JLabel lblNewLabel = new JLabel("Derzeitige Menge (optional):");
+		
+		textField = new JTextField();
+		textField.setColumns(10);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(lblNewLabel)
+							.addGap(18)
+							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
 						.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lbl_produktname)
 								.addComponent(lbl_artikelnummer)
-								.addComponent(lbl_produktpreis))
+								.addComponent(lbl_mindestmenge))
 							.addGap(32)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+								.addComponent(txtField_proName, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
 								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(textField_1, Alignment.LEADING)
-									.addComponent(textField_3, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+									.addComponent(txtField_artNummer, Alignment.LEADING)
+									.addComponent(txtField_mindMenge, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 						.addComponent(lbl_produktspezifikation))
 					.addGap(38)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
@@ -127,16 +137,20 @@ public class ProduktHinzufuegenGUI {
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lbl_produktname)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(txtField_proName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addGap(10)
 							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 								.addComponent(lbl_artikelnummer)
-								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(txtField_artNummer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lbl_produktpreis))
-							.addGap(28)
+								.addComponent(txtField_mindMenge, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lbl_mindestmenge))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNewLabel)
+								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(8)
 							.addComponent(lbl_produktspezifikation)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
