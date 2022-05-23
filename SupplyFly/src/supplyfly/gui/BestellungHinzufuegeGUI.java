@@ -57,12 +57,12 @@ public class BestellungHinzufuegeGUI {
 		
 		JButton btn_bestellungbearbeiten = new JButton("Bearbeiten");
 		
-		JButton btn_zurueck = new JButton("Zurück");
+		JButton btn_zurueck = new JButton("Zur\u00fcck");
 		btn_zurueck.addActionListener(e -> {
 			frame.setVisible(false);
 		});
 		
-		JButton btn_bestellungBestaetigen = new JButton("Bestätigen");
+		JButton btn_bestellungBestaetigen = new JButton("Best\u00e4tigen");
 		
 		JLabel lbl_bestellnummer = new JLabel("Bestellnummer:");
 		

@@ -81,9 +81,9 @@ public class LieferantenProdukteHinzufuegenGUI {
 		textField_3 = new JTextField();
 		textField_3.setColumns(10);
 		
-		JButton btn_produkthinzufuegen = new JButton("Produkt hinzufügen");
+		JButton btn_produkthinzufuegen = new JButton("Produkt hinzuf\u00fcgen");
 		
-		JButton btn_zurueck_produkte = new JButton("Zurück");
+		JButton btn_zurueck_produkte = new JButton("Zur\u00fcck");
 		btn_zurueck_produkte.addActionListener(e -> {
 			BestellungenUerbersichtGUI gui = new BestellungenUerbersichtGUI();
 			frame.setVisible(false);

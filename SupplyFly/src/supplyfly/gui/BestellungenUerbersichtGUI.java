@@ -244,7 +244,7 @@ public class BestellungenUerbersichtGUI {
 		
 		table = new JTable();
 		
-		JButton btn_bestellungenHinzufuegen = new JButton("Betsellung hinzufügen");
+		JButton btn_bestellungenHinzufuegen = new JButton("Betsellung hinzuf\u00fcgen");
 		btn_bestellungenHinzufuegen.addActionListener(e -> {
 			BestellungHinzufuegeGUI gui = new BestellungHinzufuegeGUI();
 			gui.loadBestellungHinzufuegenGUI();
