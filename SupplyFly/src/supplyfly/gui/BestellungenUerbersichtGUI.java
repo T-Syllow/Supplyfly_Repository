@@ -100,7 +100,7 @@ public class BestellungenUerbersichtGUI {
 		JPanel pnl_tab_Lieferanten = new JPanel();
 		tabbedPane.addTab("Lieferanten", null, pnl_tab_Lieferanten, null);
 		
-		JLabel lbl_titelLieferantenHinzufuegen = new JLabel("Lieferanten hinzufügen");
+		JLabel lbl_titelLieferantenHinzufuegen = new JLabel("Lieferanten hinzuf\u00fcgen");
 		lbl_titelLieferantenHinzufuegen.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		
 		JLabel lbl_lieferantenName = new JLabel("Lieferantenname:");
@@ -138,13 +138,13 @@ public class BestellungenUerbersichtGUI {
 		
 		table_1 = new JTable();
 		
-		JButton btn_produkteHinzufuegen = new JButton("Produkte hinzufügen");
+		JButton btn_produkteHinzufuegen = new JButton("Produkte hinzuf\u00fcgen");
 		btn_produkteHinzufuegen.addActionListener((e -> {
 			LieferantenProdukteHinzufuegenGUI gui = new LieferantenProdukteHinzufuegenGUI();
 			gui.loadLieferantenProdukteHinzufuegenGUI();
 		}));
 		
-		btn_hinzufuegen = new JButton("Hinzufügen");
+		btn_hinzufuegen = new JButton("Hinzuf\u00fcgen");
 		GroupLayout gl_pnl_tab_Lieferanten = new GroupLayout(pnl_tab_Lieferanten);
 		gl_pnl_tab_Lieferanten.setHorizontalGroup(
 			gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
