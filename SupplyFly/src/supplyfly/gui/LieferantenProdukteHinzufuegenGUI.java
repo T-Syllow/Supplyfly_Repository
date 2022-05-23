@@ -59,9 +59,9 @@ public class LieferantenProdukteHinzufuegenGUI {
 		
 		JButton btn_speichern = new JButton("Speichern");
 		
-		JButton btn_abwaehlen = new JButton("Abwählen");
+		JButton btn_abwaehlen = new JButton("Abw\u00e4hlen");
 		
-		JButton btn_auswaehlen = new JButton("Auswählen");
+		JButton btn_auswaehlen = new JButton("Ausw\u00e4hlen");
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
