@@ -25,6 +25,8 @@ import javax.swing.JTable;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JTextField;
 import java.awt.Color;
 
@@ -66,6 +68,13 @@ public class BestellungenUerbersichtGUI {
 	 * Create the application.
 	 */
 	public BestellungenUerbersichtGUI() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		initialize();
 	}
 
@@ -73,6 +82,7 @@ public class BestellungenUerbersichtGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frmSupplyfly = new JFrame();
 		frmSupplyfly.setTitle("SupplyFly");
 		frmSupplyfly.setBounds(100, 100, 633, 410);
@@ -106,6 +116,12 @@ public class BestellungenUerbersichtGUI {
 		pnl_tab_Produkte.add(panel, BorderLayout.NORTH);
 		
 		JButton btn_produktHinzufuegen = new JButton("Produkt hinzuf\u00FCgen");
+		btn_produktHinzufuegen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ProduktHinzufuegenGUI produktFenster = new ProduktHinzufuegenGUI();
+				produktFenster.loadLieferantenProdukteHinzufuegenGUI();
+			}
+		});
 		panel.add(btn_produktHinzufuegen);
 		
 		JLabel lbl_search = new JLabel("Suche:");
