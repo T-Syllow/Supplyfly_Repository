@@ -14,6 +14,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.FlowLayout;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.ListSelectionModel;
 
 public class LieferantenProdukteHinzufuegenGUI {
 
@@ -52,44 +56,40 @@ public class LieferantenProdukteHinzufuegenGUI {
 		frmLieferantenprodukteVerwalten.setBounds(100, 100, 633, 410);
 		frmLieferantenprodukteVerwalten.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-		JPanel panel = new JPanel();
-		frmLieferantenprodukteVerwalten.getContentPane().add(panel, BorderLayout.NORTH);
+		JPanel panel_1 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
+		flowLayout.setAlignment(FlowLayout.RIGHT);
+		frmLieferantenprodukteVerwalten.getContentPane().add(panel_1, BorderLayout.SOUTH);
+		
+		JButton btn_Speichern = new JButton("Speichern");
+		panel_1.add(btn_Speichern);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		frmLieferantenprodukteVerwalten.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Liefert", "ProduktID", "Produktname"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Boolean.class, Object.class, Object.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
 		
-		JButton btn_speichern = new JButton("Speichern");
 		
-		JButton btn_abwaehlen = new JButton("Abw\u00e4hlen");
-		
-		JButton btn_auswaehlen = new JButton("Ausw\u00e4hlen");
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-					.addContainerGap(293, Short.MAX_VALUE)
-					.addComponent(btn_auswaehlen)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btn_abwaehlen)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btn_speichern)
-					.addContainerGap())
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(table, GroupLayout.PREFERRED_SIZE, 619, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(8, Short.MAX_VALUE))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(table, GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btn_speichern)
-						.addComponent(btn_abwaehlen)
-						.addComponent(btn_auswaehlen))
-					.addContainerGap())
-		);
-		panel.setLayout(gl_panel);
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(45);
+		table.getColumnModel().getColumn(0).setMaxWidth(45);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(2).setPreferredWidth(125);
+		scrollPane.setViewportView(table);
 	}
 }

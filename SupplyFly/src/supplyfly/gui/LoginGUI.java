@@ -68,7 +68,7 @@ public class LoginGUI {
 	private void initialize() {
 		
 		frmSupplyfly = new JFrame();
-		frmSupplyfly.setIconImage(Toolkit.getDefaultToolkit().getImage("Users/tommysyllow/eclipse-workspace/SupplyFly/Supplyfly_Logo.jpeg"));
+		frmSupplyfly.setIconImage(Toolkit.getDefaultToolkit().getImage("SupplyFly\\img\\Supplyfly_Logo.jpeg"));
 		frmSupplyfly.setTitle("SupplyFly");
 		frmSupplyfly.setResizable(false);
 		frmSupplyfly.setLocationRelativeTo(null);

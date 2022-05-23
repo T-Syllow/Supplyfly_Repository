@@ -100,6 +100,7 @@ public class DBAccess {
 			System.out.println("Produkte erfolgreich der Tabelle hinzugefügt");
 		}
 	}
+	
 
 	//Connection methods der Nutzer
 	
@@ -263,6 +264,31 @@ public class DBAccess {
 		finally {
 			System.out.println("Complete, 'Produkt' with the ArtikelNr.: " +artikelnr+" has been updated.");
 		};
+	}
+
+	public String getProduktInfo(int proID, String info) {
+//		getConnectionToDatabase();
+		
+		
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT "+info+" FROM produkt WHERE ProduktID='"+proID+"'");
+			
+			if(rs.next()) {
+				if(info.equals("Standardlieferant")) {
+					System.out.println(rs.getInt(info));
+					return String.valueOf(rs.getInt(info));
+				}
+				return rs.getString(info);
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		finally {
+			System.out.println(info+" wurde weitergegeben");
+		}
+		return "Error";
+
 	}
 	
 }

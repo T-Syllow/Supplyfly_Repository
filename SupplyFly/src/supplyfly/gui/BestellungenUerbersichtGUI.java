@@ -50,11 +50,11 @@ public class BestellungenUerbersichtGUI {
 	private JTextField txt_strasse;
 	private JTextField txt_plz;
 	private JTextField txt_ort;
-	private JTable table_1;
 	private JButton btn_hinzufuegen;
 	private JTextField searchFieldProdukte;
 	DBAccess db = new DBAccess();
 	private JTable table_2;
+	private JTable table_1;
 
 	/**
 	 * Launch the application.
@@ -140,7 +140,15 @@ public class BestellungenUerbersichtGUI {
 			new String[] {
 				"ProduktID", "Produktname"
 			}
-		));
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table_2.getColumnModel().getColumn(0).setResizable(false);
 		DefaultTableModel model = (DefaultTableModel) table_2.getModel();
 		try {
 			db.getAlleProdukte(model);
@@ -148,6 +156,21 @@ public class BestellungenUerbersichtGUI {
 			e1.printStackTrace();
 		}
 		
+		table_2.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent me) {
+				if(me.getClickCount() == 2) {
+					JTable clickedRow = (JTable) me.getSource();
+					int zeile = clickedRow.getSelectedRow();
+					int produktID = (int) table_2.getValueAt(zeile, 0);
+					
+					ProduktBearbeitenGUI2 produktBearbeiten = new ProduktBearbeitenGUI2(produktID);
+					
+					produktBearbeiten.loadLieferantenProdukteHinzufuegenGUI(produktID);
+					
+					
+				}
+			}
+		});
 		scrollPane.setViewportView(table_2);
 		
 		JPanel pnl_tab_Lieferanten = new JPanel();
@@ -189,8 +212,6 @@ public class BestellungenUerbersichtGUI {
 		
 		JLabel lbl_titelProdukte = new JLabel("<HTML><U>Produkte:</U></HTML>");
 		
-		table_1 = new JTable();
-		
 		JButton btn_produkteHinzufuegen = new JButton("Produkte hinzuf\u00fcgen");
 		btn_produkteHinzufuegen.addActionListener((e -> {
 			LieferantenProdukteHinzufuegenGUI gui = new LieferantenProdukteHinzufuegenGUI();
@@ -198,47 +219,50 @@ public class BestellungenUerbersichtGUI {
 		}));
 		
 		btn_hinzufuegen = new JButton("Hinzuf\u00fcgen");
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
 		GroupLayout gl_pnl_tab_Lieferanten = new GroupLayout(pnl_tab_Lieferanten);
 		gl_pnl_tab_Lieferanten.setHorizontalGroup(
 			gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, gl_pnl_tab_Lieferanten.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
-						.addComponent(lbl_titelLieferantenHinzufuegen)
+					.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btn_hinzufuegen)
 						.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
 							.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
-								.addComponent(lbl_ansprechpartner)
-								.addComponent(lbl_lieferantenNummer)
-								.addComponent(lbl_telefon)
-								.addComponent(lbl_adresse))
-							.addGap(12)
+								.addComponent(lbl_titelLieferantenHinzufuegen)
+								.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
+									.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
+										.addComponent(lbl_ansprechpartner)
+										.addComponent(lbl_lieferantenNummer)
+										.addComponent(lbl_telefon)
+										.addComponent(lbl_adresse))
+									.addGap(12)
+									.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(txt_telefon)
+										.addComponent(txt_lieferanntenName, GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+										.addComponent(txt_lieferantennNummer)
+										.addComponent(txt_ansprechPartner)
+										.addComponent(txt_strasse)
+										.addComponent(txt_plz)
+										.addComponent(txt_ort)))
+								.addComponent(lbl_lieferantenName))
+							.addPreferredGap(ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
 							.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(txt_telefon)
-								.addComponent(txt_lieferanntenName, GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
-								.addComponent(txt_lieferantennNummer)
-								.addComponent(txt_ansprechPartner)
-								.addComponent(txt_strasse)
-								.addComponent(txt_plz)
-								.addComponent(txt_ort)))
-						.addComponent(lbl_lieferantenName))
-					.addPreferredGap(ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
-					.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
-						.addComponent(btn_produkteHinzufuegen)
-						.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.TRAILING)
-							.addComponent(table_1, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lbl_titelProdukte)
-							.addComponent(btn_hinzufuegen)))
+								.addComponent(btn_produkteHinzufuegen)
+								.addComponent(scrollPane_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+								.addComponent(lbl_titelProdukte, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 					.addGap(22))
 		);
 		gl_pnl_tab_Lieferanten.setVerticalGroup(
 			gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
-					.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING, false)
+					.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
 							.addGap(23)
 							.addComponent(lbl_titelProdukte)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(table_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
 							.addComponent(lbl_titelLieferantenHinzufuegen)
 							.addGap(17)
@@ -264,16 +288,35 @@ public class BestellungenUerbersichtGUI {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(txt_plz, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
-							.addComponent(btn_produkteHinzufuegen)
-							.addPreferredGap(ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-							.addComponent(btn_hinzufuegen)
-							.addContainerGap())
+					.addGroup(gl_pnl_tab_Lieferanten.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
 							.addComponent(txt_ort, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(92))))
+							.addGap(92))
+						.addGroup(gl_pnl_tab_Lieferanten.createSequentialGroup()
+							.addComponent(btn_produkteHinzufuegen)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(btn_hinzufuegen)
+							.addGap(22))))
 		);
+		
+		table_1 = new JTable();
+		table_1.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Produktname", "Preis"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table_1.getColumnModel().getColumn(0).setResizable(false);
+		table_1.getColumnModel().getColumn(0).setPreferredWidth(125);
+		scrollPane_1.setViewportView(table_1);
 		pnl_tab_Lieferanten.setLayout(gl_pnl_tab_Lieferanten);
 		GroupLayout groupLayout = new GroupLayout(frmSupplyfly.getContentPane());
 		groupLayout.setHorizontalGroup(
