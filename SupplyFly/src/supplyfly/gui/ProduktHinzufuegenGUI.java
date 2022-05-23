@@ -92,10 +92,6 @@ public class ProduktHinzufuegenGUI {
 		JTextArea textArea = new JTextArea();
 		textArea.setLineWrap(true);
 		
-		JComboBox comBox_lieferantenAuswahl = new JComboBox();
-		
-		JLabel lbl_standardlieferant = new JLabel("Standardlieferant:");
-		
 		JLabel lblNewLabel = new JLabel("Derzeitige Menge (optional):");
 		
 		textField = new JTextField();
@@ -118,46 +114,36 @@ public class ProduktHinzufuegenGUI {
 								.addComponent(lbl_mindestmenge))
 							.addGap(32)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtField_proName, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+								.addComponent(txtField_proName, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
 								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
 									.addComponent(txtField_artNummer, Alignment.LEADING)
 									.addComponent(txtField_mindMenge, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 						.addComponent(lbl_produktspezifikation))
-					.addGap(38)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lbl_standardlieferant)
-						.addComponent(comBox_lieferantenAuswahl, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
+					.addGap(306))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lbl_produktname)
-								.addComponent(txtField_proName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(10)
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lbl_artikelnummer)
-								.addComponent(txtField_artNummer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(txtField_mindMenge, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lbl_mindestmenge))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblNewLabel)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(8)
-							.addComponent(lbl_produktspezifikation)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lbl_standardlieferant)
-							.addGap(10)
-							.addComponent(comBox_lieferantenAuswahl, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lbl_produktname)
+						.addComponent(txtField_proName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(10)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lbl_artikelnummer)
+						.addComponent(txtField_artNummer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtField_mindMenge, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lbl_mindestmenge))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(8)
+					.addComponent(lbl_produktspezifikation)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);

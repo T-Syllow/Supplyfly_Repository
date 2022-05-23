@@ -17,12 +17,16 @@ import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import supplyfly.datenbankzugriff.DBAccess;
+
 import javax.swing.ListSelectionModel;
 
 public class LieferantenProdukteHinzufuegenGUI {
 
 	private JFrame frmLieferantenprodukteVerwalten;
 	private JTable table;
+	
 
 	/**
 	 * Launch the application.
@@ -73,23 +77,17 @@ public class LieferantenProdukteHinzufuegenGUI {
 			new Object[][] {
 			},
 			new String[] {
-				"Liefert", "ProduktID", "Produktname"
+				"ProduktID", "Produktname"
 			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Boolean.class, Object.class, Object.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		
-		
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(45);
-		table.getColumnModel().getColumn(0).setMaxWidth(45);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(2).setPreferredWidth(125);
+		));
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(1).setPreferredWidth(125);
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		try {
+			DBAccess.getAlleProdukte(model);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		scrollPane.setViewportView(table);
 	}
 }

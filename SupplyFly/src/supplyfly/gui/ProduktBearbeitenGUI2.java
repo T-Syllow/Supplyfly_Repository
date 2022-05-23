@@ -98,6 +98,11 @@ public class ProduktBearbeitenGUI2 {
 		
 		JComboBox<Integer> comBox_lieferantenAuswahl = new JComboBox();
 		comBox_lieferantenAuswahl.addItem(Integer.parseInt(db.getProduktInfo(produktID, "Standardlieferant")));
+		
+		
+		//Muss noch überarbeitet werden
+		
+		
 		JLabel lbl_standardlieferant = new JLabel("Standardlieferant:");
 		
 		JLabel lblNewLabel = new JLabel("Derzeitige Menge (optional):");

@@ -22,16 +22,7 @@ public class DBAccess {
 	private static String userName = "db2";
 	private static String password = "!db2.java22?";	//Das Passwort sollte eigentlich in args[0] gespeichert werden.
 	
-	public static void getConnectionToDatabase() {
-		System.out.println("Die Datenbank wird versucht abzurufen..");
-		
-		/*
-		 * Die folgenden Konstanten kÃ¶nnten auch in ein Property-File
-		 * ausgelagert werden.
-		 */
-		
-		
-		
+	public DBAccess() {
 		try {
 			Class.forName(supplyfly.datenbankzugriff.DBAccess.getDriver());
 			conn = DriverManager.getConnection(url + dbName, userName, password);
@@ -56,7 +47,7 @@ public class DBAccess {
 																//funktioniert noch nicht richtig..
 	public static ArrayList<Bestellung> getAlleBestellung() {	//ruft alle Bestellungen aus Datebank ab und speichert sie in ArrayList
 		if(conn == null) {
-			getConnectionToDatabase();
+//			getConnectionToDatabase();
 		}
 		Bestellung bestellung = null;
 		ArrayList<Bestellung> alleBestellungen = new ArrayList<>();
@@ -83,7 +74,7 @@ public class DBAccess {
 	//Diese Methode fügt alle produkte in unsere Tabelle hinzu.
 	public static void getAlleProdukte(DefaultTableModel m) throws Exception{
 		try {
-			getConnectionToDatabase();
+//			getConnectionToDatabase();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT ProduktID, Produktbezeichnung FROM produkt");
 			
@@ -92,7 +83,6 @@ public class DBAccess {
 				String produktbezeichnung = rs.getString("Produktbezeichnung");
 				m.addRow(new Object[] {produktID, produktbezeichnung});
 			}
-			
 		}catch(Exception e){
 			System.out.println(e);
 		}
@@ -105,7 +95,7 @@ public class DBAccess {
 	//Connection methods der Nutzer
 	
 	public boolean checkForLogin(String username, String password) {
-		getConnectionToDatabase();
+//		getConnectionToDatabase();
 		boolean status = false;
 		try {
 			Statement stmt2 = conn.createStatement();
@@ -175,7 +165,7 @@ public class DBAccess {
 	//Diese Methode fügt ein Lieferanten in unsere Datenbank hinzu.
 	public void insertLieferantInDatabase(int lieferantennr, String bezeichnung, String ansprechpartner, String strasse, int hausnummer, int PLZ, String ort) throws Exception{
 		try{
-			getConnectionToDatabase();
+//			getConnectionToDatabase();
 //			PreparedStatement posted = conn.prepareStatement("INSERT INTO lieferant (LieferantenNr, Lieferantenbezeichnung, Ansprechpartner, Strasse, Hausnummer, PLZ, Ort) "
 //					+ "VALUES ('"+l.getIdNr()+"', '"+l.getName()+"', '"+l.getAnsprechpartner()+"', '"+l.getStrasse()+"','"+l.getHausnummer()+"' ,'"+l.getPLZ()+"','"+l.getOrt()+"')");
 //			
@@ -191,7 +181,7 @@ public class DBAccess {
 	//Diese Methode fügt ein Produkt in unsere Datenbank hinzu.
 	public void insertProduktInDatabase(int artikelnr, String bezeichnung, int mindestbestand, int menge, String produktspezifikation) throws Exception{
 		try{
-			getConnectionToDatabase();
+//			getConnectionToDatabase();
 //			PreparedStatement posted = conn.prepareStatement("INSERT INTO produkt (ProduktID, Produktbezeichnung, Mindestbestand, Menge) "
 //					+ "VALUES ('"+p.getArtikelNr()+"', '"+p.getBezeichnung()+"', '"+p.getMindestbestand()+"' , '"+p.getMenge()+"')");
 			
@@ -208,7 +198,7 @@ public class DBAccess {
 	
 	public void deleteLieferantInDatabase(int lieferantenId) throws Exception{
 		try{
-			getConnectionToDatabase();
+//			getConnectionToDatabase();
 			
 			PreparedStatement posted = conn.prepareStatement("DELETE FROM lieferant WHERE (LieferantenNr = '"+lieferantenId+"')");
 			
@@ -223,7 +213,7 @@ public class DBAccess {
 	//Löscht ein ausgewähltes Produkt aus der Datenbank.
 	public void deleteProduktInDatabase(int artikelNr) throws Exception{
 		try{
-			getConnectionToDatabase();
+//			getConnectionToDatabase();
 			
 			PreparedStatement posted = conn.prepareStatement("DELETE FROM produkt WHERE ( ProduktID = '"+artikelNr+"')");
 			
@@ -238,7 +228,7 @@ public class DBAccess {
 	//Bearbeitet dem ausgewählten Lieferanten in der Datenbank.
 	public void lieferantBearbeiten(int lieferantennr, String bezeichnung, String ansprechpartner, String strasse, int hausnummer, int PLZ, String ort) throws Exception{
 		try{
-			getConnectionToDatabase();
+//			getConnectionToDatabase();
 
 			PreparedStatement posted = conn.prepareStatement("UPDATE lieferant SET Lieferantenbezeichnung = '"+bezeichnung+"', Ansprechpartner = '"+ansprechpartner+"'"
 					+ ", Strasse = '"+strasse+"', Hausnummer = '"+hausnummer+"', PLZ = '"+PLZ+"', Ort = '"+ort+"' WHERE (LieferantenNr = '"+lieferantennr+"')");
@@ -254,7 +244,7 @@ public class DBAccess {
 	//Bearbeitet das ausgewählte Produkt in der Datenbank. 
 	public void produktBearbeiten(int artikelnr, String bezeichnung, int mindestbestand, int menge, String produktspezifikation) throws Exception{
 		try{
-			getConnectionToDatabase();
+//			getConnectionToDatabase();
 
 			PreparedStatement posted = conn.prepareStatement("UPDATE produkt SET Produktbezeichnung = '"+bezeichnung+"', Mindestbestand = '"+mindestbestand+"', Menge = '"+menge+"', Produktspezifikation = '"+produktspezifikation+"' WHERE (ProduktID = '"+artikelnr+"')");
 			
