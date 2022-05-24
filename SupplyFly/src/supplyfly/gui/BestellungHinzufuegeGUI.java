@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTable;
 import javax.swing.JButton;
@@ -50,6 +51,8 @@ public class BestellungHinzufuegeGUI {
 		frmNeueBestellung.setTitle("Bestellung erstellen");
 		frmNeueBestellung.setBounds(100, 100, 633, 410);
 		frmNeueBestellung.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
+		frmNeueBestellung.setIconImage(logo.getImage());
 		
 		JPanel panel = new JPanel();
 		frmNeueBestellung.getContentPane().add(panel, BorderLayout.CENTER);

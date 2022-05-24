@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -67,11 +68,18 @@ public class ProduktHinzufuegenGUI {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	
+	public boolean isFrameVisible() {
+		return frame.isVisible();
+	}
 	private void initialize() {
 		textField_2.setColumns(10);
 		frame = new JFrame();
 		frame.setBounds(100, 100, 633, 410);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
+		frame.setIconImage(logo.getImage());
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
@@ -187,6 +195,7 @@ public class ProduktHinzufuegenGUI {
 				try {
 					DBAccess.insertProduktInDatabase(artikelnr, bezeichnung, mindestbestand, menge, spezifikation);
 					JOptionPane.showMessageDialog(null, "Produkt wurde erfolgreich hinzugefügt!");
+					
 					frame.dispose();
 				} catch (Exception e1) {
 					System.out.println("Fehler beim insert into Database!");

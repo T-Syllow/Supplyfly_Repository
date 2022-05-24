@@ -105,6 +105,8 @@ public class BestellungenUerbersichtGUI {
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
+		
+		
 		JPanel pnl_tab_Produkte = new JPanel();
 		tabbedPane.addTab("Produkte", null, pnl_tab_Produkte, null);
 		tabbedPane.setBackgroundAt(0, SystemColor.menu);
@@ -116,25 +118,6 @@ public class BestellungenUerbersichtGUI {
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		pnl_tab_Produkte.add(panel, BorderLayout.NORTH);
 		
-		JButton btn_produktHinzufuegen = new JButton("Produkt hinzuf\u00FCgen");
-		btn_produktHinzufuegen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ProduktHinzufuegenGUI produktFenster = new ProduktHinzufuegenGUI();
-				produktFenster.loadLieferantenProdukteHinzufuegenGUI();
-			}
-		});
-		panel.add(btn_produktHinzufuegen);
-		
-		JLabel lbl_search = new JLabel("Suche:");
-		lbl_search.setFont(new Font("Tahoma", Font.BOLD, 11));
-		panel.add(lbl_search);
-		
-		searchFieldProdukte = new JTextField();
-		panel.add(searchFieldProdukte);
-		searchFieldProdukte.setColumns(20);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		pnl_tab_Produkte.add(scrollPane, BorderLayout.CENTER);
 		
 		table_2 = new JTable();
 		table_2.setModel(new DefaultTableModel(
@@ -151,8 +134,39 @@ public class BestellungenUerbersichtGUI {
 				return columnEditables[column];
 			}
 		});
-		table_2.getColumnModel().getColumn(0).setResizable(false);
+		
 		DefaultTableModel model = (DefaultTableModel) table_2.getModel();
+		
+		JButton btn_produktHinzufuegen = new JButton("Produkt hinzuf\u00FCgen");
+		btn_produktHinzufuegen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ProduktHinzufuegenGUI produktFenster = new ProduktHinzufuegenGUI();
+				produktFenster.loadLieferantenProdukteHinzufuegenGUI();
+				while(produktFenster.isFrameVisible()) {
+					try {
+						wait(500);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				refreshTable(model);
+			}
+		});
+		panel.add(btn_produktHinzufuegen);
+		
+		JLabel lbl_search = new JLabel("Suche:");
+		lbl_search.setFont(new Font("Tahoma", Font.BOLD, 11));
+		panel.add(lbl_search);
+		
+		searchFieldProdukte = new JTextField();
+		panel.add(searchFieldProdukte);
+		searchFieldProdukte.setColumns(20);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		pnl_tab_Produkte.add(scrollPane, BorderLayout.CENTER);
+		
+		table_2.getColumnModel().getColumn(0).setResizable(false);
 		try {
 			db.getAlleProdukte(model);
 		} catch (Exception e1) {
@@ -165,12 +179,10 @@ public class BestellungenUerbersichtGUI {
 					JTable clickedRow = (JTable) me.getSource();
 					int zeile = clickedRow.getSelectedRow();
 					int produktID = (int) table_2.getValueAt(zeile, 0);
-					
+//					model.setRowCount(0);
 					ProduktBearbeitenGUI2 produktBearbeiten = new ProduktBearbeitenGUI2(produktID);
 					
-					produktBearbeiten.loadLieferantenProdukteHinzufuegenGUI(produktID);
-					
-					
+					model.fireTableDataChanged();
 				}
 			}
 		});
@@ -368,4 +380,20 @@ public class BestellungenUerbersichtGUI {
 		pnl_tab_Bestellung.setLayout(gl_pnl_tab_Bestellung);
 		frmSupplyfly.getContentPane().setLayout(groupLayout);
 	}
+
+	public void refreshTable(DefaultTableModel model) {
+		
+		model.setRowCount(0);
+		
+		try {
+			db.getAlleProdukte(model);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 }
+
+

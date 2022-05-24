@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -36,7 +37,7 @@ public class ProduktBearbeitenGUI2 {
 
 	private JTextField txtField_mindMenge;
 	private JTextField txtField_derzMenge;
-	DBAccess db = new DBAccess();
+	
 
 	/**
 	 * Launch the application.
@@ -70,6 +71,8 @@ public class ProduktBearbeitenGUI2 {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 633, 410);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
+		frame.setIconImage(logo.getImage());
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
@@ -83,21 +86,22 @@ public class ProduktBearbeitenGUI2 {
 		JLabel lbl_produktspezifikation = new JLabel("<HTML><U>Produktspezifikationen:</U></HTML>");
 		lbl_produktspezifikation.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
-		txtField_proName = new JTextField(db.getProduktInfo(produktID, "Produktbezeichnung"));
+		txtField_proName = new JTextField(DBAccess.getProduktInfo(produktID, "Produktbezeichnung"));
 	
 		txtField_proName.setColumns(10);
 		
 		txtField_artNummer = new JTextField(String.valueOf(produktID));
 		txtField_artNummer.setColumns(10);
 		
-		txtField_mindMenge = new JTextField(db.getProduktInfo(produktID, "Mindestbestand"));
+		txtField_mindMenge = new JTextField(DBAccess.getProduktInfo(produktID, "Mindestbestand"));
 		txtField_mindMenge.setColumns(10);
 		
-		JTextArea textArea = new JTextArea(db.getProduktInfo(produktID, "Produktspezifikation"));
+		JTextArea textArea = new JTextArea(DBAccess.getProduktInfo(produktID, "Produktspezifikation"));
 		textArea.setLineWrap(true);
 		
 		JComboBox<Integer> comBox_lieferantenAuswahl = new JComboBox();
-		comBox_lieferantenAuswahl.addItem(Integer.parseInt(db.getProduktInfo(produktID, "Standardlieferant")));
+		
+		comBox_lieferantenAuswahl.addItem(Integer.valueOf(DBAccess.getProduktInfo(produktID, "Standardlieferant")));
 		
 		
 		//Muss noch überarbeitet werden
@@ -107,7 +111,7 @@ public class ProduktBearbeitenGUI2 {
 		
 		JLabel lblNewLabel = new JLabel("Derzeitige Menge (optional):");
 		
-		txtField_derzMenge = new JTextField(db.getProduktInfo(produktID, "Menge"));
+		txtField_derzMenge = new JTextField(DBAccess.getProduktInfo(produktID, "Menge"));
 		txtField_derzMenge.setColumns(10);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
@@ -194,6 +198,7 @@ public class ProduktBearbeitenGUI2 {
 		
 		JButton btn_produkthinzufuegen = new JButton("Produkt speichern");
 		panel_2.add(btn_produkthinzufuegen);
+		frame.setVisible(true);
 	}
 	
 }

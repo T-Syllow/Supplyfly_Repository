@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -59,6 +60,8 @@ public class LieferantenProdukteHinzufuegenGUI {
 		frmLieferantenprodukteVerwalten.setTitle("Lieferantenprodukte verwalten");
 		frmLieferantenprodukteVerwalten.setBounds(100, 100, 633, 410);
 		frmLieferantenprodukteVerwalten.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
+		frmLieferantenprodukteVerwalten.setIconImage(logo.getImage());
 		
 		JPanel panel_1 = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();

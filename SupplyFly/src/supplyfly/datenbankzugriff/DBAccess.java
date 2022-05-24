@@ -256,7 +256,7 @@ public class DBAccess {
 		};
 	}
 
-	public String getProduktInfo(int proID, String info) {
+	public static String getProduktInfo(int proID, String info) {
 //		getConnectionToDatabase();
 		
 		
