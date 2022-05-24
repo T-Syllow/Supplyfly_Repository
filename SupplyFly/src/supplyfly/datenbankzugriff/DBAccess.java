@@ -179,7 +179,7 @@ public class DBAccess {
 		};
 	}
 	//Diese Methode fügt ein Produkt in unsere Datenbank hinzu.
-	public void insertProduktInDatabase(int artikelnr, String bezeichnung, int mindestbestand, int menge, String produktspezifikation) throws Exception{
+	public static void insertProduktInDatabase(int artikelnr, String bezeichnung, int mindestbestand, int menge, String produktspezifikation) throws Exception{
 		try{
 //			getConnectionToDatabase();
 //			PreparedStatement posted = conn.prepareStatement("INSERT INTO produkt (ProduktID, Produktbezeichnung, Mindestbestand, Menge) "

@@ -8,10 +8,14 @@ import java.awt.BorderLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
+
+import supplyfly.datenbankzugriff.DBAccess;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -33,7 +37,8 @@ public class ProduktHinzufuegenGUI {
 	 */
 	private final JTextField textField_2 = new JTextField();
 	private JTextField txtField_mindMenge;
-	private JTextField textField;
+	private JTextField txtField_derzMenge;
+//	DBAccess db = new DBAccess();
 
 	/**
 	 * Launch the application.
@@ -94,8 +99,8 @@ public class ProduktHinzufuegenGUI {
 		
 		JLabel lblNewLabel = new JLabel("Derzeitige Menge (optional):");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		txtField_derzMenge = new JTextField();
+		txtField_derzMenge.setColumns(10);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
@@ -105,7 +110,7 @@ public class ProduktHinzufuegenGUI {
 						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(lblNewLabel)
 							.addGap(18)
-							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
+							.addComponent(txtField_derzMenge, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
 						.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
@@ -139,7 +144,7 @@ public class ProduktHinzufuegenGUI {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtField_derzMenge, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(8)
 					.addComponent(lbl_produktspezifikation)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -170,6 +175,26 @@ public class ProduktHinzufuegenGUI {
 		});
 		
 		JButton btn_produkthinzufuegen = new JButton("Produkt hinzuf\u00fcgen");
+		btn_produkthinzufuegen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int artikelnr = Integer.valueOf(txtField_artNummer.getText());
+				String bezeichnung = txtField_proName.getText();	
+				int mindestbestand = Integer.valueOf(txtField_mindMenge.getText());
+				int menge = Integer.valueOf(txtField_derzMenge.getText());
+				String spezifikation = textArea.getText();
+				
+				try {
+					DBAccess.insertProduktInDatabase(artikelnr, bezeichnung, mindestbestand, menge, spezifikation);
+					JOptionPane.showMessageDialog(null, "Produkt wurde erfolgreich hinzugefügt!");
+					frame.dispose();
+				} catch (Exception e1) {
+					System.out.println("Fehler beim insert into Database!");
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		panel_2.add(btn_produkthinzufuegen);
 	}
 }
