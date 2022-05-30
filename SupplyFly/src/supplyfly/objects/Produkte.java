@@ -6,18 +6,28 @@ public class Produkte {
 	private Integer artikelNr;
 	private String bezeichnung;
 	private Integer mindestbestand;
+	private String produktspezifikation;
 	//private static Integer zaehler = 1006;
 	
-	public Produkte(Integer menge, Integer artikelNr, String bezeichnung,Integer mindestbestand) {
+	public Produkte(Integer menge, Integer artikelNr, String bezeichnung,Integer mindestbestand, String spezifikation) {
 		this.menge = menge;
 		//zaehler++;
 		this.artikelNr = artikelNr;
 		this. bezeichnung =  bezeichnung;
 		this.mindestbestand = mindestbestand;
+		this.produktspezifikation = produktspezifikation;
 		
 	}
 	
 	//Getter & Setter
+
+	public String getProduktspezifikation() {
+		return produktspezifikation;
+	}
+
+	public void setProduktspezifikation(String produktspezifikation) {
+		this.produktspezifikation = produktspezifikation;
+	}
 
 	public String getBezeichnung() {
 		return bezeichnung;

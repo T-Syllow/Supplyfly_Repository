@@ -16,6 +16,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 
 import supplyfly.datenbankzugriff.DBAccess;
+import supplyfly.objects.Produkte;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -191,9 +192,10 @@ public class ProduktHinzufuegenGUI {
 				int mindestbestand = Integer.valueOf(txtField_mindMenge.getText());
 				int menge = Integer.valueOf(txtField_derzMenge.getText());
 				String spezifikation = textArea.getText();
+				Produkte p = new Produkte(menge, artikelnr, bezeichnung, mindestbestand,spezifikation);
 				
 				try {
-					DBAccess.insertProduktInDatabase(artikelnr, bezeichnung, mindestbestand, menge, spezifikation);
+					DBAccess.insertProduktInDatabase(p);
 					JOptionPane.showMessageDialog(null, "Produkt wurde erfolgreich hinzugefügt!");
 					
 					frame.dispose();

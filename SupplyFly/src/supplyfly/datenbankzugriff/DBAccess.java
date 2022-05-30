@@ -74,7 +74,6 @@ public class DBAccess {
 	//Diese Methode fügt alle produkte in unsere Tabelle hinzu.
 	public static void getAlleProdukte(DefaultTableModel m) throws Exception{
 		try {
-//			getConnectionToDatabase();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT ProduktID, Produktbezeichnung FROM produkt");
 			
@@ -88,6 +87,25 @@ public class DBAccess {
 		}
 		finally {
 			System.out.println("Produkte erfolgreich der Tabelle hinzugefügt");
+		}
+	}
+	
+	//Diese Methode fügt alle Lieferanten in unsere Tabelle hinzu.
+	public static void getAlleLieferanten(DefaultTableModel m) throws Exception{
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT LieferantenNr, Lieferantenbezeichnung FROM lieferant");
+			
+			while(rs.next()) {
+				Integer lieferantenNr = rs.getInt("LieferantenNr");
+				String lieferantenBezeichnung = rs.getString("Lieferantenbezeichnung");
+				m.addRow(new Object[] {lieferantenNr, lieferantenBezeichnung});
+			}
+		}catch(Exception e){
+			System.out.println(e);
+		}
+		finally {
+			System.out.println("Lieferanten erfolgreich der Tabelle hinzugefügt");
 		}
 	}
 	
@@ -163,14 +181,12 @@ public class DBAccess {
 	}
 	
 	//Diese Methode fügt ein Lieferanten in unsere Datenbank hinzu.
-	public void insertLieferantInDatabase(int lieferantennr, String bezeichnung, String ansprechpartner, String strasse, int hausnummer, int PLZ, String ort) throws Exception{
+	public void insertLieferantInDatabase(Lieferant l) throws Exception{
 		try{
-//			getConnectionToDatabase();
-//			PreparedStatement posted = conn.prepareStatement("INSERT INTO lieferant (LieferantenNr, Lieferantenbezeichnung, Ansprechpartner, Strasse, Hausnummer, PLZ, Ort) "
-//					+ "VALUES ('"+l.getIdNr()+"', '"+l.getName()+"', '"+l.getAnsprechpartner()+"', '"+l.getStrasse()+"','"+l.getHausnummer()+"' ,'"+l.getPLZ()+"','"+l.getOrt()+"')");
-//			
-			PreparedStatement posted = conn.prepareStatement("INSERT INTO lieferant (LieferantenNr, Lieferantenbezeichnung, Ansprechpartner, Strasse, Hausnummer, PLZ, Ort)"
-					+ " VALUES('"+lieferantennr+"','"+bezeichnung+"','"+ansprechpartner+"','"+strasse+"','"+hausnummer+"','"+PLZ+"','"+ort+"')");
+			PreparedStatement posted = conn.prepareStatement("INSERT INTO lieferant (LieferantenNr, Lieferantenbezeichnung, Ansprechpartner, Strasse, Hausnummer, PLZ, Ort) "
+					+ "VALUES ('"+l.getIdNr()+"', '"+l.getName()+"', '"+l.getAnsprechpartner()+"', '"+l.getStrasse()+"','"+l.getHausnummer()+"' ,'"+l.getPLZ()+"','"+l.getOrt()+"')");
+		
+			
 			posted.executeUpdate();
 		}catch(Exception e){System.out.println(e);
 	}
@@ -179,14 +195,11 @@ public class DBAccess {
 		};
 	}
 	//Diese Methode fügt ein Produkt in unsere Datenbank hinzu.
-	public static void insertProduktInDatabase(int artikelnr, String bezeichnung, int mindestbestand, int menge, String produktspezifikation) throws Exception{
+	public static void insertProduktInDatabase(Produkte p) throws Exception{
 		try{
-//			getConnectionToDatabase();
-//			PreparedStatement posted = conn.prepareStatement("INSERT INTO produkt (ProduktID, Produktbezeichnung, Mindestbestand, Menge) "
-//					+ "VALUES ('"+p.getArtikelNr()+"', '"+p.getBezeichnung()+"', '"+p.getMindestbestand()+"' , '"+p.getMenge()+"')");
-			
 			PreparedStatement posted = conn.prepareStatement("INSERT INTO produkt (ProduktID, Produktbezeichnung, Mindestbestand, Menge, Produktspezifikation) "
-					+ "VALUES ('"+artikelnr+"', '"+bezeichnung+"', '"+mindestbestand+"' , '"+menge+"','"+produktspezifikation+"')");
+					+ "VALUES ('"+p.getArtikelNr()+"', '"+p.getBezeichnung()+"', '"+p.getMindestbestand()+"' , '"+p.getMenge()+"','"+p.getProduktspezifikation()+"')");
+			
 			
 			posted.executeUpdate();
 		}catch(Exception e){System.out.println(e);
@@ -196,69 +209,64 @@ public class DBAccess {
 		};
 	}
 	
-	public void deleteLieferantInDatabase(int lieferantenId) throws Exception{
+	//Löscht Lieferanten von der Tabelle.
+	public static void deleteLieferantInDatabase(Lieferant l) throws Exception{
 		try{
-//			getConnectionToDatabase();
 			
-			PreparedStatement posted = conn.prepareStatement("DELETE FROM lieferant WHERE (LieferantenNr = '"+lieferantenId+"')");
+			PreparedStatement posted = conn.prepareStatement("DELETE FROM lieferant WHERE (LieferantenNr = '"+l.getIdNr()+"')");
 			
 			posted.executeUpdate();
 		}catch(Exception e){System.out.println(e);
 	}
 		finally {
-			System.out.println("Completed, 'Lieferant' with ID: " +lieferantenId+ " has been deleted.");
+			System.out.println("Completed, 'Lieferant' with ID: " +l.getIdNr()+ " has been deleted.");
 		};
 	}
 	
 	//Löscht ein ausgewähltes Produkt aus der Datenbank.
-	public void deleteProduktInDatabase(int artikelNr) throws Exception{
+	public static void deleteProduktInDatabase(Produkte p) throws Exception{
 		try{
-//			getConnectionToDatabase();
 			
-			PreparedStatement posted = conn.prepareStatement("DELETE FROM produkt WHERE ( ProduktID = '"+artikelNr+"')");
+			PreparedStatement posted = conn.prepareStatement("DELETE FROM produkt WHERE ( ProduktID = '"+p.getArtikelNr()+"')");
 			
 			posted.executeUpdate();
 		}catch(Exception e){System.out.println(e);
 	}
 		finally {
-			System.out.println("Completed, 'Produkt' with ID: " +artikelNr+ " has been deleted.");
+			System.out.println("Completed, 'Produkt' with ID: " +p.getArtikelNr()+ " has been deleted.");
 		};
 	}
 	
 	//Bearbeitet dem ausgewählten Lieferanten in der Datenbank.
-	public void lieferantBearbeiten(int lieferantennr, String bezeichnung, String ansprechpartner, String strasse, int hausnummer, int PLZ, String ort) throws Exception{
+	public static void lieferantBearbeiten(Lieferant l) throws Exception{
 		try{
-//			getConnectionToDatabase();
 
-			PreparedStatement posted = conn.prepareStatement("UPDATE lieferant SET Lieferantenbezeichnung = '"+bezeichnung+"', Ansprechpartner = '"+ansprechpartner+"'"
-					+ ", Strasse = '"+strasse+"', Hausnummer = '"+hausnummer+"', PLZ = '"+PLZ+"', Ort = '"+ort+"' WHERE (LieferantenNr = '"+lieferantennr+"')");
+			PreparedStatement posted = conn.prepareStatement("UPDATE lieferant SET Lieferantenbezeichnung = '"+l.getName()+"', Ansprechpartner = '"+l.getAnsprechpartner()+"'"
+					+ ", Strasse = '"+l.getStrasse()+"', Hausnummer = '"+l.getHausnummer()+"', PLZ = '"+l.getPLZ()+"', Ort = '"+l.getOrt()+"' WHERE (LieferantenNr = '"+l.getIdNr()+"')");
 			
 			posted.executeUpdate();
 		}catch(Exception e){System.out.println(e);
 	}
 		finally {
-			System.out.println("Complete, 'Lieferant' with the ID: " +lieferantennr+ " has been updated.");
+			System.out.println("Complete, 'Lieferant' with the ID: " +l.getIdNr()+ " has been updated.");
 		};
 	}
 	
 	//Bearbeitet das ausgewählte Produkt in der Datenbank. 
-	public void produktBearbeiten(int artikelnr, String bezeichnung, int mindestbestand, int menge, String produktspezifikation) throws Exception{
+	public static void produktBearbeiten(Produkte p) throws Exception{
 		try{
-//			getConnectionToDatabase();
 
-			PreparedStatement posted = conn.prepareStatement("UPDATE produkt SET Produktbezeichnung = '"+bezeichnung+"', Mindestbestand = '"+mindestbestand+"', Menge = '"+menge+"', Produktspezifikation = '"+produktspezifikation+"' WHERE (ProduktID = '"+artikelnr+"')");
+			PreparedStatement posted = conn.prepareStatement("UPDATE produkt SET Produktbezeichnung = '"+p.getBezeichnung()+"', Mindestbestand = '"+p.getMindestbestand()+"', Menge = '"+p.getMenge()+"', Produktspezifikation = '"+p.getProduktspezifikation()+"' WHERE (ProduktID = '"+p.getArtikelNr()+"')");
 			
 			posted.executeUpdate();
 		}catch(Exception e){System.out.println(e);
 	}
 		finally {
-			System.out.println("Complete, 'Produkt' with the ArtikelNr.: " +artikelnr+" has been updated.");
+			System.out.println("Complete, 'Produkt' with the ArtikelNr.: " +p.getArtikelNr()+" has been updated.");
 		};
 	}
 
 	public static String getProduktInfo(int proID, String info) {
-//		getConnectionToDatabase();
-		
 		
 		try {
 			Statement stmt = conn.createStatement();
