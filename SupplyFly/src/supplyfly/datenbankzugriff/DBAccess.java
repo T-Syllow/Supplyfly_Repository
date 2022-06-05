@@ -45,17 +45,15 @@ public class DBAccess {
 	public static Bestellung getBestellungByNr() {
 		return null;
 	}
-																//funktioniert noch nicht richtig..
-	public static ArrayList<Bestellung> getAlleBestellung() {	//ruft alle Bestellungen aus Datebank ab und speichert sie in ArrayList
+																
+	public static void getAlleBestellung(DefaultTableModel m) throws Exception{	// Diese Methode fuegt alle Bestellung unserer Tabelle hinzu.
 		if(conn == null) {
 //			getConnectionToDatabase();
 		}
-		Bestellung bestellung = null;
-		ArrayList<Bestellung> alleBestellungen = new ArrayList<>();
 		
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT BestellNr, Bestellart, Bestellwert, Mitarbeiter, Datum FROM bestellung");
+			ResultSet rs = stmt.executeQuery("SELECT BestellNr, Bestellart, Bestellwert, Mitarbeiter, Datum, Status, Produkte FROM bestellung");
 			
 			while (rs.next()) {
 				Integer bestellNr = rs.getInt("BestellNr");
@@ -63,13 +61,14 @@ public class DBAccess {
 				Double bestellwert = Double.parseDouble(rs.getString("Bestellwert"));
 				String mitarbeiter = rs.getString("Mitarbeiter");
 				String datum = rs.getString("Datum");
-				alleBestellungen.add(new Bestellung(bestellNr, bestellArt, bestellwert, mitarbeiter, datum));
+				String status = rs.getString("Status");
+				String produkte = rs.getString("Produkte");
+				m.addRow(new Object[] {bestellNr, bestellArt, bestellwert, mitarbeiter, datum, status, produkte});
+				System.out.println("Bestellungen erfolgreich extrahiert aus Datenbank extrahiert und hinzugefuegt");
 			}
-			System.out.println(alleBestellungen);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return alleBestellungen;
 	}
 	
 	//Diese Methode f�gt alle produkte in unsere Tabelle hinzu.

@@ -42,7 +42,7 @@ import javax.swing.JScrollPane;
 public class BestellungenUerbersichtGUI {
 
 	private JFrame frmSupplyfly;
-	private JTable table;
+	private JTable table_bestellungen;
 	private JTextField txt_lieferanntenName;
 	private JTextField txt_lieferantennNummer;
 	private JTextField txt_ansprechPartner;
@@ -352,7 +352,21 @@ public class BestellungenUerbersichtGUI {
 		JPanel pnl_tab_Bestellung = new JPanel();
 		tabbedPane.addTab("Bestellung", null, pnl_tab_Bestellung, null);
 		
-		table = new JTable();
+		table_bestellungen = new JTable();
+		table_bestellungen.setModel(new DefaultTableModel(	//hier habe ich (Tommy) die Methode von euch kopiert und für die Tabelle von Bestellungen angepasst.
+				new Object[][] {
+				},
+				new String[] {
+					"BestellNr.", "Bestellart.", "Bestellwert", "Mitarbeiter", "Datum", "Status", "Produkte"
+				}
+			) {
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, false, false, false, true
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+		});
 		
 		JButton btn_bestellungenHinzufuegen = new JButton("Bestellung hinzuf\u00FCgen");
 		btn_bestellungenHinzufuegen.addActionListener(e -> {
@@ -363,19 +377,19 @@ public class BestellungenUerbersichtGUI {
 		GroupLayout gl_pnl_tab_Bestellung = new GroupLayout(pnl_tab_Bestellung);
 		gl_pnl_tab_Bestellung.setHorizontalGroup(
 			gl_pnl_tab_Bestellung.createParallelGroup(Alignment.TRAILING)
-				.addComponent(table, GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+				.addComponent(table_bestellungen, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
 				.addGroup(gl_pnl_tab_Bestellung.createSequentialGroup()
-					.addContainerGap(454, Short.MAX_VALUE)
+					.addContainerGap(426, Short.MAX_VALUE)
 					.addComponent(btn_bestellungenHinzufuegen)
-					.addContainerGap())
+					.addGap(34))
 		);
 		gl_pnl_tab_Bestellung.setVerticalGroup(
 			gl_pnl_tab_Bestellung.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnl_tab_Bestellung.createSequentialGroup()
-					.addComponent(table, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addComponent(table_bestellungen, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(btn_bestellungenHinzufuegen)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		pnl_tab_Bestellung.setLayout(gl_pnl_tab_Bestellung);
 		frmSupplyfly.getContentPane().setLayout(groupLayout);
@@ -392,6 +406,17 @@ public class BestellungenUerbersichtGUI {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void refreshTableBestellung(DefaultTableModel model) {	// Diese Methode soll Alle bestellungen in die JTable "table_bestellungen" laden.
+		model.setRowCount(0);
+		
+		try {
+			db.getAlleBestellung(model);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
