@@ -24,10 +24,11 @@ public class DBAccess {
 	
 	public DBAccess() {
 		try {
+			if(conn == null) { 	// Es soll nur eine Verbindung hergestellt werden, wenn noch keine vorhanden ist.
 			Class.forName(supplyfly.datenbankzugriff.DBAccess.getDriver());
 			conn = DriverManager.getConnection(url + dbName, userName, password);
 			System.out.println("Connected to the database");
-			
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -71,7 +72,7 @@ public class DBAccess {
 		return alleBestellungen;
 	}
 	
-	//Diese Methode fügt alle produkte in unsere Tabelle hinzu.
+	//Diese Methode fï¿½gt alle produkte in unsere Tabelle hinzu.
 	public static void getAlleProdukte(DefaultTableModel m) throws Exception{
 		try {
 			Statement stmt = conn.createStatement();
@@ -86,11 +87,11 @@ public class DBAccess {
 			System.out.println(e);
 		}
 		finally {
-			System.out.println("Produkte erfolgreich der Tabelle hinzugefügt");
+			System.out.println("Produkte erfolgreich der Tabelle hinzugefï¿½gt");
 		}
 	}
 	
-	//Diese Methode fügt alle Lieferanten in unsere Tabelle hinzu.
+	//Diese Methode fï¿½gt alle Lieferanten in unsere Tabelle hinzu.
 	public static void getAlleLieferanten(DefaultTableModel m) throws Exception{
 		try {
 			Statement stmt = conn.createStatement();
@@ -105,7 +106,7 @@ public class DBAccess {
 			System.out.println(e);
 		}
 		finally {
-			System.out.println("Lieferanten erfolgreich der Tabelle hinzugefügt");
+			System.out.println("Lieferanten erfolgreich der Tabelle hinzugefï¿½gt");
 		}
 	}
 	
@@ -180,7 +181,7 @@ public class DBAccess {
 		this.password = password;
 	}
 	
-	//Diese Methode fügt ein Lieferanten in unsere Datenbank hinzu.
+	//Diese Methode fï¿½gt ein Lieferanten in unsere Datenbank hinzu.
 	public void insertLieferantInDatabase(Lieferant l) throws Exception{
 		try{
 			PreparedStatement posted = conn.prepareStatement("INSERT INTO lieferant (LieferantenNr, Lieferantenbezeichnung, Ansprechpartner, Strasse, Hausnummer, PLZ, Ort) "
@@ -194,7 +195,7 @@ public class DBAccess {
 			System.out.println("Complete, 'Lieferant' has been added.");
 		};
 	}
-	//Diese Methode fügt ein Produkt in unsere Datenbank hinzu.
+	//Diese Methode fï¿½gt ein Produkt in unsere Datenbank hinzu.
 	public static void insertProduktInDatabase(Produkte p) throws Exception{
 		try{
 			PreparedStatement posted = conn.prepareStatement("INSERT INTO produkt (ProduktID, Produktbezeichnung, Mindestbestand, Menge, Produktspezifikation) "
@@ -209,7 +210,7 @@ public class DBAccess {
 		};
 	}
 	
-	//Löscht Lieferanten von der Tabelle.
+	//Lï¿½scht Lieferanten von der Tabelle.
 	public static void deleteLieferantInDatabase(Lieferant l) throws Exception{
 		try{
 			
@@ -223,7 +224,7 @@ public class DBAccess {
 		};
 	}
 	
-	//Löscht ein ausgewähltes Produkt aus der Datenbank.
+	//Lï¿½scht ein ausgewï¿½hltes Produkt aus der Datenbank.
 	public static void deleteProduktInDatabase(Produkte p) throws Exception{
 		try{
 			
@@ -237,7 +238,7 @@ public class DBAccess {
 		};
 	}
 	
-	//Bearbeitet dem ausgewählten Lieferanten in der Datenbank.
+	//Bearbeitet dem ausgewï¿½hlten Lieferanten in der Datenbank.
 	public static void lieferantBearbeiten(Lieferant l) throws Exception{
 		try{
 
@@ -252,7 +253,7 @@ public class DBAccess {
 		};
 	}
 	
-	//Bearbeitet das ausgewählte Produkt in der Datenbank. 
+	//Bearbeitet das ausgewï¿½hlte Produkt in der Datenbank. 
 	public static void produktBearbeiten(Produkte p) throws Exception{
 		try{
 
