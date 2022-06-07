@@ -65,8 +65,8 @@ public class DBAccess {
 				String produkte = rs.getString("Produkte");
 				
 				m.addRow(new Object[] {bestellNr, bestellArt, bestellwert, mitarbeiter, datum, status, produkte});
-				System.out.println("Bestellungen erfolgreich extrahiert aus Datenbank extrahiert und hinzugefuegt");
 			}
+			System.out.println("Bestellungen erfolgreich der Tabelle hinzugef\u00FCgt");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -87,7 +87,7 @@ public class DBAccess {
 			System.out.println(e);
 		}
 		finally {
-			System.out.println("Produkte erfolgreich der Tabelle hinzugef�gt");
+			System.out.println("Produkte erfolgreich der Tabelle hinzugef\u00FCgt");
 		}
 	}
 	
@@ -102,12 +102,11 @@ public class DBAccess {
 				String lieferantenBezeichnung = rs.getString("Lieferantenbezeichnung");
 				m.addRow(new Object[] {lieferantenNr, lieferantenBezeichnung});
 			}
+			System.out.println("Lieferanten erfolgreich der Tabelle hinzugef\u00FCgt");
 		}catch(Exception e){
 			System.out.println(e);
 		}
-		finally {
-			System.out.println("Lieferanten erfolgreich der Tabelle hinzugef�gt");
-		}
+		
 	}
 	
 

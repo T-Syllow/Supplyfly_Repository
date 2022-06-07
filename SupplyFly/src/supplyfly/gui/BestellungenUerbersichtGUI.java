@@ -393,6 +393,14 @@ public class BestellungenUerbersichtGUI {
 				return columnEditables[column];
 			}
 		});
+		
+		DefaultTableModel model_table_Bestellungen = (DefaultTableModel) table_bestellungen.getModel();
+		try {
+			DBAccess.getAlleBestellung(model_table_Bestellungen);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		scrollPane_Bestellung.setViewportView(table_bestellungen);
 		pnl_tab_Bestellung.setLayout(gl_pnl_tab_Bestellung);
 		frmSupplyfly.getContentPane().setLayout(groupLayout);
