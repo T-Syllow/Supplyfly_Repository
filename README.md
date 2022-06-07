@@ -1,12 +1,12 @@
 # aktuelle TODO's:
-1. Lagerbestände sollen überwacht werden & bei Veränderung des Lagerbestands soll überprüft werden, ob eine Bestandsmenge unterschritten ist. Daraufhin soll autonom eine Bestellung, beim Lieferanten mit den besten Bedingungen für das betroffene Produkt, erstellt werden.
+1. TOMMY - Lagerbestände sollen überwacht werden & bei Veränderung des Lagerbestands soll überprüft werden, ob eine Bestandsmenge unterschritten ist. Daraufhin soll autonom eine Bestellung, beim Lieferanten mit den besten Bedingungen für das betroffene Produkt, erstellt werden.
 2. Lagermitarbeiter soll i.d. Lage sein eine Eilbestellung mit finanziell begrenztem Wert auslösen zu können.
 3. Anhand von Daten aus Vertrieb (evtl. auch andere Bereiche) soll die Erstellung des Produktportfolios unterstützt werden! Es sollen optimale Mengen im Produktportfolio errechnet werden. (FORMAT: Tabelle) -> Für Preisverhandlung Vorschläge der besten Lieferanten für eine Preisverhandlung.
 4. Abteilungsleiter soll festlegen können, wie hoch die Kosten und die Menge für ein Produkt einer Eilbestellung sind.
 5. Neue Lieferanten, Produkte erstellen und einander zuweisen können.
-6. Bestellung kann von Beschaffungsmitarbeitern, unter Berücksichtigung des Bestellstatus, editiert werden. Das heißt: Produkte hinzufügen, Produkte stornieren, Mengen korrigieren.
-7. Jederzeit können Beschaffungsmitarbeiter eine Bestellung aufgeben.
-8. Nach Bestellungsanlegung wird durch Drücken auf „BESTÄTIGEN“ direkt eine XML oder E-Mail an den Lieferanten versendet.
+6. TOMMY - Bestellung kann von Beschaffungsmitarbeitern, unter Berücksichtigung des Bestellstatus, editiert werden. Das heißt: Produkte hinzufügen, Produkte stornieren, Mengen korrigieren.
+7. TOMMY - Jederzeit können Beschaffungsmitarbeiter eine Bestellung aufgeben.
+8. TOMMY - Nach Bestellungsanlegung wird durch Drücken auf „BESTÄTIGEN“ direkt eine XML oder E-Mail an den Lieferanten versendet.
 9. Beim Produktportfolio muss Produktnummer, Produktname, Produktpreis und Standardlieferant fürs Produkt angezeigt werden.
 10. Beim Produkte Hinzufügen & Produkte verwalten muss der Preis editierbar sein.
 -----------------------------
