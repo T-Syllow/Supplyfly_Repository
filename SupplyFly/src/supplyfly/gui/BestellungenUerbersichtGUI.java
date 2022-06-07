@@ -353,20 +353,12 @@ public class BestellungenUerbersichtGUI {
 		tabbedPane.addTab("Bestellung", null, pnl_tab_Bestellung, null);
 		
 		table_bestellungen = new JTable();
-		table_bestellungen.setModel(new DefaultTableModel(	//hier habe ich (Tommy) die Methode von euch kopiert und für die Tabelle von Bestellungen angepasst.
-				new Object[][] {
-				},
-				new String[] {
-					"BestellNr.", "Bestellart.", "Bestellwert", "Mitarbeiter", "Datum", "Status", "Produkte"
-				}
-			) {
-				boolean[] columnEditables = new boolean[] {
-					false, false, false, false, false, false, true
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
-		});
+		DefaultTableModel bestellungenTableModel = (DefaultTableModel) table_bestellungen.getModel();
+		try {
+			DBAccess.getAlleBestellung(bestellungenTableModel);
+		} catch (Exception e1) {
+			System.out.println(e1);
+		}
 		
 		JButton btn_bestellungenHinzufuegen = new JButton("Bestellung hinzuf\u00FCgen");
 		btn_bestellungenHinzufuegen.addActionListener(e -> {
@@ -406,17 +398,6 @@ public class BestellungenUerbersichtGUI {
 			e.printStackTrace();
 		}
 		
-	}
-	
-	public void refreshTableBestellung(DefaultTableModel model) {	// Diese Methode soll Alle bestellungen in die JTable "table_bestellungen" laden.
-		model.setRowCount(0);
-		
-		try {
-			db.getAlleBestellung(model);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 }

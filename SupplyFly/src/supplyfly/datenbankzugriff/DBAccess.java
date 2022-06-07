@@ -63,6 +63,7 @@ public class DBAccess {
 				String datum = rs.getString("Datum");
 				String status = rs.getString("Status");
 				String produkte = rs.getString("Produkte");
+				
 				m.addRow(new Object[] {bestellNr, bestellArt, bestellwert, mitarbeiter, datum, status, produkte});
 				System.out.println("Bestellungen erfolgreich extrahiert aus Datenbank extrahiert und hinzugefuegt");
 			}
