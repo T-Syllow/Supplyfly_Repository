@@ -411,7 +411,7 @@ public class BestellungenUerbersichtGUI {
 		model.setRowCount(0);
 		
 		try {
-			db.getAlleProdukte(model);
+			DBAccess.getAlleProdukte(model);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
