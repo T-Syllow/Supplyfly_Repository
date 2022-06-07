@@ -42,7 +42,6 @@ import javax.swing.JScrollPane;
 public class BestellungenUerbersichtGUI {
 
 	private JFrame frmSupplyfly;
-	private JTable table_bestellungen;
 	private JTextField txt_lieferanntenName;
 	private JTextField txt_lieferantennNummer;
 	private JTextField txt_ansprechPartner;
@@ -55,6 +54,7 @@ public class BestellungenUerbersichtGUI {
 	DBAccess db = new DBAccess();
 	private JTable table_2;
 	private JTable table_1;
+	private JTable table_bestellungen;
 
 	/**
 	 * Launch the application.
@@ -352,37 +352,48 @@ public class BestellungenUerbersichtGUI {
 		JPanel pnl_tab_Bestellung = new JPanel();
 		tabbedPane.addTab("Bestellung", null, pnl_tab_Bestellung, null);
 		
-		table_bestellungen = new JTable();
-		DefaultTableModel bestellungenTableModel = (DefaultTableModel) table_bestellungen.getModel();
-		try {
-			DBAccess.getAlleBestellung(bestellungenTableModel);
-		} catch (Exception e1) {
-			System.out.println(e1);
-		}
-		
 		JButton btn_bestellungenHinzufuegen = new JButton("Bestellung hinzuf\u00FCgen");
 		btn_bestellungenHinzufuegen.addActionListener(e -> {
 			BestellungHinzufuegeGUI gui = new BestellungHinzufuegeGUI();
 			gui.loadBestellungHinzufuegenGUI();
 		});
+		
+		JScrollPane scrollPane_Bestellung = new JScrollPane();
 	
 		GroupLayout gl_pnl_tab_Bestellung = new GroupLayout(pnl_tab_Bestellung);
 		gl_pnl_tab_Bestellung.setHorizontalGroup(
-			gl_pnl_tab_Bestellung.createParallelGroup(Alignment.TRAILING)
-				.addComponent(table_bestellungen, GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+			gl_pnl_tab_Bestellung.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnl_tab_Bestellung.createSequentialGroup()
-					.addContainerGap(426, Short.MAX_VALUE)
-					.addComponent(btn_bestellungenHinzufuegen)
-					.addGap(34))
+					.addGroup(gl_pnl_tab_Bestellung.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btn_bestellungenHinzufuegen)
+						.addComponent(scrollPane_Bestellung, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(147, Short.MAX_VALUE))
 		);
 		gl_pnl_tab_Bestellung.setVerticalGroup(
 			gl_pnl_tab_Bestellung.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnl_tab_Bestellung.createSequentialGroup()
-					.addComponent(table_bestellungen, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(scrollPane_Bestellung, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
+					.addGap(13)
 					.addComponent(btn_bestellungenHinzufuegen)
 					.addContainerGap())
 		);
+		
+		table_bestellungen = new JTable();
+		table_bestellungen.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"BestellNr", "Bestellart", "Bestellwert", "Mitarbeiter", "Datum", "Status", "Produkte"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollPane_Bestellung.setViewportView(table_bestellungen);
 		pnl_tab_Bestellung.setLayout(gl_pnl_tab_Bestellung);
 		frmSupplyfly.getContentPane().setLayout(groupLayout);
 	}
@@ -399,7 +410,6 @@ public class BestellungenUerbersichtGUI {
 		}
 		
 	}
-
 }
 
 
