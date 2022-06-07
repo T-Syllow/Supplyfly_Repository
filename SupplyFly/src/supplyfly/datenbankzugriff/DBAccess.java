@@ -87,9 +87,6 @@ public class DBAccess {
 		// die Zahl der zutreffenden ProduktIDs ist maximal der Anzahl der angegebenen ProduktIDs - logischerweise.
 		String [] treffendeProduktIDs = new String [einzelneProduktIDs.length];
 		
-		//Annahme: höchstens 10 Produkte pro Bestellung.
-		String [] produktNamen2 = new String[10];
-		
 		ArrayList<String> produktNamen = new ArrayList<>();
 		
 		try {
