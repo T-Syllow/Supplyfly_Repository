@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -52,24 +53,77 @@ public class DBAccess {
 		}
 		
 		try {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT BestellNr, Bestellart, Bestellwert, Mitarbeiter, Datum, Status, Produkte FROM bestellung");
+			Statement stmt1 = conn.createStatement();
+			ResultSet rs1 = stmt1.executeQuery("SELECT BestellNr, Bestellart, Bestellwert, Mitarbeiter, Datum, Status, Produkte FROM bestellung");
 			
-			while (rs.next()) {
-				Integer bestellNr = rs.getInt("BestellNr");
-				String bestellArt = rs.getString("Bestellart");
-				Double bestellwert = Double.parseDouble(rs.getString("Bestellwert"));
-				String mitarbeiter = rs.getString("Mitarbeiter");
-				String datum = rs.getString("Datum");
-				String status = rs.getString("Status");
-				String produkte = rs.getString("Produkte");
+			
+			
+			
+			while (rs1.next()) {
+				Integer bestellNr = rs1.getInt("BestellNr");
+				String bestellArt = rs1.getString("Bestellart");
+				Double bestellwert = Double.parseDouble(rs1.getString("Bestellwert"));
+				String mitarbeiter = rs1.getString("Mitarbeiter");
+				String datum = rs1.getString("Datum");
+				String status = rs1.getString("Status");
+				String produkte = rs1.getString("Produkte");
+				ArrayList<String> produktNamen = compareProductID(produkte);
 				
-				m.addRow(new Object[] {bestellNr, bestellArt, bestellwert, mitarbeiter, datum, status, produkte});
+				
+				m.addRow(new Object[] {bestellNr, bestellArt, bestellwert, mitarbeiter, datum, status, produktNamen});
 			}
 			System.out.println("Bestellungen erfolgreich der Tabelle hinzugef\u00FCgt");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	/*
+	 * Vergleicht die ProduktID's aus den zwei Datenbanken 'produkt' und 'bestellung'. 
+	 */
+	public static ArrayList<String> compareProductID(String produktID) {	
+		// produktID aus 'bestellung' muss zuerst zerlegt werden. Sie liegt in der Form '1001,1003' vor & speichert die ProduktIDs in ein Array.
+		String [] einzelneProduktIDs = produktID.split(",");	
+		
+		// die Zahl der zutreffenden ProduktIDs ist maximal der Anzahl der angegebenen ProduktIDs - logischerweise.
+		String [] treffendeProduktIDs = new String [einzelneProduktIDs.length];
+		
+		//Annahme: höchstens 10 Produkte pro Bestellung.
+		String [] produktNamen2 = new String[10];
+		
+		ArrayList<String> produktNamen = new ArrayList<>();
+		
+		try {
+		Statement stmt2 = conn.createStatement();	//WICHTIG fuer ResultSet rs2 --> Zeile 95.
+		Statement stmt3 = conn.createStatement();	//WICHTIG fuer ResultSet rs3 --> Zeile 109.
+		ResultSet rs2 = stmt2.executeQuery("SELECT ProduktID, Produktbezeichnung FROM produkt");
+		
+		//Prüfe für jeden String von 'rs2' die ProduktID aus Datenbank 'produkt' mit dem Parameter der Methode 'produktID' aus 'bestellung'.
+		int i = 0; //Indexzähler für treffendeProduktIDs --> siehe Array in Zeile 87.
+		while(rs2.next()) {
+			String produktIDFromProdukteDatabase = rs2.getString("ProduktID"); //ProduktID aus 'Produkt' DB.
+			
+			//Prüfe für jedes Element in 'einzelneProduktIDs' --> siehe Array in Zeile 84. Beachte length von 'einzelneProduktIDs'!
+			for (int j = 0; j < einzelneProduktIDs.length; j++) {
+				String ProduktIDAusBestellung = einzelneProduktIDs[j];	//für die erste Iteration 1001, dann 1002 usw.
+				if(ProduktIDAusBestellung.equals(produktIDFromProdukteDatabase)) {	//Wenn die ProduktID von 'bestellung' mit ProduktID von 'produkt' ubereinstimmt..
+					
+					//füge die ProduktID in Array treffendeProduktIDs zum WEITERVERARBEITEN ein..
+					treffendeProduktIDs[i] = ProduktIDAusBestellung;	
+					ResultSet rs3 = stmt3.executeQuery("SELECT Produktbezeichnung FROM produkt WHERE ProduktID='"+treffendeProduktIDs[i]+"'");
+					while (rs3.next()) {
+						produktNamen.add(rs3.getString("Produktbezeichnung"));	//fuegt RICHTIGEN ProduktNamen der ArrayList hinzu!
+					}
+					i++;
+				}
+			}
+		}
+	
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		
+		return produktNamen;
 	}
 	
 	//Diese Methode f�gt alle produkte in unsere Tabelle hinzu.
