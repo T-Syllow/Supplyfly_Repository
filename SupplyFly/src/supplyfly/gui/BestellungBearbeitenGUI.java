@@ -9,6 +9,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
@@ -25,11 +26,12 @@ public class BestellungBearbeitenGUI {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public void loadBestellungBearbeitenGUI(String bestellNr) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BestellungBearbeitenGUI window = new BestellungBearbeitenGUI();
+					BestellungBearbeitenGUI window = new BestellungBearbeitenGUI(bestellNr);
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,14 +43,14 @@ public class BestellungBearbeitenGUI {
 	/**
 	 * Create the application.
 	 */
-	public BestellungBearbeitenGUI() {
-		initialize();
+	public BestellungBearbeitenGUI(String bestellNr) {
+		initialize(bestellNr);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(String bestellNr) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 600, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -161,10 +163,10 @@ public class BestellungBearbeitenGUI {
 			
 			DefaultTableModel model_table_Bestellungen = (DefaultTableModel) BestellungenUebersicht.getModel();
 			try {
-				DBAccess.getAlleBestellung(model_table_Bestellungen);
+				// Schreibe passende Methode, die die Produkte der angeklickten Bestellung in die JTable lädt, in : 
+				DBAccess.getSelectedBestellung(bestellNr, model_table_Bestellungen);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				System.out.println(e1);
 			}
 		scrollPane.setViewportView(BestellungenUebersicht);
 		panel.setLayout(gl_panel);

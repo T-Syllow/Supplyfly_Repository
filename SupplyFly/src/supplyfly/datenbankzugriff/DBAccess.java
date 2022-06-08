@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import supplyfly.objects.Bestellung;
@@ -176,6 +178,32 @@ public class DBAccess {
 				System.out.println(e);
 			}
 		return gesamtPreisAlsString;
+	}
+	
+	/*
+	 * Diese Methode uebertraegt alle Attribute einer ausgewählten Bestellung anhand der bestellNr in eine beliebige JTable ein.
+	 */
+	public static void getSelectedBestellung(String bestellNr, DefaultTableModel m) {
+		try {
+		Statement stmt1 = conn.createStatement();
+		ResultSet rs1 = stmt1.executeQuery("SELECT BestellNr, Bestellart, Bestellwert, Mitarbeiter, Datum, Status, Produkte FROM bestellung WHERE BestellNr='"+bestellNr+"'");
+		
+		while(rs1.next()) {
+		String bestellNrData = bestellNr;
+		String bestellArt = rs1.getString("Bestellart");
+		String bestellwert = getProduktpreis(rs1.getString("Produkte"));
+		String mitarbeiter = rs1.getString("Mitarbeiter");
+		String datum = rs1.getString("Datum");
+		String status = rs1.getString("Status");
+		ArrayList<String> produkte = compareProductID(rs1.getString("Produkte"));
+		
+		m.addRow(new Object[] {bestellNrData, bestellArt, bestellwert, mitarbeiter, datum, status, produkte});
+		}
+		
+		} 
+		catch(Exception e) {
+			System.out.println(e);
+		}
 	}
 	
 	//Diese Methode f�gt alle produkte in unsere Tabelle hinzu.
@@ -395,4 +423,29 @@ public class DBAccess {
 
 	}
 	
+	public static String getBestellInfo(int bestellNr, String info) {
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs1 = stmt.executeQuery("SELECT "+info+" FROM bestellung WHERE ProduktID='"+bestellNr+"'");
+			
+			return rs1.getString(info);
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return "ERROR";
+	}
+	
+//	txtField_proName = new JTextField(DBAccess.getProduktInfo(produktID, "Produktbezeichnung"));
+//	
+//	txtField_proName.setColumns(10);
+//	
+//	txtField_artNummer = new JTextField(String.valueOf(produktID));
+//	txtField_artNummer.setColumns(10);
+//	
+//	txtField_mindMenge = new JTextField(DBAccess.getProduktInfo(produktID, "Mindestbestand"));
+//	txtField_mindMenge.setColumns(10);
+//	
+//	JTextArea textArea = new JTextArea(DBAccess.getProduktInfo(produktID, "Produktspezifikation"));
+//	
 }

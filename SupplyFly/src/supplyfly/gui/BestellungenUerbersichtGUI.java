@@ -401,6 +401,30 @@ public class BestellungenUerbersichtGUI {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		table_bestellungen.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount()==2) {
+					JTable clickedRow = (JTable) e.getSource();
+					int zeile = clickedRow.getSelectedRow();
+					String bestellNr;
+					Integer bestellNrInt = (Integer) table_bestellungen.getValueAt(zeile, 0);
+					bestellNr = String.valueOf(bestellNrInt);
+					
+					BestellungBearbeitenGUI bestellungBearbeiten = new BestellungBearbeitenGUI(bestellNr);
+					bestellungBearbeiten.loadBestellungBearbeitenGUI(bestellNr);
+					
+					model_table_Bestellungen.fireTableDataChanged();
+				}
+//				JTable clickedRow = (JTable) me.getSource();
+//				int zeile = clickedRow.getSelectedRow();
+//				int produktID = (int) table_2.getValueAt(zeile, 0);
+////				model.setRowCount(0);
+//				ProduktBearbeitenGUI2 produktBearbeiten = new ProduktBearbeitenGUI2(produktID);
+//				
+//				model.fireTableDataChanged();
+			}
+		});
 		scrollPane_Bestellung.setViewportView(table_bestellungen);
 		pnl_tab_Bestellung.setLayout(gl_pnl_tab_Bestellung);
 		frmSupplyfly.getContentPane().setLayout(groupLayout);
