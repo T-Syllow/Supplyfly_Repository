@@ -18,6 +18,8 @@ import supplyfly.datenbankzugriff.DBAccess;
 
 import javax.swing.JScrollPane;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BestellungBearbeitenGUI {
 
@@ -82,6 +84,11 @@ public class BestellungBearbeitenGUI {
 		JLabel lbl_targetBestellwert = new JLabel("[EMPTY]");
 		
 		JButton btn_zurueck = new JButton("Zurueck");
+		btn_zurueck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+			}
+		});
 		
 		JButton btn_bestaetigen = new JButton("Bestaetigen");
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -90,61 +97,62 @@ public class BestellungBearbeitenGUI {
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 799, Short.MAX_VALUE)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-								.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
-									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_panel.createSequentialGroup()
-											.addComponent(lbl_bestelltvon)
-											.addPreferredGap(ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
-											.addComponent(lbl_targetBestelltvon))
-										.addGroup(gl_panel.createSequentialGroup()
-											.addComponent(lbl_bestellnummer)
-											.addGap(176)
-											.addComponent(lbl_targetBestellnummer))
-										.addGroup(gl_panel.createSequentialGroup()
-											.addComponent(lbl_status)
-											.addPreferredGap(ComponentPlacement.RELATED, 230, Short.MAX_VALUE)
-											.addComponent(lbl_targetStatus)))
-									.addGap(366))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(lbl_bestellwert)
-									.addGap(53)
-									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+									.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+											.addGroup(gl_panel.createSequentialGroup()
+												.addComponent(lbl_bestelltvon, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+												.addGap(199)
+												.addComponent(lbl_targetBestelltvon, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+											.addGroup(gl_panel.createSequentialGroup()
+												.addComponent(lbl_bestellnummer, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+												.addGap(176)
+												.addComponent(lbl_targetBestellnummer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+											.addGroup(gl_panel.createSequentialGroup()
+												.addComponent(lbl_status, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+												.addGap(237)
+												.addComponent(lbl_targetStatus, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+										.addGap(366))
+									.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+										.addComponent(lbl_bestellwert)
+										.addGap(53)
 										.addComponent(lbl_targetBestellwert)
-										.addComponent(btn_bestaetigen))
-									.addGap(6)))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btn_zurueck)
-							.addGap(8)))
-					.addContainerGap())
+										.addGap(73)))
+								.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+									.addComponent(btn_bestaetigen)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btn_zurueck, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)))
+							.addGap(18)))
+					.addGap(0))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
 					.addGap(28)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lbl_bestellnummer)
+						.addComponent(lbl_bestellnummer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(lbl_targetBestellnummer))
 					.addGap(28)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lbl_bestelltvon)
+						.addComponent(lbl_bestelltvon, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(lbl_targetBestelltvon))
 					.addGap(26)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lbl_status)
 						.addComponent(lbl_targetStatus))
-					.addPreferredGap(ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+					.addGap(128)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE, false)
 						.addComponent(lbl_bestellwert)
 						.addComponent(lbl_targetBestellwert))
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(65)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btn_zurueck)
-						.addComponent(btn_bestaetigen))
+						.addComponent(btn_bestaetigen, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btn_zurueck, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addGap(16))
 		);
 		
