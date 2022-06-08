@@ -423,7 +423,7 @@ public class DBAccess {
 		return "Error";
 
 	}
-	
+	//Diese Methode holt Produktinformationen aus der DB 'bestellung'.
 	public static String getBestellInfo(String bestellNr, String info) {
 		try {
 			Statement stmt = conn.createStatement();
@@ -440,17 +440,24 @@ public class DBAccess {
 		}
 		return "ERROR";
 	}
+	//Diese Methode soll eine Bestellung in unserer Datenbank 'bestellung' ueberschreiben.
+	// Noch buggy
+	public static void ueberschreibeDatenInDatabase(String bestellNr, DefaultTableModel m) {
+		try{
+			Statement stmt = conn.createStatement();
+			
+			Integer rs1 = stmt.executeUpdate("UPDATE bestellung SET BestellNr='"+m.getValueAt(0, 0)+"',Bestellart='"+m.getValueAt(0, 1)+"',Bestellwert"
+					+ "='"+m.getValueAt(0, 2)+"',Mitarbeiter='"+m.getValueAt(0, 3)+"',Datum='"+m.getValueAt(0, 4)+"',Status='"+m.getValueAt(0, 5)+"',Produkte='"
+					+m.getValueAt(0, 6)+"' WHERE BestellNr='"+bestellNr+"'");
+			System.out.println(rs1);
+			
+			//Das soll gemacht werden: Der Name soll von "Jordan" -> "Gordon" geändert werden & dann in die DB 'bestellung' ueberschrieben werden.
+			//							Die Bestellung 2002 soll also vom Mitarbeiter ueberarbeitet werden..
+			
+		} 
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	}
 	
-//	txtField_proName = new JTextField(DBAccess.getProduktInfo(produktID, "Produktbezeichnung"));
-//	
-//	txtField_proName.setColumns(10);
-//	
-//	txtField_artNummer = new JTextField(String.valueOf(produktID));
-//	txtField_artNummer.setColumns(10);
-//	
-//	txtField_mindMenge = new JTextField(DBAccess.getProduktInfo(produktID, "Mindestbestand"));
-//	txtField_mindMenge.setColumns(10);
-//	
-//	JTextArea textArea = new JTextArea(DBAccess.getProduktInfo(produktID, "Produktspezifikation"));
-//	
 }

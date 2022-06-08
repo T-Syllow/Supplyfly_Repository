@@ -62,6 +62,36 @@ public class BestellungBearbeitenGUI {
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		BestellungenUebersicht = new JTable();
+		BestellungenUebersicht.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"BestellNr", "Bestellart", "Bestellwert", "Mitarbeiter", "Datum", "Status", "Produkte"
+				}
+			) {
+				boolean[] columnEditables = new boolean[] {
+					true, true, true, true, true, true, true
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+			
+			DefaultTableModel model_table_Bestellungen = (DefaultTableModel) BestellungenUebersicht.getModel();
+			JButton btn_bestaetigen = new JButton("Bestaetigen");
+			btn_bestaetigen.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					DBAccess.ueberschreibeDatenInDatabase(bestellNr, null);
+				}
+			});
+			try {
+				// Schreibe passende Methode, die die Produkte der angeklickten Bestellung in die JTable lädt, in : 
+				DBAccess.getSelectedBestellung(bestellNr, model_table_Bestellungen);
+			} catch (Exception e1) {
+				System.out.println(e1);
+			}
+		
 		
 		JLabel lbl_bestellnummer = new JLabel("Bestellnummer:");
 		lbl_bestellnummer.setFont(new Font("Lucida Grande", Font.BOLD, 13));
@@ -90,7 +120,12 @@ public class BestellungBearbeitenGUI {
 			}
 		});
 		
-		JButton btn_bestaetigen = new JButton("Bestaetigen");
+		JButton btn_bestaetigen1 = new JButton("Bestaetigen");
+		btn_bestaetigen1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DBAccess.ueberschreibeDatenInDatabase(bestellNr,model_table_Bestellungen);
+			}
+		});
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -122,7 +157,7 @@ public class BestellungBearbeitenGUI {
 										.addComponent(lbl_targetBestellwert)
 										.addGap(73)))
 								.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-									.addComponent(btn_bestaetigen)
+									.addComponent(btn_bestaetigen1)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btn_zurueck, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)))
 							.addGap(18)))
@@ -151,35 +186,12 @@ public class BestellungBearbeitenGUI {
 						.addComponent(lbl_targetBestellwert))
 					.addGap(65)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btn_bestaetigen, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btn_bestaetigen1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btn_zurueck, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addGap(16))
 		);
-		
-		BestellungenUebersicht = new JTable();
-		BestellungenUebersicht.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-					"BestellNr", "Bestellart", "Bestellwert", "Mitarbeiter", "Datum", "Status", "Produkte"
-				}
-			) {
-				boolean[] columnEditables = new boolean[] {
-					true, true, true, true, true, true, true
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
-			});
-			
-			DefaultTableModel model_table_Bestellungen = (DefaultTableModel) BestellungenUebersicht.getModel();
-			try {
-				// Schreibe passende Methode, die die Produkte der angeklickten Bestellung in die JTable lädt, in : 
-				DBAccess.getSelectedBestellung(bestellNr, model_table_Bestellungen);
-			} catch (Exception e1) {
-				System.out.println(e1);
-			}
 		scrollPane.setViewportView(BestellungenUebersicht);
 		panel.setLayout(gl_panel);
+		
 	}
 }
