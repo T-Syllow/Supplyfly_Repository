@@ -97,7 +97,7 @@ public class BestellungenUerbersichtGUI {
 		
 		frmSupplyfly = new JFrame();
 		frmSupplyfly.setTitle("SupplyFly");
-		frmSupplyfly.setBounds(100, 100, 633, 410);
+		frmSupplyfly.setBounds(100, 100, 633, 422);
 		frmSupplyfly.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
 		frmSupplyfly.setIconImage(logo.getImage());
@@ -336,17 +336,17 @@ public class BestellungenUerbersichtGUI {
 		GroupLayout groupLayout = new GroupLayout(frmSupplyfly.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(25, Short.MAX_VALUE)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addContainerGap()
 					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 361, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(15, Short.MAX_VALUE))
+					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 382, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		
 		JPanel pnl_tab_Bestellung = new JPanel();
