@@ -11,6 +11,10 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.table.DefaultTableModel;
+
+import supplyfly.datenbankzugriff.DBAccess;
+
 import javax.swing.JScrollPane;
 
 public class BestellungBearbeitenGUI {
@@ -140,6 +144,28 @@ public class BestellungBearbeitenGUI {
 		);
 		
 		BestellungenUebersicht = new JTable();
+		BestellungenUebersicht.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"BestellNr", "Bestellart", "Bestellwert", "Mitarbeiter", "Datum", "Status", "Produkte"
+				}
+			) {
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+			
+			DefaultTableModel model_table_Bestellungen = (DefaultTableModel) BestellungenUebersicht.getModel();
+			try {
+				DBAccess.getAlleBestellung(model_table_Bestellungen);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		scrollPane.setViewportView(BestellungenUebersicht);
 		panel.setLayout(gl_panel);
 	}
