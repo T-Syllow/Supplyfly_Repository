@@ -62,7 +62,7 @@ public class DBAccess {
 			while (rs1.next()) {
 				Integer bestellNr = rs1.getInt("BestellNr");
 				String bestellArt = rs1.getString("Bestellart");
-				Double bestellwert = Double.parseDouble(rs1.getString("Bestellwert"));
+				String bestellwert = getProduktpreis(rs1.getString("Produkte"));
 				String mitarbeiter = rs1.getString("Mitarbeiter");
 				String datum = rs1.getString("Datum");
 				String status = rs1.getString("Status");
@@ -121,6 +121,61 @@ public class DBAccess {
 		
 		
 		return produktNamen;
+	}
+	
+	/*
+	 * Diese Funktion berechnet den Produktpreis bzw. Gesamtpreis einer Bestellung.
+	 * Sie funktioniert nur, solange in der Datenbank lief_produkt jede PRODUKTID jeweils EINMAL vorkommt!
+	 */
+	public static String getProduktpreis(String produktID) {	
+		String [] einzelneProduktIDs = produktID.split(",");
+		
+		String [] treffendeProduktIDs = new String [einzelneProduktIDs.length];
+		
+		ArrayList<String> produktPreise = new ArrayList<>();
+		Double gesamtpreis = 0.0;
+		String gesamtPreisAlsString = "[EMPTY]";
+		try {
+			Statement stmt1 = conn.createStatement();	//WICHTIG fuer ResultSet rs2 --> Zeile .
+			Statement stmt2 = conn.createStatement();	//WICHTIG fuer ResultSet rs3 --> Zeile .
+			ResultSet rs1 = stmt1.executeQuery("SELECT ProduktID, Preis FROM lief_produkt");
+			
+			//Prüfe für jeden String von 'rs1' die ProduktID aus Datenbank 'produkt' mit dem Parameter der Methode 'produktID' aus 'bestellung'.
+			int i = 0; //Indexzähler für treffendeProduktIDs --> siehe Array treffendeProduktIDs.
+			while(rs1.next()) {
+				String produktIDFromProdukteDatabase = rs1.getString("ProduktID"); //ProduktID aus 'lief_produkt' DB.
+				
+				//Prüfe für jedes Element in 'einzelneProduktIDs' --> Beachte length von 'einzelneProduktIDs'!
+				for (int j = 0; j < einzelneProduktIDs.length; j++) {
+					String ProduktIDAusBestellung = einzelneProduktIDs[j];	//für die erste Iteration 1001, dann 1002 usw.
+					if(ProduktIDAusBestellung.equals(produktIDFromProdukteDatabase)) {	//Wenn die ProduktID von 'bestellung' mit ProduktID von 'lief_produkt' ubereinstimmt..
+						
+						//füge die ProduktID in Array treffendeProduktIDs zum WEITERVERARBEITEN ein..
+						treffendeProduktIDs[i] = ProduktIDAusBestellung;	
+						ResultSet rs3 = stmt2.executeQuery("SELECT Preis FROM lief_produkt WHERE ProduktID='"+treffendeProduktIDs[i]+"'");
+						while (rs3.next()) {
+							produktPreise.add(rs3.getString("Preis"));	//fuegt korrektes Attribut Preis der ArrayList 'produktPreise' hinzu!
+						}
+						i++;
+					}
+				}
+			}
+			
+			// Addiert die Produktpreise jeder Bestellung zum Gesamtwert der Bestellung
+			for (String preisAlsString : produktPreise) {
+				gesamtpreis += Double.parseDouble(preisAlsString);
+			}
+			
+			//hier wird auf 2 Nachkommastellen gerundet.
+			gesamtpreis = (gesamtpreis*100)/100;
+			
+			//konvertiert den gesamtpreis wieder in einen String namens gesamtPreisAlsString
+			gesamtPreisAlsString = String.valueOf(gesamtpreis);
+		
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		return gesamtPreisAlsString;
 	}
 	
 	//Diese Methode f�gt alle produkte in unsere Tabelle hinzu.
