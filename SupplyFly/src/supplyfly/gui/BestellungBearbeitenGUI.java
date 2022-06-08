@@ -75,13 +75,13 @@ public class BestellungBearbeitenGUI {
 		JLabel lbl_bestellwert = new JLabel("Bestellwert:");
 		lbl_bestellwert.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		
-		JLabel lbl_targetBestellnummer = new JLabel("[EMPTY]");
+		JLabel lbl_targetBestellnummer = new JLabel(DBAccess.getBestellInfo(bestellNr, "BestellNr"));
 		
-		JLabel lbl_targetBestelltvon = new JLabel("[EMPTY]");
+		JLabel lbl_targetBestelltvon = new JLabel(DBAccess.getBestellInfo(bestellNr, "Mitarbeiter"));
 		
-		JLabel lbl_targetStatus = new JLabel("[EMPTY]");
+		JLabel lbl_targetStatus = new JLabel(DBAccess.getBestellInfo(bestellNr, "Status"));
 		
-		JLabel lbl_targetBestellwert = new JLabel("[EMPTY]");
+		JLabel lbl_targetBestellwert = new JLabel(DBAccess.getProduktpreis(DBAccess.getBestellInfo(bestellNr, "Produkte")));
 		
 		JButton btn_zurueck = new JButton("Zurueck");
 		btn_zurueck.addActionListener(new ActionListener() {

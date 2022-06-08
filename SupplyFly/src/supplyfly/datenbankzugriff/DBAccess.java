@@ -188,6 +188,7 @@ public class DBAccess {
 		Statement stmt1 = conn.createStatement();
 		ResultSet rs1 = stmt1.executeQuery("SELECT BestellNr, Bestellart, Bestellwert, Mitarbeiter, Datum, Status, Produkte FROM bestellung WHERE BestellNr='"+bestellNr+"'");
 		
+		
 		while(rs1.next()) {
 		String bestellNrData = bestellNr;
 		String bestellArt = rs1.getString("Bestellart");
@@ -195,9 +196,9 @@ public class DBAccess {
 		String mitarbeiter = rs1.getString("Mitarbeiter");
 		String datum = rs1.getString("Datum");
 		String status = rs1.getString("Status");
-		ArrayList<String> produkte = compareProductID(rs1.getString("Produkte"));
+		String produktNummern = rs1.getString("Produkte");
 		
-		m.addRow(new Object[] {bestellNrData, bestellArt, bestellwert, mitarbeiter, datum, status, produkte});
+		m.addRow(new Object[] {bestellNrData, bestellArt, bestellwert, mitarbeiter, datum, status, produktNummern});
 		}
 		
 		} 
@@ -423,12 +424,16 @@ public class DBAccess {
 
 	}
 	
-	public static String getBestellInfo(int bestellNr, String info) {
+	public static String getBestellInfo(String bestellNr, String info) {
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs1 = stmt.executeQuery("SELECT "+info+" FROM bestellung WHERE ProduktID='"+bestellNr+"'");
+			ResultSet rs1 = stmt.executeQuery("SELECT "+info+" FROM bestellung WHERE BestellNr='"+bestellNr+"'");
+			String zielwert = "EMPTY";
+			while(rs1.next()) {
+				zielwert = rs1.getString(info);
+			}
 			
-			return rs1.getString(info);
+			return zielwert;
 			
 		} catch (Exception e) {
 			System.out.println(e);
