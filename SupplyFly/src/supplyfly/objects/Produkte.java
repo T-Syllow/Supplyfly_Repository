@@ -15,7 +15,7 @@ public class Produkte {
 		this.artikelNr = artikelNr;
 		this. bezeichnung =  bezeichnung;
 		this.mindestbestand = mindestbestand;
-		this.produktspezifikation = produktspezifikation;
+		this.produktspezifikation = spezifikation;
 		
 	}
 	
