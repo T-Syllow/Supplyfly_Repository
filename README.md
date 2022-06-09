@@ -7,7 +7,7 @@
 6. TOMMY - Bestellung kann von Beschaffungsmitarbeitern, unter Berücksichtigung des Bestellstatus, editiert werden. Das heißt: Produkte hinzufügen, Produkte stornieren, Mengen korrigieren.
 7. TOMMY - Jederzeit können Beschaffungsmitarbeiter eine Bestellung aufgeben.
 8. TOMMY - Nach Bestellungsanlegung wird durch Drücken auf „BESTÄTIGEN“ direkt eine XML oder E-Mail an den Lieferanten versendet.
-9. Beim Produktportfolio muss Produktnummer, Produktname, Produktpreis und Standardlieferant fürs Produkt angezeigt werden.
+9. PHILIPP - Beim Produktportfolio muss Produktnummer, Produktname, Produktpreis und Standardlieferant fürs Produkt angezeigt werden.
 10. Beim Produkte Hinzufügen & Produkte verwalten muss der Preis editierbar sein.
 -----------------------------
 11. Programm soll nicht abstürzen -> sehr gutes Exception Handling.
