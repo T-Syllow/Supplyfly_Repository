@@ -125,7 +125,7 @@ public class BestellungenUerbersichtGUI {
 			new Object[][] {
 			},
 			new String[] {
-				"ProduktID", "Produktname"
+				"ProduktID", "Produktname", "Preis", "Lieferantenbezeichnung"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {

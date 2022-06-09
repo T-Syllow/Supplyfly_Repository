@@ -227,12 +227,17 @@ public class DBAccess {
 	public static void getAlleProdukte(DefaultTableModel m) throws Exception{
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT ProduktID, Produktbezeichnung FROM produkt");
+			ResultSet rs = stmt.executeQuery("SELECT db2.produkt.ProduktID, db2.produkt.Produktbezeichnung, db2.lief_produkt.preis, db2.lieferant.Lieferantenbezeichnung\n"
+					+ "FROM ((db2.produkt INNER JOIN db2.lief_produkt ON db2.produkt.ProduktID = db2.lief_produkt.ProduktID)\n"
+					+ "INNER JOIN db2.lieferant ON db2.lief_produkt.LieferantenNr = db2.lieferant.LieferantenNr)\n"
+					+ "WHERE db2.produkt.Standardlieferant = db2.lief_produkt.LieferantenNr\n");
 			
 			while(rs.next()) {
-				Integer produktID = rs.getInt("ProduktID");
-				String produktbezeichnung = rs.getString("Produktbezeichnung");
-				m.addRow(new Object[] {produktID, produktbezeichnung});
+				Integer produktID = rs.getInt("produkt.ProduktID");
+				String produktbezeichnung = rs.getString("produkt.Produktbezeichnung");
+				Double preis = rs.getDouble("lief_produkt.Preis");
+				String lieferantenbezeichnung = rs.getString("lieferant.Lieferantenbezeichnung");
+				m.addRow(new Object[] {produktID, produktbezeichnung, preis, lieferantenbezeichnung});
 			}
 		}catch(Exception e){
 			System.out.println(e);
