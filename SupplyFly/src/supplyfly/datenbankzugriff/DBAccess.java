@@ -195,6 +195,29 @@ public class DBAccess {
 			}
 		return gesamtPreisAlsString;
 	}
+//	/*
+//	 * Diese Funktion berechnet den Produktpreis bzw. Gesamtpreis einer Bestellung.
+//	 * Sie soll IMMER funktionieren, auch wenn in der Datenbank lief_produkt PRODUKTID¥s MEHRMALS vorkommt!
+//	 */
+//	public static String getProduktpreis2(String produktID) {	
+//		
+//		ArrayList<String> produktPreise = new ArrayList<>();
+//		Double gesamtpreis = 0.0;
+//		String gesamtPreisAlsString = "[EMPTY]";
+//		
+//			
+//			// Addiert die Produktpreise jeder Bestellung zum Gesamtwert der Bestellung
+//			for (String preisAlsString : produktPreise) {
+//				gesamtpreis += Double.parseDouble(preisAlsString);
+//			}
+//			
+//			//hier wird auf 2 Nachkommastellen gerundet.
+//			gesamtpreis = (gesamtpreis*100)/100;
+//			
+//			//konvertiert den gesamtpreis wieder in einen String namens gesamtPreisAlsString
+//			gesamtPreisAlsString = String.valueOf(gesamtpreis);
+//		return gesamtPreisAlsString;
+//	}
 	
 	/*
 	 * Diese Methode uebertraegt alle Attribute einer ausgew√§hlten Bestellung anhand der bestellNr in eine beliebige JTable ein.
