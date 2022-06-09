@@ -14,11 +14,14 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.JCheckBox;
 
 public class BestellungHinzufuegeGUI {
 
 	private JFrame frmNeueBestellung;
 	private JTable table_produkteDerBestellung;
+	private JTextField txt_name_kommentar;
 
 	/**
 	 * Launch the application.
@@ -85,11 +88,20 @@ public class BestellungHinzufuegeGUI {
 		JLabel lbl_wertStatus = new JLabel("New label");
 		
 		JButton btn_produktHinzufuegen = new JButton("Produkt hinzufügen");
+		
+		JLabel lbl_Bestellart_1 = new JLabel("Bestellart:");
+		
+		JLabel lbl_name_2 = new JLabel("Kommentar:");
+		
+		txt_name_kommentar = new JTextField();
+		txt_name_kommentar.setColumns(10);
+		
+		JCheckBox cbox_bestellart = new JCheckBox("Eilbestellung");
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap(430, Short.MAX_VALUE)
+					.addContainerGap(467, Short.MAX_VALUE)
 					.addComponent(btn_bestellungBestaetigen)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btn_zurueck))
@@ -106,25 +118,31 @@ public class BestellungHinzufuegeGUI {
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(lbl_gesamtwert)
-							.addPreferredGap(ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
 							.addComponent(lbl_wertGesamtwert)
 							.addGap(63))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lbl_bestellnummer)
-								.addComponent(lbl_bestelltVon)
-								.addComponent(lbl_status))
+								.addComponent(lbl_status)
+								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+									.addComponent(lbl_Bestellart_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lbl_bestelltVon, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lbl_name_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 							.addGap(70)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lbl_wertStatus)
 								.addComponent(lbl_wertBestelltVon)
-								.addComponent(lbl_wertBestellnummer))
-							.addContainerGap(44, Short.MAX_VALUE))))
+								.addComponent(lbl_wertBestellnummer)
+								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+									.addComponent(cbox_bestellart, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
+									.addComponent(txt_name_kommentar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addContainerGap(28, Short.MAX_VALUE))))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(31)
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
@@ -138,7 +156,15 @@ public class BestellungHinzufuegeGUI {
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lbl_status)
 								.addComponent(lbl_wertStatus))
-							.addPreferredGap(ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+							.addGap(36)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lbl_Bestellart_1)
+								.addComponent(cbox_bestellart))
+							.addGap(36)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lbl_name_2)
+								.addComponent(txt_name_kommentar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lbl_gesamtwert)
 								.addComponent(lbl_wertGesamtwert)))
@@ -160,5 +186,4 @@ public class BestellungHinzufuegeGUI {
 		);
 		panel.setLayout(gl_panel);
 	}
-
 }
