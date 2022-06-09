@@ -21,6 +21,7 @@ import supplyfly.objects.Bestellung;
 import javax.swing.JScrollPane;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.awt.event.ActionEvent;
@@ -36,7 +37,8 @@ public class BestellungBearbeitenGUI {
 	public void loadBestellungBearbeitenGUI(String bestellNr) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try {	
+					//er kriegt hier als Parameter den eigenen JFrame des Fensters mit! Nicht der JFrame von BestellungenUebersichtGUI.java
 					BestellungBearbeitenGUI window = new BestellungBearbeitenGUI(bestellNr);
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					window.frame.setVisible(true);
@@ -77,7 +79,7 @@ public class BestellungBearbeitenGUI {
 				}
 			) {
 				boolean[] columnEditables = new boolean[] {
-					true, true, true, true, true, true, true
+					false, true, true, true, true, true, true
 				};
 				public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];
@@ -117,6 +119,7 @@ public class BestellungBearbeitenGUI {
 		btn_zurueck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
+				BestellungenUerbersichtGUI bestellungenUerbersichtGUI = new BestellungenUerbersichtGUI();
 			}
 		});
 		
@@ -225,4 +228,5 @@ public class BestellungBearbeitenGUI {
 		panel.setLayout(gl_panel);
 		
 	}
+
 }

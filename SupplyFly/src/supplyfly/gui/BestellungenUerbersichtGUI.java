@@ -101,6 +101,7 @@ public class BestellungenUerbersichtGUI {
 		frmSupplyfly.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
 		frmSupplyfly.setIconImage(logo.getImage());
+		frmSupplyfly.setVisible(true);
 		
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -395,12 +396,8 @@ public class BestellungenUerbersichtGUI {
 		});
 		
 		DefaultTableModel model_table_Bestellungen = (DefaultTableModel) table_bestellungen.getModel();
-		try {
-			DBAccess.getAlleBestellung(model_table_Bestellungen);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
+		refreshTableBestellungen(model_table_Bestellungen);
 		table_bestellungen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -412,6 +409,7 @@ public class BestellungenUerbersichtGUI {
 					bestellNr = String.valueOf(bestellNrInt);
 					
 					BestellungBearbeitenGUI bestellungBearbeiten = new BestellungBearbeitenGUI(bestellNr);
+					frmSupplyfly.setVisible(false);
 					bestellungBearbeiten.loadBestellungBearbeitenGUI(bestellNr);
 					
 					model_table_Bestellungen.fireTableDataChanged();
@@ -436,6 +434,19 @@ public class BestellungenUerbersichtGUI {
 		
 		try {
 			DBAccess.getAlleProdukte(model);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+public void refreshTableBestellungen(DefaultTableModel model) {
+		
+		model.setRowCount(0);
+		
+		try {
+			DBAccess.getAlleBestellung(model);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
