@@ -81,6 +81,7 @@ public class DBAccess {
 	}
 	/*
 	 * Vergleicht die ProduktID's aus den zwei Datenbanken 'produkt' und 'bestellung'. 
+	 * Sie bekommt die ProduktIDs einer Bestellung und gibt deren Namen zurueck.
 	 */
 	public static ArrayList<String> compareProductID(String produktID) {	
 		// produktID aus 'bestellung' muss zuerst zerlegt werden. Sie liegt in der Form '1001,1003' vor & speichert die ProduktIDs in ein Array.
@@ -123,6 +124,21 @@ public class DBAccess {
 		
 		
 		return produktNamen;
+	}
+	
+	/*
+	 * Diese Methode wird initial zur Erstellung einer Bestellungsinstanz erstellt. Genauer für das Attribut Produkte einer Bestellung in
+	 * Bestellung.java!
+	 * Sie bekommt den String produktIds aus der JTABLE mit und verwandelt ihn in eine ArrayList aus Integern.
+	 */
+	public static ArrayList<Integer> getProduktIdsAsIntegerArrayList(String produktIdAlsString) {
+		String [] temp = produktIdAlsString.split(",");
+		
+		ArrayList<Integer> arr = new ArrayList<>(); 
+		for (String string : temp) {
+			arr.add(Integer.valueOf(string));
+		}
+		return arr;
 	}
 	
 	/*
@@ -442,21 +458,23 @@ public class DBAccess {
 	}
 	//Diese Methode soll eine Bestellung in unserer Datenbank 'bestellung' ueberschreiben.
 	// Noch buggy
-	public static void ueberschreibeDatenInDatabase(String bestellNr, DefaultTableModel m) {
+	/*
+	 * HIER BRAUCHEN WIR: ein 
+	 */
+	public static void ueberschreibeDatenInDatabase(Bestellung b, DefaultTableModel m) {
 		try{
 			Statement stmt = conn.createStatement();
 			
-			Integer rs1 = stmt.executeUpdate("UPDATE bestellung SET BestellNr='"+m.getValueAt(0, 0)+"',Bestellart='"+m.getValueAt(0, 1)+"',Bestellwert"
-					+ "='"+m.getValueAt(0, 2)+"',Mitarbeiter='"+m.getValueAt(0, 3)+"',Datum='"+m.getValueAt(0, 4)+"',Status='"+m.getValueAt(0, 5)+"',Produkte='"
-					+m.getValueAt(0, 6)+"' WHERE BestellNr='"+bestellNr+"'");
-			System.out.println(rs1);
+			Integer rs1 = stmt.executeUpdate("UPDATE bestellung SET BestellNr='"+b.getBestellnummer()+"',Bestellart='"+b.getBestellart()+"',Bestellwert"
+					+ "='"+b.getBestellwert()+"',Mitarbeiter='"+b.getName()+"',Datum='"+b.getDatum()+"',Status='"+b.getStatus()+"',Produkte='"
+					+b.convertArrayListToString(b.getProdukte())+"' WHERE BestellNr='"+b.getBestellnummer()+"'");
 			
 			//Das soll gemacht werden: Der Name soll von "Jordan" -> "Gordon" geändert werden & dann in die DB 'bestellung' ueberschrieben werden.
 			//							Die Bestellung 2002 soll also vom Mitarbeiter ueberarbeitet werden..
 			
 		} 
 		catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	

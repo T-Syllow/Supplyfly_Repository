@@ -11,14 +11,18 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 
 import supplyfly.datenbankzugriff.DBAccess;
+import supplyfly.objects.Bestellung;
 
 import javax.swing.JScrollPane;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.awt.event.ActionEvent;
 
 public class BestellungBearbeitenGUI {
@@ -63,6 +67,8 @@ public class BestellungBearbeitenGUI {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		BestellungenUebersicht = new JTable();
+		BestellungenUebersicht.setColumnSelectionAllowed(true);
+		BestellungenUebersicht.setCellSelectionEnabled(true);
 		BestellungenUebersicht.setModel(new DefaultTableModel(
 				new Object[][] {
 				},
@@ -79,12 +85,6 @@ public class BestellungBearbeitenGUI {
 			});
 			
 			DefaultTableModel model_table_Bestellungen = (DefaultTableModel) BestellungenUebersicht.getModel();
-			JButton btn_bestaetigen = new JButton("Bestaetigen");
-			btn_bestaetigen.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					DBAccess.ueberschreibeDatenInDatabase(bestellNr, null);
-				}
-			});
 			try {
 				// Schreibe passende Methode, die die Produkte der angeklickten Bestellung in die JTable lädt, in : 
 				DBAccess.getSelectedBestellung(bestellNr, model_table_Bestellungen);
@@ -123,7 +123,38 @@ public class BestellungBearbeitenGUI {
 		JButton btn_bestaetigen1 = new JButton("Bestaetigen");
 		btn_bestaetigen1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DBAccess.ueberschreibeDatenInDatabase(bestellNr,model_table_Bestellungen);
+				Integer bestellNrBestellung = 0;
+				String bestellart = "";
+				Double bestellwert = 0.0;
+				String mitarbeiter = "";
+				String datum = "";
+				String status = "";
+				ArrayList<Integer> produkte = new ArrayList<>();
+				;
+				try {				
+					
+					bestellNrBestellung = Integer.valueOf(bestellNr);
+					bestellart = (String) model_table_Bestellungen.getValueAt(0, 1);
+					bestellwert = Double.valueOf((String) model_table_Bestellungen.getValueAt(0, 2));
+					mitarbeiter = model_table_Bestellungen.getValueAt(0, 3).toString();
+					datum = model_table_Bestellungen.getValueAt(0, 4).toString();
+					status = model_table_Bestellungen.getValueAt(0, 5).toString();
+					produkte = DBAccess.getProduktIdsAsIntegerArrayList(model_table_Bestellungen.getValueAt(0, 6).toString());				
+					
+					//Lege neue Instanz von Bestellung an.
+					supplyfly.objects.Bestellung bestellungEdit = new Bestellung(bestellNrBestellung, bestellart, bestellwert, mitarbeiter, datum, status, produkte);
+					DBAccess.ueberschreibeDatenInDatabase(bestellungEdit,model_table_Bestellungen);	
+					System.out.println("Die Bestellung mit BestellNr. "+bestellNr+" wurde ueberschrieben: 'bestellung = neue '"+bestellungEdit.toString());
+					JOptionPane popUpFenster = new JOptionPane();
+					popUpFenster.setVisible(true);
+					popUpFenster.showMessageDialog(null, "Bestellung wurde erfolgreich aktualisiert");
+				
+//				Integer.parseInt(bestellNr), model_table_Bestellungen.getValueAt(1, 0).toString(),Double.valueOf((String)model_table_Bestellungen.getValueAt(2, 0)), 
+//				model_table_Bestellungen.getValueAt(3, 0).toString(), model_table_Bestellungen.getValueAt(4, 0).toString(), model_table_Bestellungen.getValueAt(5, 0).toString(),DBAccess.getProduktIdsAsIntegerArrayList(model_table_Bestellungen.getValueAt(6, 0).toString())
+				} catch(InputMismatchException ime) {
+					System.out.println("FEHLER! BestellNr darf nur Zahlen beinhalten. Bitte in DB ändern.");
+				}
+				
 			}
 		});
 		GroupLayout gl_panel = new GroupLayout(panel);
