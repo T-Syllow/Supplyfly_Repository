@@ -511,4 +511,69 @@ public class DBAccess {
 		
 	}
 	
+	
+	//--------------------------Philipps Zeug (Versuch ohne Objekte, eventuell einfacher--------------------------------------------------------------------------
+	//(Philipp) Methode, die ein StringArray der Lieferanten ausgibt (um sie später in einer ComboBox auszuwählen
+		public static ArrayList<String> getLieferanten(){
+			ArrayList<String> lieferantenliste = new ArrayList<>();	
+			try {
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT LieferantenNr, Lieferantenbezeichnung FROM lieferant");
+							
+				while(rs.next()) {
+					String lieferantenNr = rs.getString("LieferantenNr");
+					String lieferantenBezeichnung = rs.getString("Lieferantenbezeichnung");
+					lieferantenliste.add(lieferantenNr + "," + lieferantenBezeichnung); 
+				}
+				System.out.println("Lieferanten erfolgreich der Liste hinzugef\u00FCgt");
+			}catch(Exception e){
+				System.out.println(e);
+			}
+			return lieferantenliste;
+		}
+		
+		//(Philipp) Methode, die aus der DB die höchste Bestellnummer holt
+		public static Integer getAktuelleBestellNr() {
+			ArrayList<Integer> nummern = new ArrayList<Integer>();
+			Integer maxNummer = 0; 
+			try {
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT BestellNr FROM db2.bestellung");	
+				
+				while(rs.next()) {
+					Integer nummer = rs.getInt("BestellNr");
+					nummern.add(nummer);
+				}
+				for (int i = 0; i < nummern.size()-1; i++) {
+					if(nummern.get(i) < nummern.get(i+1)) {
+						maxNummer = nummern.get(i+1);
+					}
+					else {
+						maxNummer = nummern.get(i);
+					}
+				}
+			
+			}catch(Exception e){
+				System.out.println(e);
+			}
+			return maxNummer;		
+		}
+		
+		//(Philipp) Legt Bestellung direkt, ohne Objekt in der DB an
+		public static void legeBestellungInDBan(Integer bestellNr, String bestellArt, String mitarbeiter, String datum, String status, String lieferant) {
+			System.out.println("Bestellung wird angelegt...");
+			try{
+				PreparedStatement posted = conn.prepareStatement("INSERT INTO bestellung (BestellNr, BestellArt, Mitarbeiter, Datum, Status, LieferantenNr) "
+						+ "VALUES ('"+bestellNr+"', '"+bestellArt+"', '"+mitarbeiter+"' , '"+datum+"','"+status+"', '"+lieferant+"' )");
+				posted.executeUpdate();
+			}catch(Exception e){System.out.println(e);
+		}
+			finally {
+				System.out.println("Complete, 'Bestellung' has been added.");
+			};
+		}
+
+
+	
+	
 }
