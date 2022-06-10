@@ -506,4 +506,9 @@ public class DBAccess {
 		}
 	}
 	
+	//Diese Methode soll eine NEUE BESTELLUNG in der Datenbank "bestellung" HINZUFUEGEN.
+	public static void speichereBestellungInDatabase(Bestellung b, DefaultTableModel m) {
+		
+	}
+	
 }

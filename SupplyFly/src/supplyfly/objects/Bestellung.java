@@ -12,6 +12,10 @@ public class Bestellung {
 	private String status;
 	private ArrayList<Integer> produkte;
 	
+	public Bestellung() {
+		
+	}
+	
 	public Bestellung(Integer bestellnummer, String bestellart, Double bestellwert, String name, String datum, String status, ArrayList<Integer> produkte) {
 		this.bestellnummer=bestellnummer;
 		this.bestellart = bestellart;
@@ -32,6 +36,12 @@ public class Bestellung {
 		System.out.println(produkteAsString);
 		
 		return produkteAsString;
+	}
+	
+	//Diese Methode soll den WERT = (produktID * menge) ausrechnen und ihn unbedingt als String return.
+	public static String calculateBestellwert(String produktID, String menge) {
+		
+		return "2000";
 	}
 	
 	public String getStatus() {

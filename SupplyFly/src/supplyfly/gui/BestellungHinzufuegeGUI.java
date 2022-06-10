@@ -11,8 +11,14 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.table.DefaultTableModel;
+
+import supplyfly.datenbankzugriff.DBAccess;
+import supplyfly.objects.Bestellung;
+
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
@@ -63,6 +69,24 @@ public class BestellungHinzufuegeGUI {
 		frmNeueBestellung.getContentPane().add(panel, BorderLayout.CENTER);
 		
 		table_produkteDerBestellung = new JTable();
+		table_produkteDerBestellung.setColumnSelectionAllowed(true);
+		table_produkteDerBestellung.setCellSelectionEnabled(true);
+		table_produkteDerBestellung.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Produkt", "Menge"
+				}
+			) {
+				boolean[] columnEditables = new boolean[] {
+					true, true
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+			
+			DefaultTableModel model_table_bestellungErstellen = (DefaultTableModel) table_produkteDerBestellung.getModel();
 		
 		JButton btn_zurueck = new JButton("Zur\u00fcck");
 		btn_zurueck.addActionListener(e -> {
@@ -79,8 +103,6 @@ public class BestellungHinzufuegeGUI {
 		
 		JLabel lbl_wertGesamtwert = new JLabel("New label");
 		
-		JButton btn_produktHinzufuegen = new JButton("Produkt hinzufügen");
-		
 		JLabel lbl_Bestellart_1 = new JLabel("Bestellart:");
 		
 		JLabel lbl_name_2 = new JLabel("Kommentar:");
@@ -95,6 +117,63 @@ public class BestellungHinzufuegeGUI {
 		
 		tf_menge = new JTextField();
 		tf_menge.setColumns(10);
+		
+		JButton btn_produktHinzufuegen = new JButton("Produkt hinzufügen");
+		btn_produktHinzufuegen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//HIER MUSS EIN OBJEKT VON BESTELLUNG INSTANZIIERT WERDEN...
+				
+				
+				//'ProduktID' und 'menge' werden dem Textfeld entnommen. Danach der JTable hinzugefuegt.
+				String produktID = tf_produktId.getText();
+				String menge = tf_menge.getText();
+				model_table_bestellungErstellen.addRow(new Object[] {produktID,menge}); 
+				
+				//'bestellNr' brauchen wir hier nicht. ATTRIBUT ist in Datenbank auf AUTOINKREMENT gestellt. Es wird automatisch um 1 erhoeht.
+				
+				
+				//'bestellart' soll aus checkbox entnommen werden und in String variable gespeichert werden.
+				String bestellart = "";
+
+				
+				//Diese Variable soll nur den Bestellwert für ein Produkt der Bestellung beinhalten. Er wird weitergegeben an das DefaultTableModel.
+				String produktBestellwert = supplyfly.objects.Bestellung.calculateBestellwert(produktID, menge); 
+				
+				
+				//Das Attribut 'mitarbeitername' soll aus dem Login entnommen werden. -> Wer ist eingeloggt?
+				String mitarbeiterName = "";
+				
+				
+				//'Datum' soll ENTWEDER manuell vom Nutzer eingetragen werden koennen ODER automatisch uebertragen werden.
+				String datum = "";
+				
+				
+				//'Status' kann so bleiben!
+				String status = "Bestellung versandt";
+				
+				
+				//'Produkt'(-Liste) wird als ArrayList<Integer> gespeichert, siehe Konstruktor von Bestellung.
+				ArrayList<Integer> produktliste = new ArrayList<>();
+				//Diese Schleife speichert jede ProduktID die in der JTable steht in die produktliste!
+				for (int i = 0; i < model_table_bestellungErstellen.getRowCount(); i++) {
+					produktliste.add((Integer)model_table_bestellungErstellen.getValueAt(i, 0));
+				}
+				
+				//'LieferantenNr' (fehlt noch im Konstruktur)
+				String lieferantenNr = "";
+				
+				
+				//wir benoetigen fuer Bestellung einen ueberladenen Konstruktor --> OHNE bestellNr UND ZUSAETZLICH MIT lieferantenNr
+				Bestellung neueBestellung = new Bestellung();
+				
+				//Diese Methode programmiert EMIN. :)
+				DBAccess.speichereBestellungInDatabase(neueBestellung, model_table_bestellungErstellen);
+				
+				//loesche alle Eingabefelder im GUI..
+				lbl_produktID.setText("");
+				lbl_menge.setText("");
+			}
+		});
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
