@@ -258,7 +258,7 @@ public class DBAccess {
 			while(rs.next()) {
 				Integer produktID = rs.getInt("produkt.ProduktID");
 				String produktbezeichnung = rs.getString("produkt.Produktbezeichnung");
-				Double preis = rs.getDouble("lief_produkt.Preis");
+				String preis = rs.getString("lief_produkt.Preis");
 				String lieferantenbezeichnung = rs.getString("lieferant.Lieferantenbezeichnung");
 				m.addRow(new Object[] {produktID, produktbezeichnung, preis, lieferantenbezeichnung});
 			}

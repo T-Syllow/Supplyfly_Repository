@@ -61,7 +61,7 @@ public class BestellungHinzufuegeGUI {
 		frmNeueBestellung = new JFrame();
 		frmNeueBestellung.setTitle("Bestellung erstellen");
 		frmNeueBestellung.setBounds(100, 100, 750, 410);
-		frmNeueBestellung.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmNeueBestellung.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
 		frmNeueBestellung.setIconImage(logo.getImage());
 		

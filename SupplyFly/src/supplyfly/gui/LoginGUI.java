@@ -134,7 +134,7 @@ public class LoginGUI {
 				DBAccess db = new DBAccess();
 				if(db.checkForLogin(username, password) == true) {
 					BestellungenUerbersichtGUI bestellungsWindow = new BestellungenUerbersichtGUI();
-					bestellungsWindow.main(null);
+					//bestellungsWindow.main(null);
 					frmSupplyfly.dispose();
 					
 				}else {
