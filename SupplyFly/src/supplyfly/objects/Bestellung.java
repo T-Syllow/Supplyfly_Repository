@@ -27,7 +27,7 @@ public class Bestellung {
 		String produkteAsString = "";
 		
 		for (Integer integer : produkte) {
-			produkteAsString += String.valueOf(integer);
+			produkteAsString += String.valueOf(integer)+",";
 		}
 		System.out.println(produkteAsString);
 		

@@ -113,7 +113,7 @@ public class BestellungBearbeitenGUI {
 		
 		JLabel lbl_targetStatus = new JLabel(DBAccess.getBestellInfo(bestellNr, "Status"));
 		
-		JLabel lbl_targetBestellwert = new JLabel(DBAccess.getProduktpreis(DBAccess.getBestellInfo(bestellNr, "Produkte")));
+		JLabel lbl_targetBestellwert = new JLabel(DBAccess.getProduktpreis(DBAccess.getBestellInfo(bestellNr, "Produkt")));
 		
 		JButton btn_zurueck = new JButton("Zurueck");
 		btn_zurueck.addActionListener(new ActionListener() {

@@ -56,7 +56,7 @@ public class DBAccess {
 		
 		try {
 			Statement stmt1 = conn.createStatement();
-			ResultSet rs1 = stmt1.executeQuery("SELECT BestellNr, Bestellart, Bestellwert, Mitarbeiter, Datum, Status, Produkte FROM bestellung");
+			ResultSet rs1 = stmt1.executeQuery("SELECT BestellNr, Bestellart, Bestellwert, Mitarbeiter, Datum, Status, Produkt FROM bestellung");
 			
 			
 			
@@ -64,11 +64,11 @@ public class DBAccess {
 			while (rs1.next()) {
 				Integer bestellNr = rs1.getInt("BestellNr");
 				String bestellArt = rs1.getString("Bestellart");
-				String bestellwert = getProduktpreis(rs1.getString("Produkte"));
+				String bestellwert = getProduktpreis(rs1.getString("Produkt"));
 				String mitarbeiter = rs1.getString("Mitarbeiter");
 				String datum = rs1.getString("Datum");
 				String status = rs1.getString("Status");
-				String produkte = rs1.getString("Produkte");
+				String produkte = rs1.getString("Produkt");
 				ArrayList<String> produktNamen = compareProductID(produkte);
 				
 				
@@ -197,7 +197,7 @@ public class DBAccess {
 	}
 //	/*
 //	 * Diese Funktion berechnet den Produktpreis bzw. Gesamtpreis einer Bestellung.
-//	 * Sie soll IMMER funktionieren, auch wenn in der Datenbank lief_produkt PRODUKTID¥s MEHRMALS vorkommt!
+//	 * Sie soll IMMER funktionieren, auch wenn in der Datenbank lief_produkt PRODUKTIDÔøΩs MEHRMALS vorkommt!
 //	 */
 //	public static String getProduktpreis2(String produktID) {	
 //		
@@ -225,17 +225,17 @@ public class DBAccess {
 	public static void getSelectedBestellung(String bestellNr, DefaultTableModel m) {
 		try {
 		Statement stmt1 = conn.createStatement();
-		ResultSet rs1 = stmt1.executeQuery("SELECT BestellNr, Bestellart, Bestellwert, Mitarbeiter, Datum, Status, Produkte FROM bestellung WHERE BestellNr='"+bestellNr+"'");
+		ResultSet rs1 = stmt1.executeQuery("SELECT BestellNr, Bestellart, Bestellwert, Mitarbeiter, Datum, Status, Produkt FROM bestellung WHERE BestellNr='"+bestellNr+"'");
 		
 		
 		while(rs1.next()) {
 		String bestellNrData = bestellNr;
 		String bestellArt = rs1.getString("Bestellart");
-		String bestellwert = getProduktpreis(rs1.getString("Produkte"));
+		String bestellwert = getProduktpreis(rs1.getString("Produkt"));
 		String mitarbeiter = rs1.getString("Mitarbeiter");
 		String datum = rs1.getString("Datum");
 		String status = rs1.getString("Status");
-		String produktNummern = rs1.getString("Produkte");
+		String produktNummern = rs1.getString("Produkt");
 		
 		m.addRow(new Object[] {bestellNrData, bestellArt, bestellwert, mitarbeiter, datum, status, produktNummern});
 		}
@@ -494,7 +494,7 @@ public class DBAccess {
 			Statement stmt = conn.createStatement();
 			
 			Integer rs1 = stmt.executeUpdate("UPDATE bestellung SET BestellNr='"+b.getBestellnummer()+"',Bestellart='"+b.getBestellart()+"',Bestellwert"
-					+ "='"+b.getBestellwert()+"',Mitarbeiter='"+b.getName()+"',Datum='"+b.getDatum()+"',Status='"+b.getStatus()+"',Produkte='"
+					+ "='"+b.getBestellwert()+"',Mitarbeiter='"+b.getName()+"',Datum='"+b.getDatum()+"',Status='"+b.getStatus()+"',Produkt='"
 					+b.convertArrayListToString(b.getProdukte())+"' WHERE BestellNr='"+b.getBestellnummer()+"'");
 			
 			//Das soll gemacht werden: Der Name soll von "Jordan" -> "Gordon" ge√§ndert werden & dann in die DB 'bestellung' ueberschrieben werden.
