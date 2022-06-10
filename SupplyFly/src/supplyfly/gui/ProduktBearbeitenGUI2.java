@@ -192,7 +192,7 @@ public class ProduktBearbeitenGUI2 {
 		JButton btn_zurueck_produkte = new JButton("Zur\u00fcck");
 		panel_2.add(btn_zurueck_produkte);
 		btn_zurueck_produkte.addActionListener(e -> {
-			BestellungenUerbersichtGUI gui = new BestellungenUerbersichtGUI();
+//			BestellungenUerbersichtGUI gui = new BestellungenUerbersichtGUI();
 			frame.setVisible(false);
 		});
 		
