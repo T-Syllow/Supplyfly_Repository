@@ -128,6 +128,10 @@ public class BestellungHinzufuegeGUI {
 
 			
 			
+			//(Philipp) benötigt für btnHiinzufügen UND btnBestätigen
+			ArrayList<String> produktliste = new ArrayList<>();
+			ArrayList<String> mengenliste = new ArrayList<>();
+			
 			JButton btn_produktHinzufuegen = new JButton("Produkt hinzufÃ¼gen");
 			btn_produktHinzufuegen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -145,18 +149,32 @@ public class BestellungHinzufuegeGUI {
 					String produktBestellwert = supplyfly.objects.Bestellung.calculateBestellwert(produktID, menge); 
 
 					//'Produkt'(-Liste) wird als ArrayList<Integer> gespeichert, siehe Konstruktor von Bestellung.
-					ArrayList<Integer> produktliste = new ArrayList<>();
 					//Diese Schleife speichert jede ProduktID die in der JTable steht in die produktliste!
+					ArrayList<String> dbProduktliste = DBAccess.getProduktliste();	
+					//Notwendig, da die Listen mit jedem mal Speichern neu gefüllt werden
+					produktliste.clear();
+					mengenliste.clear();
 					for (int i = 0; i < model_table_bestellungErstellen.getRowCount(); i++) {
-						produktliste.add((Integer)model_table_bestellungErstellen.getValueAt(i, 0));
+						{
+							if(model_table_bestellungErstellen.getValueAt(i, 0).equals("") || model_table_bestellungErstellen.getValueAt(i, 1).equals("")) {
+								System.out.println("Zeile: " + (i+1) + " Felder dürfen nicht leer sein!");
+							}			
+							else {
+								if(dbProduktliste.contains(model_table_bestellungErstellen.getValueAt(i, 0))) {
+									produktliste.add((String)model_table_bestellungErstellen.getValueAt(i, 0));
+									mengenliste.add((String) model_table_bestellungErstellen.getValueAt(i, 1));
+									System.out.println("Zeile: " + (i+1) + " Produkt: " + model_table_bestellungErstellen.getValueAt(i, 0) + " Menge: " + model_table_bestellungErstellen.getValueAt(i, 1) + " als Position zwischengemerkt");
+								}
+								else {
+									System.out.println("Zeile: " + (i+1) + " Produkt nicht in der DB gefunden");
+								}
+							}
+						}
 					}
 
-					//wir benoetigen fuer Bestellung einen ueberladenen Konstruktor --> OHNE bestellNr UND ZUSAETZLICH MIT lieferantenNr
-					//(Philipp) Ausgeklammert, da ich den einfachen Weg ohne Objekt versuche
+					//(Philipp) meiner Meinung nach nicht mehr nötig, absprechen
 					//Bestellung neueBestellung = new Bestellung();
-					
-					//Diese Methode programmiert EMIN. :)
-					//(Philipp) Ausgeklammert, da ich den einfachen Weg ohne Objekt versuche
+					//(Philipp) meiner Meinung nach nicht mehr nötig, absprechen
 					//DBAccess.speichereBestellungInDatabase(neueBestellung, model_table_bestellungErstellen);
 					
 					//loesche alle Eingabefelder im GUI..
@@ -198,12 +216,17 @@ public class BestellungHinzufuegeGUI {
 					String lieferantenNr = geteilterLieferantInNummerUndName[0];
 				
 					
+					//'Kommentar' für Bestellung aus textfeld
+					String kommentar = txt_name_kommentar.getText();
+					
+					
 					// (Philipp) Bestellung direkt in der DB anlegen:
 					Integer aktuelleBestellNr = DBAccess.getAktuelleBestellNr() + 1;
-					DBAccess.legeBestellungInDBan(aktuelleBestellNr, bestellart, mitarbeiterName, datum, status, lieferantenNr);
-					//DBAccess.legePositionenInDBan();
-					
-					
+					DBAccess.legeBestellungInDBan(aktuelleBestellNr, bestellart, mitarbeiterName, datum, status, lieferantenNr, kommentar);
+					//(Philipp) Positionen in DB anlegen - mit Bestellung verknüpft
+					for (int i = 0; i < produktliste.size(); i++) {
+						DBAccess.legePositionenInDBan(aktuelleBestellNr, produktliste.get(i), mengenliste.get(i));
+					}
 				}
 			});
 			

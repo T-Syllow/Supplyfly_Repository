@@ -560,11 +560,11 @@ public class DBAccess {
 		}
 		
 		//(Philipp) Legt Bestellung direkt, ohne Objekt in der DB an
-		public static void legeBestellungInDBan(Integer bestellNr, String bestellArt, String mitarbeiter, String datum, String status, String lieferant) {
+		public static void legeBestellungInDBan(Integer bestellNr, String bestellArt, String mitarbeiter, String datum, String status, String lieferant, String kommentar) {
 			System.out.println("Bestellung wird angelegt...");
 			try{
-				PreparedStatement posted = conn.prepareStatement("INSERT INTO bestellung (BestellNr, BestellArt, Mitarbeiter, Datum, Status, LieferantenNr) "
-						+ "VALUES ('"+bestellNr+"', '"+bestellArt+"', '"+mitarbeiter+"' , '"+datum+"','"+status+"', '"+lieferant+"' )");
+				PreparedStatement posted = conn.prepareStatement("INSERT INTO bestellung (BestellNr, BestellArt, Mitarbeiter, Datum, Status, LieferantenNr , Kommentar) "
+						+ "VALUES ('"+bestellNr+"', '"+bestellArt+"', '"+mitarbeiter+"' , '"+datum+"','"+status+"', '"+lieferant+"', '"+kommentar+"' )");
 				posted.executeUpdate();
 			}catch(Exception e){System.out.println(e);
 		}
@@ -573,6 +573,37 @@ public class DBAccess {
 			};
 		}
 
+		//(Philipp) Legt Positionen aus der GUI in der DB an (wird mit Bestellung über Fremdschlüssel) verknüpft
+		public static void legePositionenInDBan(Integer aktuelleBestellNr, String produktID, String menge) {
+			System.out.println("Position wird angelegt...");
+			try{
+				PreparedStatement posted = conn.prepareStatement("INSERT INTO bestellung_produkt (BestellNr, ProduktID, Menge) "
+						+ "VALUES ('"+aktuelleBestellNr+"', '"+produktID+"', '"+menge+"' )");
+				posted.executeUpdate();
+			}catch(Exception e){System.out.println(e);
+		}
+			finally {
+				System.out.println("Complete, 'Position' has been added.");
+			};
+		}
+			
+		
+		//(Philipp) Gibt ArrayList aller gültigen ProduktID´s zurück
+		public static ArrayList<String> getProduktliste(){
+			ArrayList<String> dbProduktliste = new ArrayList<>();
+			try {
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT ProduktID FROM db2.produkt");	
+				
+				while(rs.next()) {
+					String dbProduktID = rs.getString("ProduktID");
+					dbProduktliste.add(dbProduktID);
+				}			
+			}catch(Exception e){
+				System.out.println(e);
+			}
+			return dbProduktliste;
+		}
 
 	
 	
