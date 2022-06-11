@@ -25,6 +25,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import java.awt.event.ItemListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ItemEvent;
 
 public class BestellungHinzufuegeGUI {
 
@@ -121,15 +125,11 @@ public class BestellungHinzufuegeGUI {
 			tf_menge.setColumns(10);
 			
 			
+			
 			//ComboBox zur Auswahl der Lieferanten
 			//ArrayList wird erstellt mit aktuellen Lieferanten
 			ArrayList<String> lieferantenliste = DBAccess.getLieferanten();
-			JComboBox comboBox_Lieferant = new JComboBox(lieferantenliste.toArray());
-			String gewaehlterLieferant = (String) comboBox_Lieferant.getSelectedItem();
-			String [] geteilterLieferantInNummerUndName = gewaehlterLieferant.split(",");
-			String lieferantenNr = geteilterLieferantInNummerUndName[0];
-
-			
+			JComboBox comboBox_Lieferant = new JComboBox(lieferantenliste.toArray());	
 			
 			//(Philipp) benötigt für btnHiinzufügen UND btnBestätigen
 			ArrayList<String> produktliste = new ArrayList<>();
@@ -150,8 +150,30 @@ public class BestellungHinzufuegeGUI {
 
 					//alle aktuellen Produkte, die eingekauft werden können - Produkte, die der Lieferant NICHT liefert = Produkte, die bestellt werden können
 					ArrayList<String> dbProduktliste = DBAccess.getProduktliste();	
+					//Lieferant speichern
+					String gewaehlterLieferant = (String) comboBox_Lieferant.getSelectedItem();
+					String[] geteilterLieferantInNummerUndName = gewaehlterLieferant.split(",");
+					String lieferantenNr = geteilterLieferantInNummerUndName[0];
 					//Nun die Produkte ausselektieren, die der gewählte Lieferant NICHT Liefert
-					DBAccess.wasLiefertLieferantMitPreis(lieferantenNr);
+					ArrayList<String> dbLieferantProduktliste = new ArrayList<>();
+					ResultSet rs = DBAccess.wasLiefertLieferantMitPreisUndMenge(lieferantenNr);
+					try {
+						while(rs.next()) {
+							String produktIDlief = rs.getString("ProduktID");
+							dbLieferantProduktliste.add(produktIDlief);
+						}
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}	
+					//Welche Produktliste sind gültige Produkte (DBProduktliste) UND von dem Lieferanten in seiner Produktliste, entferne die, die nicht vom Lieferanten geliefert werden
+					ArrayList<String> lieferbareProdukte = new ArrayList<>();
+					for (int i = 0; i < dbProduktliste.size(); i++) {
+						if(dbLieferantProduktliste.contains(dbProduktliste.get(i))) {
+							lieferbareProdukte.add(dbProduktliste.get(i));
+						}else {
+							dbProduktliste.remove(i);
+						}
+					}
 					
 					//Notwendig, da die Listen mit jedem mal Speichern neu gefüllt werden
 					produktliste.clear();
@@ -165,13 +187,18 @@ public class BestellungHinzufuegeGUI {
 							}			
 							else {
 								if(dbProduktliste.contains(model_table_bestellungErstellen.getValueAt(i, 0))) {
-									produktliste.add((String)model_table_bestellungErstellen.getValueAt(i, 0));
-									mengenliste.add((String) model_table_bestellungErstellen.getValueAt(i, 1));
-									System.out.println("Zeile: " + (i+1) + " Produkt: " + model_table_bestellungErstellen.getValueAt(i, 0) + " Menge: " + model_table_bestellungErstellen.getValueAt(i, 1) + " als Position zwischengemerkt");
-									model_table_bestellungErstellen.setValueAt("gültig", i, 2);
+									if(lieferbareProdukte.contains(model_table_bestellungErstellen.getValueAt(i, 0))) {
+										produktliste.add((String)model_table_bestellungErstellen.getValueAt(i, 0));
+										mengenliste.add((String) model_table_bestellungErstellen.getValueAt(i, 1));
+										System.out.println("Zeile: " + (i+1) + " Produkt: " + model_table_bestellungErstellen.getValueAt(i, 0) + " Menge: " + model_table_bestellungErstellen.getValueAt(i, 1) + " als Position zwischengemerkt");
+										model_table_bestellungErstellen.setValueAt("gültig", i, 2);
+									}
+									else {
+										System.out.println("Produkt nicht bei diesem Lieferanten bestellbar! Machen Sie hierfür eine neue Bestellung");
+									}
 								}
 								else {
-									System.out.println("Zeile: " + (i+1) + " Produkt nicht in der DB gefunden | exisitiert nicht oder wurde gelöscht");
+									System.out.println("Zeile: " + (i+1) + " Produkt exisitiert nicht, nicht vom Lieferanten lieferbar oder wurde gelöscht");
 									model_table_bestellungErstellen.setValueAt("ungültig", i, 2);
 								}
 							}
@@ -206,34 +233,36 @@ public class BestellungHinzufuegeGUI {
 					String now = LocalDateTime.now().toString();
 					String datum = now;
 					
+					//Speichert erneut die Lieferantennummer - Lieferant darf nicht verändert werdern 
+					String gewaehlterLieferant = (String) comboBox_Lieferant.getSelectedItem();
+					String[] geteilterLieferantInNummerUndName = gewaehlterLieferant.split(",");
+					String lieferantenNr = geteilterLieferantInNummerUndName[0];
 					
 					//'Status' kann so bleiben!
 					String status = "Bestellung aufgegeben";
-					
-					
-//					//'LieferantenNr' (kommt aus der ComboBox)
-//					String gewaehlterLieferant = (String) comboBox_Lieferant.getSelectedItem();
-//					String [] geteilterLieferantInNummerUndName = gewaehlterLieferant.split(",");
-//					String lieferantenNr = geteilterLieferantInNummerUndName[0];
-//				
+									
 					
 					//'Kommentar' für Bestellung aus textfeld
 					String kommentar = txt_name_kommentar.getText();
 					
 					
 					// (Philipp) Bestellung direkt in der DB anlegen:
-					Integer aktuelleBestellNr = DBAccess.getAktuelleBestellNr() + 1;
-					DBAccess.legeBestellungInDBan(aktuelleBestellNr, bestellart, mitarbeiterName, datum, status, lieferantenNr, kommentar);
-					//(Philipp) Positionen in DB anlegen - mit Bestellung verknüpft
-					for (int i = 0; i < produktliste.size(); i++) {
-						DBAccess.legePositionenInDBan(aktuelleBestellNr, produktliste.get(i), mengenliste.get(i));
-					}
+					if(produktliste.isEmpty() || mengenliste.isEmpty()) {
+						System.out.println("Kann keine leere Bestellung anlegen, fügen Sie Produkte hinzu");
+					}else {
+						Integer aktuelleBestellNr = DBAccess.getAktuelleBestellNr() + 1;
+						DBAccess.legeBestellungInDBan(aktuelleBestellNr, bestellart, mitarbeiterName, datum, status, lieferantenNr, kommentar);
+						//(Philipp) Positionen in DB anlegen - mit Bestellung verknüpft
+						for (int i = 0; i < produktliste.size(); i++) {
+							DBAccess.legePositionenInDBan(aktuelleBestellNr, produktliste.get(i), mengenliste.get(i));
+						}	
+					}				
 				}
 			});
 			
 			
 			
-			JLabel lbl_Lieferant_1_1 = new JLabel("Lieferant:");
+			JLabel lbl_Lieferant_1_1 = new JLabel("Lieferant (muss f\u00FCr alle Produkte gleich sein):");
 			GroupLayout gl_panel = new GroupLayout(panel);
 			gl_panel.setHorizontalGroup(
 				gl_panel.createParallelGroup(Alignment.TRAILING)
@@ -252,28 +281,28 @@ public class BestellungHinzufuegeGUI {
 													.addComponent(lbl_produktID)
 													.addComponent(lbl_Bestellart_1)
 													.addGroup(gl_panel.createSequentialGroup()
-														.addComponent(lbl_menge, GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+														.addComponent(lbl_menge, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
 														.addPreferredGap(ComponentPlacement.RELATED))
 													.addGroup(gl_panel.createSequentialGroup()
-														.addComponent(lbl_name_2, GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+														.addComponent(lbl_name_2, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
 														.addPreferredGap(ComponentPlacement.RELATED)))
 												.addGroup(gl_panel.createSequentialGroup()
-													.addComponent(lbl_Lieferant_1_1, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+													.addComponent(lbl_Lieferant_1_1, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
 													.addPreferredGap(ComponentPlacement.RELATED)))
 											.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 												.addGroup(gl_panel.createSequentialGroup()
 													.addGap(69)
 													.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-														.addComponent(cbox_bestellart, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+														.addComponent(cbox_bestellart, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
 														.addComponent(lbl_wertGesamtwert)
-														.addComponent(txt_name_kommentar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addComponent(comboBox_Lieferant, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
+														.addComponent(txt_name_kommentar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 													.addContainerGap())
 												.addGroup(gl_panel.createSequentialGroup()
 													.addPreferredGap(ComponentPlacement.RELATED)
 													.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 														.addComponent(tf_menge, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
-														.addComponent(tf_produktId, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE))
+														.addComponent(tf_produktId, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
+														.addComponent(comboBox_Lieferant, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
 													.addGap(46))))))
 								.addGroup(gl_panel.createSequentialGroup()
 									.addComponent(btn_bestellungBestaetigen)
@@ -301,8 +330,8 @@ public class BestellungHinzufuegeGUI {
 								.addComponent(btn_produktHinzufuegen)
 								.addGap(18)
 								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-									.addComponent(comboBox_Lieferant, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lbl_Lieferant_1_1))
+									.addComponent(lbl_Lieferant_1_1)
+									.addComponent(comboBox_Lieferant, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 								.addGap(28)
 								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 									.addComponent(lbl_Bestellart_1)

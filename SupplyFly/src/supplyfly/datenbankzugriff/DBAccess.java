@@ -614,7 +614,7 @@ public class DBAccess {
 		}
 
 		//(Philipp) Gibt in einem ResultSet alle Produkte mit Preis zurück, die der übergebene Lieferant liefert
-		public static ResultSet wasLiefertLieferantMitPreis(String lieferantenNr){
+		public static ResultSet wasLiefertLieferantMitPreisUndMenge(String lieferantenNr){
 			ResultSet lieferantenMitPreis = null;
 			try {
 				Statement stmt = conn.createStatement();
