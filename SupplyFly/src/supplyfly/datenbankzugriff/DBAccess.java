@@ -512,6 +512,11 @@ public class DBAccess {
 	}
 	
 	
+	
+	
+	
+	
+	
 	//--------------------------Philipps Zeug (Versuch ohne Objekte, eventuell einfacher--------------------------------------------------------------------------
 	//(Philipp) Methode, die ein StringArray der Lieferanten ausgibt (um sie später in einer ComboBox auszuwählen
 		public static ArrayList<String> getLieferanten(){
@@ -593,11 +598,14 @@ public class DBAccess {
 			ArrayList<String> dbProduktliste = new ArrayList<>();
 			try {
 				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT ProduktID FROM db2.produkt");	
+				ResultSet rs = stmt.executeQuery("SELECT ProduktID, WirdAngezeigt FROM db2.produkt");	
 				
 				while(rs.next()) {
-					String dbProduktID = rs.getString("ProduktID");
-					dbProduktliste.add(dbProduktID);
+					String geloeschtJaNein = rs.getString("WirdAngezeigt");
+					if(geloeschtJaNein.equals("1")){
+						String dbProduktID = rs.getString("ProduktID");
+						dbProduktliste.add(dbProduktID);
+					}
 				}			
 			}catch(Exception e){
 				System.out.println(e);
@@ -605,6 +613,15 @@ public class DBAccess {
 			return dbProduktliste;
 		}
 
-	
-	
+		//(Philipp) Gibt in einem ResultSet alle Produkte mit Preis zurück, die der übergebene Lieferant liefert
+		public static ResultSet wasLiefertLieferantMitPreis(String lieferantenNr){
+			ResultSet lieferantenMitPreis = null;
+			try {
+				Statement stmt = conn.createStatement();
+				lieferantenMitPreis = stmt.executeQuery("SELECT ProduktID, Preis, Lieferzeit FROM lief_produkt WHERE LieferantenNr='"+lieferantenNr+"'");
+			}catch (Exception e) {
+				System.out.println(e);
+			}
+			return lieferantenMitPreis;
+		}
 }

@@ -78,7 +78,7 @@ public class BestellungHinzufuegeGUI {
 				new Object[][] {
 				},
 				new String[] {
-					"Produkt", "Menge"
+					"Produkt", "Menge", "gültig"
 				}
 			) {
 				boolean[] columnEditables = new boolean[] {
@@ -125,6 +125,9 @@ public class BestellungHinzufuegeGUI {
 			//ArrayList wird erstellt mit aktuellen Lieferanten
 			ArrayList<String> lieferantenliste = DBAccess.getLieferanten();
 			JComboBox comboBox_Lieferant = new JComboBox(lieferantenliste.toArray());
+			String gewaehlterLieferant = (String) comboBox_Lieferant.getSelectedItem();
+			String [] geteilterLieferantInNummerUndName = gewaehlterLieferant.split(",");
+			String lieferantenNr = geteilterLieferantInNummerUndName[0];
 
 			
 			
@@ -135,48 +138,46 @@ public class BestellungHinzufuegeGUI {
 			JButton btn_produktHinzufuegen = new JButton("Produkt hinzufÃ¼gen");
 			btn_produktHinzufuegen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//HIER MUSS EIN OBJEKT VON BESTELLUNG INSTANZIIERT WERDEN...
-					//(Philipp) oder direkt in DB einfügen, ist mit SQL einfacher als mit Objekten
-					
-					//'ProduktID' und 'menge' werden dem Textfeld entnommen. Danach der JTable hinzugefuegt.
+								
+					//'ProduktID' und 'menge' werden dem Textfeld entnommen. Danach der JTable hinzugefuegt. (Philipp) Ebenfalls wird angezeigt, ob das Produkt exisitiert / gelöscht bzw "Gültig" ist
 					String produktID = tf_produktId.getText();
 					String menge = tf_menge.getText();
-					model_table_bestellungErstellen.addRow(new Object[] {produktID,menge}); 
+					model_table_bestellungErstellen.addRow(new Object[] {produktID,menge, "wird geprüft"}); 
 					
-					//'bestellNr' brauchen wir  nicht. ATTRIBUT ist auf AUTOINKREMENT 
-					
+								
 					//Variable soll Bestellwert fÃ¼r ein Produkt der Bestellung beinhalten. Er wird weitergegeben an das DefaultTableModel.
 					String produktBestellwert = supplyfly.objects.Bestellung.calculateBestellwert(produktID, menge); 
 
-					//'Produkt'(-Liste) wird als ArrayList<Integer> gespeichert, siehe Konstruktor von Bestellung.
-					//Diese Schleife speichert jede ProduktID die in der JTable steht in die produktliste!
+					//alle aktuellen Produkte, die eingekauft werden können - Produkte, die der Lieferant NICHT liefert = Produkte, die bestellt werden können
 					ArrayList<String> dbProduktliste = DBAccess.getProduktliste();	
+					//Nun die Produkte ausselektieren, die der gewählte Lieferant NICHT Liefert
+					DBAccess.wasLiefertLieferantMitPreis(lieferantenNr);
+					
 					//Notwendig, da die Listen mit jedem mal Speichern neu gefüllt werden
 					produktliste.clear();
 					mengenliste.clear();
+					//Diese Schleife speichert jede ProduktID die in der JTable steht in die produktliste!
 					for (int i = 0; i < model_table_bestellungErstellen.getRowCount(); i++) {
 						{
 							if(model_table_bestellungErstellen.getValueAt(i, 0).equals("") || model_table_bestellungErstellen.getValueAt(i, 1).equals("")) {
 								System.out.println("Zeile: " + (i+1) + " Felder dürfen nicht leer sein!");
+								model_table_bestellungErstellen.setValueAt("ungültig", i, 2);
 							}			
 							else {
 								if(dbProduktliste.contains(model_table_bestellungErstellen.getValueAt(i, 0))) {
 									produktliste.add((String)model_table_bestellungErstellen.getValueAt(i, 0));
 									mengenliste.add((String) model_table_bestellungErstellen.getValueAt(i, 1));
 									System.out.println("Zeile: " + (i+1) + " Produkt: " + model_table_bestellungErstellen.getValueAt(i, 0) + " Menge: " + model_table_bestellungErstellen.getValueAt(i, 1) + " als Position zwischengemerkt");
+									model_table_bestellungErstellen.setValueAt("gültig", i, 2);
 								}
 								else {
-									System.out.println("Zeile: " + (i+1) + " Produkt nicht in der DB gefunden");
+									System.out.println("Zeile: " + (i+1) + " Produkt nicht in der DB gefunden | exisitiert nicht oder wurde gelöscht");
+									model_table_bestellungErstellen.setValueAt("ungültig", i, 2);
 								}
 							}
 						}
 					}
 
-					//(Philipp) meiner Meinung nach nicht mehr nötig, absprechen
-					//Bestellung neueBestellung = new Bestellung();
-					//(Philipp) meiner Meinung nach nicht mehr nötig, absprechen
-					//DBAccess.speichereBestellungInDatabase(neueBestellung, model_table_bestellungErstellen);
-					
 					//loesche alle Eingabefelder im GUI..
 					lbl_produktID.setText("");
 					lbl_menge.setText("");
@@ -210,11 +211,11 @@ public class BestellungHinzufuegeGUI {
 					String status = "Bestellung aufgegeben";
 					
 					
-					//'LieferantenNr' (fehlt noch im Konstruktur) (kommt aus der ComboBox)
-					String gewaehlterLieferant = (String) comboBox_Lieferant.getSelectedItem();
-					String [] geteilterLieferantInNummerUndName = gewaehlterLieferant.split(",");
-					String lieferantenNr = geteilterLieferantInNummerUndName[0];
-				
+//					//'LieferantenNr' (kommt aus der ComboBox)
+//					String gewaehlterLieferant = (String) comboBox_Lieferant.getSelectedItem();
+//					String [] geteilterLieferantInNummerUndName = gewaehlterLieferant.split(",");
+//					String lieferantenNr = geteilterLieferantInNummerUndName[0];
+//				
 					
 					//'Kommentar' für Bestellung aus textfeld
 					String kommentar = txt_name_kommentar.getText();
