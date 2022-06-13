@@ -76,7 +76,8 @@ public class ProduktHinzufuegenGUI {
 	private void initialize() {
 		textField_2.setColumns(10);
 		frame = new JFrame();
-		frame.setBounds(100, 100, 633, 410);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); //Vollbild Einstellung
+//		frame.setBounds(100, 100, 633, 410);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
@@ -196,7 +197,7 @@ public class ProduktHinzufuegenGUI {
 				
 				try {
 					DBAccess.insertProduktInDatabase(p);
-					JOptionPane.showMessageDialog(null, "Produkt wurde erfolgreich hinzugefügt!");
+					JOptionPane.showMessageDialog(null, "Produkt wurde erfolgreich hinzugefï¿½gt!");
 					
 					frame.dispose();
 				} catch (Exception e1) {

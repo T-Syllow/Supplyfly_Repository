@@ -61,10 +61,12 @@ public class BestellungBearbeitenGUI {
 	 */
 	private void initialize(String bestellNr, String produktID) {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 792, 527);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		frame.setBounds(100, 100, 792, 527);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
+		
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		
 		JScrollPane scrollPane = new JScrollPane();

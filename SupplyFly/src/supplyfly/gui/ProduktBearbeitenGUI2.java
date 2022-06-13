@@ -69,7 +69,8 @@ public class ProduktBearbeitenGUI2 {
 	private void initialize(int produktID) {
 
 		frame = new JFrame();
-		frame.setBounds(100, 100, 633, 410);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); //Vollbild Einstellung
+//		frame.setBounds(100, 100, 633, 410);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
 		frame.setIconImage(logo.getImage());
@@ -104,7 +105,7 @@ public class ProduktBearbeitenGUI2 {
 		comBox_lieferantenAuswahl.addItem(Integer.valueOf(DBAccess.getProduktInfo(produktID, "Standardlieferant")));
 		
 		
-		//Muss noch überarbeitet werden
+		//Muss noch ï¿½berarbeitet werden
 		
 		
 		JLabel lbl_standardlieferant = new JLabel("Standardlieferant:");

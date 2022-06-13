@@ -58,7 +58,8 @@ public class LieferantenProdukteHinzufuegenGUI {
 	private void initialize() {
 		frmLieferantenprodukteVerwalten = new JFrame();
 		frmLieferantenprodukteVerwalten.setTitle("Lieferantenprodukte verwalten");
-		frmLieferantenprodukteVerwalten.setBounds(100, 100, 633, 410);
+		frmLieferantenprodukteVerwalten.setExtendedState(JFrame.MAXIMIZED_BOTH);	//VOLLBILD Einstellung
+//		frmLieferantenprodukteVerwalten.setBounds(100, 100, 633, 410);
 		frmLieferantenprodukteVerwalten.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
 		frmLieferantenprodukteVerwalten.setIconImage(logo.getImage());

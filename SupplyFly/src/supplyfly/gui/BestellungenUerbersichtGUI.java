@@ -97,7 +97,8 @@ public class BestellungenUerbersichtGUI {
 		
 		frmSupplyfly = new JFrame();
 		frmSupplyfly.setTitle("SupplyFly");
-		frmSupplyfly.setBounds(100, 100, 633, 422);
+		frmSupplyfly.setExtendedState(JFrame.MAXIMIZED_BOTH);	//VOLLBILD Einstellung
+//		frmSupplyfly.setBounds(100, 100, 633, 422);
 		frmSupplyfly.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
 		frmSupplyfly.setIconImage(logo.getImage());
@@ -336,11 +337,11 @@ public class BestellungenUerbersichtGUI {
 		pnl_tab_Lieferanten.setLayout(gl_pnl_tab_Lieferanten);
 		GroupLayout groupLayout = new GroupLayout(frmSupplyfly.getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
+					.addGap(4))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -364,19 +365,19 @@ public class BestellungenUerbersichtGUI {
 		GroupLayout gl_pnl_tab_Bestellung = new GroupLayout(pnl_tab_Bestellung);
 		gl_pnl_tab_Bestellung.setHorizontalGroup(
 			gl_pnl_tab_Bestellung.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnl_tab_Bestellung.createSequentialGroup()
-					.addGroup(gl_pnl_tab_Bestellung.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btn_bestellungenHinzufuegen)
-						.addComponent(scrollPane_Bestellung, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(147, Short.MAX_VALUE))
+				.addComponent(scrollPane_Bestellung, GroupLayout.DEFAULT_SIZE, 747, Short.MAX_VALUE)
+				.addGroup(Alignment.TRAILING, gl_pnl_tab_Bestellung.createSequentialGroup()
+					.addContainerGap(549, Short.MAX_VALUE)
+					.addComponent(btn_bestellungenHinzufuegen)
+					.addGap(14))
 		);
 		gl_pnl_tab_Bestellung.setVerticalGroup(
 			gl_pnl_tab_Bestellung.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnl_tab_Bestellung.createSequentialGroup()
-					.addComponent(scrollPane_Bestellung, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
-					.addGap(13)
+				.addGroup(Alignment.TRAILING, gl_pnl_tab_Bestellung.createSequentialGroup()
+					.addComponent(scrollPane_Bestellung, GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+					.addGap(26)
 					.addComponent(btn_bestellungenHinzufuegen)
-					.addContainerGap())
+					.addGap(16))
 		);
 		
 		table_bestellungen = new JTable();

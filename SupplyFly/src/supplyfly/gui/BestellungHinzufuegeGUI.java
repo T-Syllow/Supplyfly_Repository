@@ -67,7 +67,8 @@ public class BestellungHinzufuegeGUI {
 	private void initialize() {
 		frmNeueBestellung = new JFrame();
 		frmNeueBestellung.setTitle("Bestellung erstellen");
-		frmNeueBestellung.setBounds(100, 100, 750, 410);
+		frmNeueBestellung.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		frmNeueBestellung.setBounds(100, 100, 916, 410);
 		frmNeueBestellung.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
 		frmNeueBestellung.setIconImage(logo.getImage());
@@ -82,7 +83,7 @@ public class BestellungHinzufuegeGUI {
 				new Object[][] {
 				},
 				new String[] {
-					"Produkt", "Menge", "gültig"
+					"Produkt", "Menge", "gï¿½ltig"
 				}
 			) {
 				boolean[] columnEditables = new boolean[] {
@@ -131,7 +132,7 @@ public class BestellungHinzufuegeGUI {
 			ArrayList<String> lieferantenliste = DBAccess.getLieferanten();
 			JComboBox comboBox_Lieferant = new JComboBox(lieferantenliste.toArray());	
 			
-			//(Philipp) benötigt für btnHiinzufügen UND btnBestätigen
+			//(Philipp) benï¿½tigt fï¿½r btnHiinzufï¿½gen UND btnBestï¿½tigen
 			ArrayList<String> produktliste = new ArrayList<>();
 			ArrayList<String> mengenliste = new ArrayList<>();
 			
@@ -139,22 +140,22 @@ public class BestellungHinzufuegeGUI {
 			btn_produktHinzufuegen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 								
-					//'ProduktID' und 'menge' werden dem Textfeld entnommen. Danach der JTable hinzugefuegt. (Philipp) Ebenfalls wird angezeigt, ob das Produkt exisitiert / gelöscht bzw "Gültig" ist
+					//'ProduktID' und 'menge' werden dem Textfeld entnommen. Danach der JTable hinzugefuegt. (Philipp) Ebenfalls wird angezeigt, ob das Produkt exisitiert / gelï¿½scht bzw "Gï¿½ltig" ist
 					String produktID = tf_produktId.getText();
 					String menge = tf_menge.getText();
-					model_table_bestellungErstellen.addRow(new Object[] {produktID,menge, "wird geprüft"}); 
+					model_table_bestellungErstellen.addRow(new Object[] {produktID,menge, "wird geprï¿½ft"}); 
 					
 								
 					//Variable soll Bestellwert fÃ¼r ein Produkt der Bestellung beinhalten. Er wird weitergegeben an das DefaultTableModel.
 					String produktBestellwert = supplyfly.objects.Bestellung.calculateBestellwert(produktID, menge); 
 
-					//alle aktuellen Produkte, die eingekauft werden können - Produkte, die der Lieferant NICHT liefert = Produkte, die bestellt werden können
+					//alle aktuellen Produkte, die eingekauft werden kï¿½nnen - Produkte, die der Lieferant NICHT liefert = Produkte, die bestellt werden kï¿½nnen
 					ArrayList<String> dbProduktliste = DBAccess.getProduktliste();	
 					//Lieferant speichern
 					String gewaehlterLieferant = (String) comboBox_Lieferant.getSelectedItem();
 					String[] geteilterLieferantInNummerUndName = gewaehlterLieferant.split(",");
 					String lieferantenNr = geteilterLieferantInNummerUndName[0];
-					//Nun die Produkte ausselektieren, die der gewählte Lieferant NICHT Liefert
+					//Nun die Produkte ausselektieren, die der gewï¿½hlte Lieferant NICHT Liefert
 					ArrayList<String> dbLieferantProduktliste = new ArrayList<>();
 					ResultSet rs = DBAccess.wasLiefertLieferantMitPreisUndMenge(lieferantenNr);
 					try {
@@ -165,7 +166,7 @@ public class BestellungHinzufuegeGUI {
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}	
-					//Welche Produktliste sind gültige Produkte (DBProduktliste) UND von dem Lieferanten in seiner Produktliste, entferne die, die nicht vom Lieferanten geliefert werden
+					//Welche Produktliste sind gï¿½ltige Produkte (DBProduktliste) UND von dem Lieferanten in seiner Produktliste, entferne die, die nicht vom Lieferanten geliefert werden
 					ArrayList<String> lieferbareProdukte = new ArrayList<>();
 					for (int i = 0; i < dbProduktliste.size(); i++) {
 						if(dbLieferantProduktliste.contains(dbProduktliste.get(i))) {
@@ -175,15 +176,15 @@ public class BestellungHinzufuegeGUI {
 						}
 					}
 					
-					//Notwendig, da die Listen mit jedem mal Speichern neu gefüllt werden
+					//Notwendig, da die Listen mit jedem mal Speichern neu gefï¿½llt werden
 					produktliste.clear();
 					mengenliste.clear();
 					//Diese Schleife speichert jede ProduktID die in der JTable steht in die produktliste!
 					for (int i = 0; i < model_table_bestellungErstellen.getRowCount(); i++) {
 						{
 							if(model_table_bestellungErstellen.getValueAt(i, 0).equals("") || model_table_bestellungErstellen.getValueAt(i, 1).equals("")) {
-								System.out.println("Zeile: " + (i+1) + " Felder dürfen nicht leer sein!");
-								model_table_bestellungErstellen.setValueAt("ungültig", i, 2);
+								System.out.println("Zeile: " + (i+1) + " Felder dï¿½rfen nicht leer sein!");
+								model_table_bestellungErstellen.setValueAt("ungï¿½ltig", i, 2);
 							}			
 							else {
 								if(dbProduktliste.contains(model_table_bestellungErstellen.getValueAt(i, 0))) {
@@ -191,15 +192,15 @@ public class BestellungHinzufuegeGUI {
 										produktliste.add((String)model_table_bestellungErstellen.getValueAt(i, 0));
 										mengenliste.add((String) model_table_bestellungErstellen.getValueAt(i, 1));
 										System.out.println("Zeile: " + (i+1) + " Produkt: " + model_table_bestellungErstellen.getValueAt(i, 0) + " Menge: " + model_table_bestellungErstellen.getValueAt(i, 1) + " als Position zwischengemerkt");
-										model_table_bestellungErstellen.setValueAt("gültig", i, 2);
+										model_table_bestellungErstellen.setValueAt("gï¿½ltig", i, 2);
 									}
 									else {
-										System.out.println("Produkt nicht bei diesem Lieferanten bestellbar! Machen Sie hierfür eine neue Bestellung");
+										System.out.println("Produkt nicht bei diesem Lieferanten bestellbar! Machen Sie hierfï¿½r eine neue Bestellung");
 									}
 								}
 								else {
-									System.out.println("Zeile: " + (i+1) + " Produkt exisitiert nicht, nicht vom Lieferanten lieferbar oder wurde gelöscht");
-									model_table_bestellungErstellen.setValueAt("ungültig", i, 2);
+									System.out.println("Zeile: " + (i+1) + " Produkt exisitiert nicht, nicht vom Lieferanten lieferbar oder wurde gelï¿½scht");
+									model_table_bestellungErstellen.setValueAt("ungï¿½ltig", i, 2);
 								}
 							}
 						}
@@ -212,13 +213,13 @@ public class BestellungHinzufuegeGUI {
 			});
 			
 			
-			//Bestätigen Button (legt eine Bestellung in "Bestellung" an und Je position die einzelnen Positionen in "bestellung-produkt"
+			//Bestï¿½tigen Button (legt eine Bestellung in "Bestellung" an und Je position die einzelnen Positionen in "bestellung-produkt"
 			JButton btn_bestellungBestaetigen = new JButton("Best\u00e4tigen");
 			btn_bestellungBestaetigen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
 					//'bestellart' soll aus checkbox entnommen werden und in String variable gespeichert werden.
-					String bestellart = "Reguläre Bestellung";
+					String bestellart = "Regulï¿½re Bestellung";
 					if(cbox_bestellart.isSelected()) {
 						bestellart = "Eilbestellung";
 					}
@@ -233,7 +234,7 @@ public class BestellungHinzufuegeGUI {
 					String now = LocalDateTime.now().toString();
 					String datum = now;
 					
-					//Speichert erneut die Lieferantennummer - Lieferant darf nicht verändert werdern 
+					//Speichert erneut die Lieferantennummer - Lieferant darf nicht verï¿½ndert werdern 
 					String gewaehlterLieferant = (String) comboBox_Lieferant.getSelectedItem();
 					String[] geteilterLieferantInNummerUndName = gewaehlterLieferant.split(",");
 					String lieferantenNr = geteilterLieferantInNummerUndName[0];
@@ -242,17 +243,17 @@ public class BestellungHinzufuegeGUI {
 					String status = "Bestellung aufgegeben";
 									
 					
-					//'Kommentar' für Bestellung aus textfeld
+					//'Kommentar' fï¿½r Bestellung aus textfeld
 					String kommentar = txt_name_kommentar.getText();
 					
 					
 					// (Philipp) Bestellung direkt in der DB anlegen:
 					if(produktliste.isEmpty() || mengenliste.isEmpty()) {
-						System.out.println("Kann keine leere Bestellung anlegen, fügen Sie Produkte hinzu");
+						System.out.println("Kann keine leere Bestellung anlegen, fï¿½gen Sie Produkte hinzu");
 					}else {
 						Integer aktuelleBestellNr = DBAccess.getAktuelleBestellNr() + 1;
 						DBAccess.legeBestellungInDBan(aktuelleBestellNr, bestellart, mitarbeiterName, datum, status, lieferantenNr, kommentar);
-						//(Philipp) Positionen in DB anlegen - mit Bestellung verknüpft
+						//(Philipp) Positionen in DB anlegen - mit Bestellung verknï¿½pft
 						for (int i = 0; i < produktliste.size(); i++) {
 							DBAccess.legePositionenInDBan(aktuelleBestellNr, produktliste.get(i), mengenliste.get(i));
 						}	
@@ -270,44 +271,47 @@ public class BestellungHinzufuegeGUI {
 						.addGap(19)
 						.addComponent(table_produkteDerBestellung, GroupLayout.PREFERRED_SIZE, 314, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGap(18)
-									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addComponent(lbl_gesamtwert)
-										.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createSequentialGroup()
+								.addGap(18)
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+									.addComponent(lbl_gesamtwert)
+									.addGroup(gl_panel.createSequentialGroup()
+										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 											.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-													.addComponent(lbl_produktID)
-													.addComponent(lbl_Bestellart_1)
-													.addGroup(gl_panel.createSequentialGroup()
-														.addComponent(lbl_menge, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
-														.addPreferredGap(ComponentPlacement.RELATED))
-													.addGroup(gl_panel.createSequentialGroup()
-														.addComponent(lbl_name_2, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
-														.addPreferredGap(ComponentPlacement.RELATED)))
+												.addComponent(lbl_produktID)
+												.addComponent(lbl_Bestellart_1)
 												.addGroup(gl_panel.createSequentialGroup()
-													.addComponent(lbl_Lieferant_1_1, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
+													.addComponent(lbl_menge, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
+													.addPreferredGap(ComponentPlacement.RELATED, 6, Short.MAX_VALUE))
+												.addGroup(gl_panel.createSequentialGroup()
+													.addComponent(lbl_name_2, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
 													.addPreferredGap(ComponentPlacement.RELATED)))
-											.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-												.addGroup(gl_panel.createSequentialGroup()
-													.addGap(69)
-													.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-														.addComponent(cbox_bestellart, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-														.addComponent(lbl_wertGesamtwert)
-														.addComponent(txt_name_kommentar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-													.addContainerGap())
-												.addGroup(gl_panel.createSequentialGroup()
-													.addPreferredGap(ComponentPlacement.RELATED)
-													.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-														.addComponent(tf_menge, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
-														.addComponent(tf_produktId, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
-														.addComponent(comboBox_Lieferant, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE))
-													.addGap(46))))))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(btn_bestellungBestaetigen)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btn_zurueck)))
+											.addGroup(gl_panel.createSequentialGroup()
+												.addComponent(lbl_Lieferant_1_1, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED)))
+										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+											.addGroup(gl_panel.createSequentialGroup()
+												.addGap(0)
+												.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+													.addComponent(tf_menge, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
+													.addComponent(tf_produktId, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
+													.addGroup(gl_panel.createSequentialGroup()
+														.addComponent(comboBox_Lieferant, 0, 99, Short.MAX_VALUE)
+														.addGap(64)))
+												.addGap(46))
+											.addGroup(gl_panel.createSequentialGroup()
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+													.addComponent(cbox_bestellart, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
+													.addGroup(gl_panel.createSequentialGroup()
+														.addGap(69)
+														.addComponent(lbl_wertGesamtwert))
+													.addComponent(txt_name_kommentar, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE))
+												.addGap(46)))))
+								.addGap(0)
+								.addComponent(btn_bestellungBestaetigen)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(btn_zurueck))
 							.addGroup(gl_panel.createSequentialGroup()
 								.addPreferredGap(ComponentPlacement.RELATED)
 								.addComponent(btn_produktHinzufuegen)
@@ -316,7 +320,7 @@ public class BestellungHinzufuegeGUI {
 			gl_panel.setVerticalGroup(
 				gl_panel.createParallelGroup(Alignment.LEADING)
 					.addGroup(gl_panel.createSequentialGroup()
-						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 							.addGroup(gl_panel.createSequentialGroup()
 								.addGap(31)
 								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
@@ -337,10 +341,10 @@ public class BestellungHinzufuegeGUI {
 									.addComponent(lbl_Bestellart_1)
 									.addComponent(cbox_bestellart))
 								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addGroup(gl_panel.createParallelGroup(Alignment.CENTER)
 									.addComponent(lbl_name_2)
 									.addComponent(txt_name_kommentar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+								.addGap(30)
 								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 									.addComponent(lbl_gesamtwert)
 									.addComponent(lbl_wertGesamtwert)))
