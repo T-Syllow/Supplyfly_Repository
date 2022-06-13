@@ -56,23 +56,28 @@ public class DBAccess {
 		
 		try {
 			Statement stmt1 = conn.createStatement();
-			ResultSet rs1 = stmt1.executeQuery("SELECT BestellNr, Bestellart, Bestellwert, Mitarbeiter, Datum, Status, Produkt FROM bestellung");
+			ResultSet rs1 = stmt1.executeQuery("SELECT db2.bestellung.BestellNr, db2.bestellung.Bestellart, db2.bestellung.Bestellwert,"
+					+ " db2.bestellung.Mitarbeiter, db2.bestellung.Datum, db2.bestellung.Status, db2.bestellung.bestellwert,"
+					+ " db2.bestellung_produkt.produktID, db2.bestellung_produkt.Menge\n"
+					+ "FROM db2.bestellung INNER JOIN db2.bestellung_produkt ON db2.bestellung.BestellNr = db2.bestellung_produkt.BestellNr\n"
+					+ "WHERE db2.bestellung.BestellNr = db2.bestellung_produkt.BestellNr");
 			
 			
 			
 			
 			while (rs1.next()) {
-				Integer bestellNr = rs1.getInt("BestellNr");
-				String bestellArt = rs1.getString("Bestellart");
-				String bestellwert = getProduktpreis(rs1.getString("Produkt"));
-				String mitarbeiter = rs1.getString("Mitarbeiter");
-				String datum = rs1.getString("Datum");
-				String status = rs1.getString("Status");
-				String produkte = rs1.getString("Produkt");
-				ArrayList<String> produktNamen = compareProductID(produkte);
+				Integer bestellNr = rs1.getInt("bestellung.BestellNr");
+				String bestellArt = rs1.getString("bestellung.Bestellart");
+				//Bestellwert muss beim Anlegen einer Bestellung errechnet und in 'db2.bestellung.bestellwert' gespeichert werden.
+				String bestellwert = rs1.getString("bestellung.Bestellwert"); // getBestellwert(rs1.getString("bestellung_produkt.Menge"), rs1.getString("bestellung_produkt"));
+				String mitarbeiter = rs1.getString("bestellung.Mitarbeiter");
+				String datum = rs1.getString("bestellung.Datum");
+				String status = rs1.getString("bestellung.Status");
+				String produkt = rs1.getString("bestellung_produkt.ProduktID");
+				String menge = rs1.getString("bestellung_produkt.Menge");
 				
 				
-				m.addRow(new Object[] {bestellNr, bestellArt, bestellwert, mitarbeiter, datum, status, produktNamen});
+				m.addRow(new Object[] {bestellNr, bestellArt, bestellwert, mitarbeiter, datum, status, produkt, menge});
 			}
 			System.out.println("Bestellungen erfolgreich der Tabelle hinzugef\u00FCgt");
 		} catch (Exception e) {
@@ -191,10 +196,12 @@ public class DBAccess {
 			gesamtPreisAlsString = String.valueOf(gesamtpreis);
 		
 			} catch (Exception e) {
-				System.out.println(e);
+				e.printStackTrace();
 			}
 		return gesamtPreisAlsString;
 	}
+	
+	
 //	/*
 //	 * Diese Funktion berechnet den Produktpreis bzw. Gesamtpreis einer Bestellung.
 //	 * Sie soll IMMER funktionieren, auch wenn in der Datenbank lief_produkt PRODUKTIDï¿½s MEHRMALS vorkommt!
@@ -222,27 +229,31 @@ public class DBAccess {
 	/*
 	 * Diese Methode uebertraegt alle Attribute einer ausgewÃ¤hlten Bestellung anhand der bestellNr in eine beliebige JTable ein.
 	 */
-	public static void getSelectedBestellung(String bestellNr, DefaultTableModel m) {
+	public static void getSelectedBestellung(String bestellNr, String produkt, DefaultTableModel m) {
 		try {
 		Statement stmt1 = conn.createStatement();
-		ResultSet rs1 = stmt1.executeQuery("SELECT BestellNr, Bestellart, Bestellwert, Mitarbeiter, Datum, Status, Produkt FROM bestellung WHERE BestellNr='"+bestellNr+"'");
+		ResultSet rs1 = stmt1.executeQuery("SELECT db2.bestellung.BestellNr, db2.bestellung.Bestellart, db2.bestellung.Bestellwert, db2.bestellung.Mitarbeiter,"
+				+ " db2.bestellung.Datum, db2.bestellung.Status, db2.bestellung_produkt.ProduktID, db2.bestellung_produkt.Menge FROM bestellung \n"
+				+ " INNER JOIN db2.bestellung_produkt ON db2.bestellung_produkt.BestellNr = db2.bestellung.BestellNr \n"
+				+ " WHERE db2.bestellung.BestellNr='"+bestellNr+"' AND db2.bestellung_produkt.ProduktID ='"+produkt+"'");
 		
 		
 		while(rs1.next()) {
 		String bestellNrData = bestellNr;
-		String bestellArt = rs1.getString("Bestellart");
-		String bestellwert = getProduktpreis(rs1.getString("Produkt"));
-		String mitarbeiter = rs1.getString("Mitarbeiter");
-		String datum = rs1.getString("Datum");
-		String status = rs1.getString("Status");
-		String produktNummern = rs1.getString("Produkt");
+		String bestellArt = rs1.getString("bestellung.Bestellart");
+		String bestellwert = rs1.getString("bestellung.bestellwert");
+		String mitarbeiter = rs1.getString("bestellung.mitarbeiter");
+		String datum = rs1.getString("bestellung.datum");
+		String status = rs1.getString("bestellung.status");
+		String produktID = rs1.getString("bestellung_produkt.ProduktID");
+		String menge = rs1.getString("bestellung_produkt.Menge");
 		
-		m.addRow(new Object[] {bestellNrData, bestellArt, bestellwert, mitarbeiter, datum, status, produktNummern});
+		m.addRow(new Object[] {bestellNrData, bestellArt, bestellwert, mitarbeiter, datum, status, produktID, menge});
 		}
 		
 		} 
 		catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	
@@ -493,9 +504,10 @@ public class DBAccess {
 		try{
 			Statement stmt = conn.createStatement();
 			
-			Integer rs1 = stmt.executeUpdate("UPDATE bestellung SET BestellNr='"+b.getBestellnummer()+"',Bestellart='"+b.getBestellart()+"',Bestellwert"
-					+ "='"+b.getBestellwert()+"',Mitarbeiter='"+b.getName()+"',Datum='"+b.getDatum()+"',Status='"+b.getStatus()+"',Produkt='"
-					+b.convertArrayListToString(b.getProdukte())+"' WHERE BestellNr='"+b.getBestellnummer()+"'");
+			Integer rs1 = stmt.executeUpdate("UPDATE db2.bestellung,db2.bestellung_produkt SET db2.bestellung.BestellNr='"+b.getBestellnummer()+"',db2.bestellung.Bestellart='"+b.getBestellart()+""
+					+ "',db2.bestellung.Bestellwert='"+b.getBestellwert()+"',db2.bestellung.Mitarbeiter='"+b.getName()+"',db2.bestellung.Datum='"+b.getDatum()+
+					"',db2.bestellung.Status='"+b.getStatus()+"',db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"', db2.bestellung_produkt.Menge='"+b.getMenge()+"'"
+					+" WHERE db2.bestellung.BestellNr='"+b.getBestellnummer()+"' AND db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"'");
 			
 			//Das soll gemacht werden: Der Name soll von "Jordan" -> "Gordon" geÃ¤ndert werden & dann in die DB 'bestellung' ueberschrieben werden.
 			//							Die Bestellung 2002 soll also vom Mitarbeiter ueberarbeitet werden..
@@ -518,7 +530,7 @@ public class DBAccess {
 	
 	
 	//--------------------------Philipps Zeug (Versuch ohne Objekte, eventuell einfacher--------------------------------------------------------------------------
-	//(Philipp) Methode, die ein StringArray der Lieferanten ausgibt (um sie später in einer ComboBox auszuwählen
+	//(Philipp) Methode, die ein StringArray der Lieferanten ausgibt (um sie spï¿½ter in einer ComboBox auszuwï¿½hlen
 		public static ArrayList<String> getLieferanten(){
 			ArrayList<String> lieferantenliste = new ArrayList<>();	
 			try {
@@ -537,7 +549,7 @@ public class DBAccess {
 			return lieferantenliste;
 		}
 		
-		//(Philipp) Methode, die aus der DB die höchste Bestellnummer holt
+		//(Philipp) Methode, die aus der DB die hï¿½chste Bestellnummer holt
 		public static Integer getAktuelleBestellNr() {
 			ArrayList<Integer> nummern = new ArrayList<Integer>();
 			Integer maxNummer = 0; 
@@ -578,7 +590,7 @@ public class DBAccess {
 			};
 		}
 
-		//(Philipp) Legt Positionen aus der GUI in der DB an (wird mit Bestellung über Fremdschlüssel) verknüpft
+		//(Philipp) Legt Positionen aus der GUI in der DB an (wird mit Bestellung ï¿½ber Fremdschlï¿½ssel) verknï¿½pft
 		public static void legePositionenInDBan(Integer aktuelleBestellNr, String produktID, String menge) {
 			System.out.println("Position wird angelegt...");
 			try{
@@ -593,7 +605,7 @@ public class DBAccess {
 		}
 			
 		
-		//(Philipp) Gibt ArrayList aller gültigen ProduktID´s zurück
+		//(Philipp) Gibt ArrayList aller gï¿½ltigen ProduktIDï¿½s zurï¿½ck
 		public static ArrayList<String> getProduktliste(){
 			ArrayList<String> dbProduktliste = new ArrayList<>();
 			try {
@@ -613,7 +625,7 @@ public class DBAccess {
 			return dbProduktliste;
 		}
 
-		//(Philipp) Gibt in einem ResultSet alle Produkte mit Preis zurück, die der übergebene Lieferant liefert
+		//(Philipp) Gibt in einem ResultSet alle Produkte mit Preis zurï¿½ck, die der ï¿½bergebene Lieferant liefert
 		public static ResultSet wasLiefertLieferantMitPreisUndMenge(String lieferantenNr){
 			ResultSet lieferantenMitPreis = null;
 			try {

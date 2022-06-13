@@ -34,12 +34,12 @@ public class BestellungBearbeitenGUI {
 	/**
 	 * Launch the application.
 	 */
-	public void loadBestellungBearbeitenGUI(String bestellNr) {
+	public void loadBestellungBearbeitenGUI(String bestellNr, String produktID) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {	
 					//er kriegt hier als Parameter den eigenen JFrame des Fensters mit! Nicht der JFrame von BestellungenUebersichtGUI.java
-					BestellungBearbeitenGUI window = new BestellungBearbeitenGUI(bestellNr);
+					BestellungBearbeitenGUI window = new BestellungBearbeitenGUI(bestellNr, produktID);
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -52,14 +52,14 @@ public class BestellungBearbeitenGUI {
 	/**
 	 * Create the application.
 	 */
-	public BestellungBearbeitenGUI(String bestellNr) {
-		initialize(bestellNr);
+	public BestellungBearbeitenGUI(String bestellNr, String produktID) {
+		initialize(bestellNr,produktID);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(String bestellNr) {
+	private void initialize(String bestellNr, String produktID) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 792, 527);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -75,11 +75,11 @@ public class BestellungBearbeitenGUI {
 				new Object[][] {
 				},
 				new String[] {
-					"BestellNr", "Bestellart", "Bestellwert", "Mitarbeiter", "Datum", "Status", "Produkte"
+					"BestellNr", "Bestellart", "Bestellwert", "Mitarbeiter", "Datum", "Status", "Produkte", "Menge"
 				}
 			) {
 				boolean[] columnEditables = new boolean[] {
-					false, true, true, true, true, true, true
+					false, true, true, true, true, true, true, true
 				};
 				public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];
@@ -89,9 +89,9 @@ public class BestellungBearbeitenGUI {
 			DefaultTableModel model_table_Bestellungen = (DefaultTableModel) BestellungenUebersicht.getModel();
 			try {
 				// Schreibe passende Methode, die die Produkte der angeklickten Bestellung in die JTable lädt, in : 
-				DBAccess.getSelectedBestellung(bestellNr, model_table_Bestellungen);
+				DBAccess.getSelectedBestellung(bestellNr, produktID, model_table_Bestellungen);
 			} catch (Exception e1) {
-				System.out.println(e1);
+				e1.printStackTrace();
 			}
 		
 		
@@ -113,7 +113,7 @@ public class BestellungBearbeitenGUI {
 		
 		JLabel lbl_targetStatus = new JLabel(DBAccess.getBestellInfo(bestellNr, "Status"));
 		
-		JLabel lbl_targetBestellwert = new JLabel(DBAccess.getProduktpreis(DBAccess.getBestellInfo(bestellNr, "Produkt")));
+		JLabel lbl_targetBestellwert = new JLabel(DBAccess.getBestellInfo(bestellNr, "Bestellwert"));
 		
 		JButton btn_zurueck = new JButton("Zurueck");
 		btn_zurueck.addActionListener(new ActionListener() {
@@ -132,7 +132,8 @@ public class BestellungBearbeitenGUI {
 				String mitarbeiter = "";
 				String datum = "";
 				String status = "";
-				ArrayList<Integer> produkte = new ArrayList<>();
+				Integer produkt = 404;
+				Double menge = 0.0;
 				;
 				try {				
 					
@@ -142,10 +143,12 @@ public class BestellungBearbeitenGUI {
 					mitarbeiter = model_table_Bestellungen.getValueAt(0, 3).toString();
 					datum = model_table_Bestellungen.getValueAt(0, 4).toString();
 					status = model_table_Bestellungen.getValueAt(0, 5).toString();
-					produkte = DBAccess.getProduktIdsAsIntegerArrayList(model_table_Bestellungen.getValueAt(0, 6).toString());				
+					produkt = Integer.valueOf(model_table_Bestellungen.getValueAt(0, 6).toString());
+					menge = Double.valueOf(model_table_Bestellungen.getValueAt(0, 7).toString());
+					
 					
 					//Lege neue Instanz von Bestellung an.
-					supplyfly.objects.Bestellung bestellungEdit = new Bestellung(bestellNrBestellung, bestellart, bestellwert, mitarbeiter, datum, status, produkte);
+					supplyfly.objects.Bestellung bestellungEdit = new Bestellung(bestellNrBestellung, bestellart, bestellwert, mitarbeiter, datum, status, produkt, menge);
 					DBAccess.ueberschreibeDatenInDatabase(bestellungEdit,model_table_Bestellungen);	
 					System.out.println("Die Bestellung mit BestellNr. "+bestellNr+" wurde ueberschrieben: 'bestellung = neue '"+bestellungEdit.toString());
 					JOptionPane popUpFenster = new JOptionPane();

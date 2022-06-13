@@ -10,20 +10,22 @@ public class Bestellung {
 	private String name;
 	private String datum;
 	private String status;
-	private ArrayList<Integer> produkte;
+	private Integer produkt;
+	private Double menge;
 	
 	public Bestellung() {
 		
 	}
 	
-	public Bestellung(Integer bestellnummer, String bestellart, Double bestellwert, String name, String datum, String status, ArrayList<Integer> produkte) {
+	public Bestellung(Integer bestellnummer, String bestellart, Double bestellwert, String name, String datum, String status, Integer produkt, Double menge) {
 		this.bestellnummer=bestellnummer;
 		this.bestellart = bestellart;
 		this.bestellwert = bestellwert;
 		this.name = name;
 		this.datum = datum;
 		this.status = status;
-		this.produkte = produkte;
+		this.produkt = produkt;
+		this.menge = menge;
 	}
 
 	//Essentiell, damit ProduktIDs wieder richtig abespeichert werden. => naemlich als String..in der Form "1002,1003,1005,..."
@@ -44,6 +46,14 @@ public class Bestellung {
 		return "2000";
 	}
 	
+	public Double getMenge() {
+		return menge;
+	}
+
+	public void setMenge(Double menge) {
+		this.menge = menge;
+	}
+	
 	public String getStatus() {
 		return status;
 	}
@@ -52,12 +62,12 @@ public class Bestellung {
 		this.status = status;
 	}
 
-	public ArrayList<Integer> getProdukte() {
-		return produkte;
+	public Integer getProdukt() {
+		return produkt;
 	}
 
-	public void setProdukte(ArrayList<Integer> produkte) {
-		this.produkte = produkte;
+	public void setProdukt(Integer produkte) {
+		this.produkt = produkte;
 	}
 
 	public Integer getBestellnummer() {
@@ -103,7 +113,7 @@ public class Bestellung {
 	@Override
 	public String toString() {
 		return "Bestellung [bestellnummer=" + bestellnummer + ", bestellart=" + bestellart + ", bestellwert="
-				+ bestellwert + ", name=" + name + ", datum=" + datum + ", status=" + status + ", produkte=" + produkte
+				+ bestellwert + ", name=" + name + ", datum=" + datum + ", status=" + status + ", produkte=" + produkt
 				+ "]";
 	}
 	

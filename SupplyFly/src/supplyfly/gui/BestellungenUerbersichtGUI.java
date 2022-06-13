@@ -384,11 +384,11 @@ public class BestellungenUerbersichtGUI {
 			new Object[][] {
 			},
 			new String[] {
-				"BestellNr", "Bestellart", "Bestellwert", "Mitarbeiter", "Datum", "Status", "Produkte"
+				"BestellNr", "Bestellart", "Bestellwert", "Mitarbeiter", "Datum", "Status", "Produkt","Menge"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false, false
+				false, false, false, false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -405,12 +405,15 @@ public class BestellungenUerbersichtGUI {
 					JTable clickedRow = (JTable) e.getSource();
 					int zeile = clickedRow.getSelectedRow();
 					String bestellNr;
+					String produktID;
 					Integer bestellNrInt = (Integer) table_bestellungen.getValueAt(zeile, 0);
+					Integer produktIDInt = Integer.valueOf(table_bestellungen.getValueAt(zeile, 6).toString());
 					bestellNr = String.valueOf(bestellNrInt);
+					produktID = String.valueOf(produktIDInt);
 					
-					BestellungBearbeitenGUI bestellungBearbeiten = new BestellungBearbeitenGUI(bestellNr);
+					BestellungBearbeitenGUI bestellungBearbeiten = new BestellungBearbeitenGUI(bestellNr,produktID);
 					frmSupplyfly.setVisible(false);
-					bestellungBearbeiten.loadBestellungBearbeitenGUI(bestellNr);
+					bestellungBearbeiten.loadBestellungBearbeitenGUI(bestellNr,produktID);
 					
 					model_table_Bestellungen.fireTableDataChanged();
 				}
