@@ -17,6 +17,7 @@ import java.awt.Taskbar;
 import javax.swing.JTextField;
 
 import supplyfly.datenbankzugriff.DBAccess;
+import supplyfly.objects.Einkaeufer;
 import supplyfly.objects.Lieferant;
 import supplyfly.objects.Produkte;
 
@@ -25,7 +26,8 @@ import javax.print.DocFlavor.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import java.awt.Font;
@@ -132,8 +134,23 @@ public class LoginGUI {
 				String username = txtField_username.getText();
 				String password = new String(pwdField_password.getPassword());
 				DBAccess db = new DBAccess();
+				Integer userID;
+				String realUsername;
+				String nutzerRolle;
 				if(db.checkForLogin(username, password) == true) {
-					BestellungenUerbersichtGUI bestellungsWindow = new BestellungenUerbersichtGUI();
+					try {
+					Statement stmt2 = DBAccess.getConn().createStatement();
+					ResultSet rs1 = stmt2.executeQuery("SELECT * FROM nutzer WHERE nutzername='"+username+"' AND nutzerpwd='"+password+"'");
+					while(rs1.next()) {
+						userID = rs1.getInt("idnutzer");
+						realUsername = rs1.getString("nutzername");
+						nutzerRolle = rs1.getString("nutzerrolle");
+						BestellungenUerbersichtGUI bestellungsWindow = new BestellungenUerbersichtGUI(realUsername, userID, nutzerRolle);
+					}
+					
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 					//bestellungsWindow.main(null);
 					frmSupplyfly.dispose();
 					

@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import supplyfly.objects.Bestellung;
+import supplyfly.objects.Einkaeufer;
 import supplyfly.objects.Lieferant;
 import supplyfly.objects.Produkte;
 
@@ -322,7 +323,7 @@ public class DBAccess {
 	
 	//Getters und Setters
 
-	public Connection getConn() {
+	public static Connection getConn() {
 		return conn;
 	}
 

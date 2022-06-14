@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Insets;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,6 +34,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
 import supplyfly.datenbankzugriff.DBAccess;
+import supplyfly.objects.Einkaeufer;
 
 import javax.swing.JTextField;
 import java.awt.Color;
@@ -55,6 +58,7 @@ public class BestellungenUerbersichtGUI {
 	private JTable table_2;
 	private JTable table_1;
 	private JTable table_bestellungen;
+	Einkaeufer aktuellerNutzer;
 
 	/**
 	 * Launch the application.
@@ -78,6 +82,20 @@ public class BestellungenUerbersichtGUI {
 	 * Create the application.
 	 * @throws Exception 
 	 */
+	
+	//Nach Login wird dieser Konstruktor aufgerufen, um den aktuellen Nutzer zu erkennen.
+	public BestellungenUerbersichtGUI(String realUsername, Integer nutzerID, String nutzerRolle) {
+		aktuellerNutzer = new Einkaeufer(realUsername, nutzerID, nutzerRolle);
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		initialize();
+	}
+	
 	public BestellungenUerbersichtGUI(){
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -402,29 +420,28 @@ public class BestellungenUerbersichtGUI {
 		table_bestellungen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				//prueft Rechte des eingeloggten Nutzers.
 				if(e.getClickCount()==2) {
-					JTable clickedRow = (JTable) e.getSource();
-					int zeile = clickedRow.getSelectedRow();
-					String bestellNr;
-					String produktID;
-					Integer bestellNrInt = (Integer) table_bestellungen.getValueAt(zeile, 0);
-					Integer produktIDInt = Integer.valueOf(table_bestellungen.getValueAt(zeile, 6).toString());
-					bestellNr = String.valueOf(bestellNrInt);
-					produktID = String.valueOf(produktIDInt);
+					if(aktuellerNutzer.getNutzerRolle().equals("MitarbeiterBeschaffung") || aktuellerNutzer.getNutzerRolle().equals("LeiterBeschaffung")) {
+						JTable clickedRow = (JTable) e.getSource();
+						int zeile = clickedRow.getSelectedRow();
+						String bestellNr;
+						String produktID;
+						Integer bestellNrInt = (Integer) table_bestellungen.getValueAt(zeile, 0);
+						Integer produktIDInt = Integer.valueOf(table_bestellungen.getValueAt(zeile, 6).toString());
+						bestellNr = String.valueOf(bestellNrInt);
+						produktID = String.valueOf(produktIDInt);
 					
-					BestellungBearbeitenGUI bestellungBearbeiten = new BestellungBearbeitenGUI(bestellNr,produktID);
-					frmSupplyfly.setVisible(false);
-					bestellungBearbeiten.loadBestellungBearbeitenGUI(bestellNr,produktID);
+						BestellungBearbeitenGUI bestellungBearbeiten = new BestellungBearbeitenGUI(bestellNr,produktID);
+						frmSupplyfly.setVisible(false);
+						bestellungBearbeiten.loadBestellungBearbeitenGUI(bestellNr,produktID);
 					
-					model_table_Bestellungen.fireTableDataChanged();
+						model_table_Bestellungen.fireTableDataChanged();
+					} else {
+						JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT!*\nNur die Beschaffungsabteilung hat Zugriff auf die Bearbeitung von Bestellungen.");
+						
+					}
 				}
-//				JTable clickedRow = (JTable) me.getSource();
-//				int zeile = clickedRow.getSelectedRow();
-//				int produktID = (int) table_2.getValueAt(zeile, 0);
-////				model.setRowCount(0);
-//				ProduktBearbeitenGUI2 produktBearbeiten = new ProduktBearbeitenGUI2(produktID);
-//				
-//				model.fireTableDataChanged();
 			}
 		});
 		scrollPane_Bestellung.setViewportView(table_bestellungen);

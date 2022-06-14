@@ -2,16 +2,28 @@ package supplyfly.objects;
 
 public class Einkaeufer {
 	
-	private String nutzername;
 	private Integer nutzerId;
+	private String nutzername;
+	private String nutzerRolle;
 	
-	public Einkaeufer(String nutzername, Integer nutzerId) {
+	public Einkaeufer(String nutzername, Integer nutzerId, String nutzerRolle) {
 		this.nutzername = nutzername;
 		this.nutzerId = nutzerId;
+		this.nutzerRolle = nutzerRolle;
 	}
 	
 	
 	//Getters & Setters
+
+	public String getNutzerRolle() {
+		return nutzerRolle;
+	}
+
+
+	public void setNutzerRolle(String nutzerRolle) {
+		this.nutzerRolle = nutzerRolle;
+	}
+
 
 	public String getNutzername() {
 		return nutzername;
