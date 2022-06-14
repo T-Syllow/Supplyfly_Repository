@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 
 import supplyfly.datenbankzugriff.DBAccess;
 import supplyfly.objects.Bestellung;
+import supplyfly.objects.Einkaeufer;
 
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
@@ -37,6 +38,7 @@ public class BestellungHinzufuegeGUI {
 	private JTextField txt_name_kommentar;
 	private JTextField tf_produktId;
 	private JTextField tf_menge;
+	private Einkaeufer aktuellerNutzer;
 
 	/**
 	 * Launch the application.
@@ -53,7 +55,22 @@ public class BestellungHinzufuegeGUI {
 			}
 		});
 	}
-
+	
+	//(TOMMY) Neuer Konstruktor für das Rechtesystem. Hier wird der Parameter aktuellerNutzer nur fuer 'MitarbeiterLager' gebraucht,
+	//(TOMMY) weil MitarbeiterLager nur Bestellungen bis zu einem bestimmten Preis aufgeben duerfen!
+	public void loadBestellungHinzufuegenGUI(Einkaeufer aktuellerNutzer) {
+		this.aktuellerNutzer = aktuellerNutzer;
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					BestellungHinzufuegeGUI window = new BestellungHinzufuegeGUI();
+					window.frmNeueBestellung.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	/**
 	 * Create the application.
 	 */

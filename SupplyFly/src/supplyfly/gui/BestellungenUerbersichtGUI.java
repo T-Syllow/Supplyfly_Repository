@@ -374,8 +374,15 @@ public class BestellungenUerbersichtGUI {
 		
 		JButton btn_bestellungenHinzufuegen = new JButton("Bestellung hinzuf\u00FCgen");
 		btn_bestellungenHinzufuegen.addActionListener(e -> {
+			if(aktuellerNutzer.getNutzerRolle().equals("MitarbeiterBeschaffung") || aktuellerNutzer.getNutzerRolle().equals("LeiterBeschaffung")) {
 			BestellungHinzufuegeGUI gui = new BestellungHinzufuegeGUI();
 			gui.loadBestellungHinzufuegenGUI();
+			} else if (aktuellerNutzer.getNutzerRolle().equals("MitarbeiterLager")){
+			BestellungHinzufuegeGUI gui = new BestellungHinzufuegeGUI();
+			gui.loadBestellungHinzufuegenGUI();
+			} else {
+				JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT!*\nNur die Beschaffungsabteilung hat Zugriff auf die Bearbeitung von Bestellungen.");
+			}
 		});
 		
 		JScrollPane scrollPane_Bestellung = new JScrollPane();
@@ -432,9 +439,9 @@ public class BestellungenUerbersichtGUI {
 						bestellNr = String.valueOf(bestellNrInt);
 						produktID = String.valueOf(produktIDInt);
 					
-						BestellungBearbeitenGUI bestellungBearbeiten = new BestellungBearbeitenGUI(bestellNr,produktID);
+						BestellungBearbeitenGUI bestellungBearbeiten = new BestellungBearbeitenGUI(bestellNr,produktID,aktuellerNutzer);
 						frmSupplyfly.setVisible(false);
-						bestellungBearbeiten.loadBestellungBearbeitenGUI(bestellNr,produktID);
+						bestellungBearbeiten.loadBestellungBearbeitenGUI(bestellNr,produktID,aktuellerNutzer);
 					
 						model_table_Bestellungen.fireTableDataChanged();
 					} else {

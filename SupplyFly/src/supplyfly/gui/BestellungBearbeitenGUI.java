@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 import supplyfly.datenbankzugriff.DBAccess;
 import supplyfly.objects.Bestellung;
+import supplyfly.objects.Einkaeufer;
 
 import javax.swing.JScrollPane;
 import java.awt.Font;
@@ -30,16 +31,18 @@ public class BestellungBearbeitenGUI {
 
 	private JFrame frame;
 	private JTable BestellungenUebersicht;
+	private Einkaeufer aktuellerNutzer;
 
 	/**
 	 * Launch the application.
 	 */
-	public void loadBestellungBearbeitenGUI(String bestellNr, String produktID) {
+	public void loadBestellungBearbeitenGUI(String bestellNr, String produktID, Einkaeufer aktuellerNutzer) {
+		this.aktuellerNutzer = aktuellerNutzer;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {	
 					//er kriegt hier als Parameter den eigenen JFrame des Fensters mit! Nicht der JFrame von BestellungenUebersichtGUI.java
-					BestellungBearbeitenGUI window = new BestellungBearbeitenGUI(bestellNr, produktID);
+					BestellungBearbeitenGUI window = new BestellungBearbeitenGUI(bestellNr, produktID, aktuellerNutzer);
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -52,14 +55,14 @@ public class BestellungBearbeitenGUI {
 	/**
 	 * Create the application.
 	 */
-	public BestellungBearbeitenGUI(String bestellNr, String produktID) {
-		initialize(bestellNr,produktID);
+	public BestellungBearbeitenGUI(String bestellNr, String produktID, Einkaeufer aktuellerNutzer) {
+		initialize(bestellNr,produktID,aktuellerNutzer);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(String bestellNr, String produktID) {
+	private void initialize(String bestellNr, String produktID, Einkaeufer aktuellerNutzer) {
 		frame = new JFrame();
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 //		frame.setBounds(100, 100, 792, 527);
@@ -121,7 +124,7 @@ public class BestellungBearbeitenGUI {
 		btn_zurueck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				BestellungenUerbersichtGUI bestellungenUerbersichtGUI = new BestellungenUerbersichtGUI();
+				BestellungenUerbersichtGUI bestellungenUerbersichtGUI = new BestellungenUerbersichtGUI(aktuellerNutzer.getNutzername(), aktuellerNutzer.getNutzerId(), aktuellerNutzer.getNutzerRolle());
 			}
 		});
 		
