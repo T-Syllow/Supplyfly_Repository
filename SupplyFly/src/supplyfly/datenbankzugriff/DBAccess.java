@@ -471,6 +471,24 @@ public class DBAccess {
 	/*
 	 * HIER BRAUCHEN WIR: ein 
 	 */
+	
+	public static Double getBestellwerteFromDB (Bestellung b) {
+		Double gesamtBestellWert = 0.0;
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT zwischenBestellwert FROM bestellung_produkt WHERE BestellNr='"+b.getBestellnummer()+"'");
+			
+			while(rs.next()) {
+				gesamtBestellWert += rs.getDouble("zwischenBestellwert");
+			}
+		} catch (Exception e) {
+			System.out.println("gesamtBestellwert= "+gesamtBestellWert);
+			e.printStackTrace();
+		}
+		return gesamtBestellWert;
+	}
+
+	
 	public static void ueberschreibeDatenInDatabase(Bestellung b, DefaultTableModel m) {
 		try{
 			Statement stmt = conn.createStatement();
@@ -486,6 +504,9 @@ public class DBAccess {
 			Integer rs2 = stmt.executeUpdate("UPDATE db2.bestellung_produkt SET db2.bestellung_produkt.zwischenBestellwert='"+b.getBestellwert()+"'"
 					+ ",db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"', db2.bestellung_produkt.Menge='"+b.getMenge()+"'"
 					+" WHERE (db2.bestellung_produkt.BestellNr='"+b.getBestellnummer()+"' AND db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"')");	//AND db2.bestellung.lieferantenNR='"+String.valueOf(b.getLieferantenNr())+"'"
+			
+			Integer rs3 = stmt.executeUpdate("UPDATE bestellung SET Bestellwert='"+getBestellwerteFromDB(b)+"' "
+					+ "WHERE BestellNr='"+b.getBestellnummer()+"'");
 			
 //			Integer rs2 = stmt.executeUpdate("UPDATE db2.bestellung,db2.bestellung_produkt SET db2.bestellung_produkt.BestellNr='"+b.getBestellnummer()+"',db2.bestellung.Bestellart='"+b.getBestellart()+""
 //					+ "',db2.bestellung_produkt.zwischenBestellwert='"+b.getBestellwert()+"',db2.bestellung.Mitarbeiter='"+b.getName()+"',db2.bestellung.Datum='"+b.getDatum()+
@@ -638,7 +659,7 @@ public class DBAccess {
 			return preis;
 		}
 		
-		//(Philipp) Produkt löschen (nicht richtig löschen, nur "nicht sichtbar" setzten
+		//(Philipp) Produkt lï¿½schen (nicht richtig lï¿½schen, nur "nicht sichtbar" setzten
 		public static void loescheProdukt(String id) {
 			try {
 				Statement stmt = conn.createStatement();
@@ -649,7 +670,7 @@ public class DBAccess {
 			}	
 		}
 		
-		//(Philipp) CSV für Bestellung anlegen
+		//(Philipp) CSV fï¿½r Bestellung anlegen
 //		public static boolean erstelleBestellungsCSV(String bestellID) {
 //			boolean geklappt = false;
 //			
