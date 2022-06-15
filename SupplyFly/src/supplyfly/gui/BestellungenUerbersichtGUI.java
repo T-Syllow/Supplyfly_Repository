@@ -430,7 +430,23 @@ public class BestellungenUerbersichtGUI {
 		JButton btn_bestellungLoeschen = new JButton("Bestellung löschen");
 		btn_bestellungLoeschen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(aktuellerNutzer.getNutzerRolle().equals("LeiterBeschaffung")) {
+					try {
+						Integer row = table_bestellungen.getSelectedRow();
+						Integer bestellNr = Integer.valueOf(model_table_Bestellungen.getValueAt(row, 0).toString());
+			
+						//loescht die ausgewaehlte Bestellung zuerst in DB 'bestellung_produkt' und danach in DB 'bestellung'
+						DBAccess.loescheBestellungInDB(bestellNr);
+						JOptionPane.showMessageDialog(btn_bestellungLoeschen, "Die Bestellung "+bestellNr+" wurde gelöscht!");
+						refreshTableBestellungen(model_table_Bestellungen);
+					} catch (ArrayIndexOutOfBoundsException aoe) {
+						JOptionPane.showMessageDialog(frmSupplyfly, "Wählen Sie zuerst eine Bestellung in der Tabelle aus!");
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(frmSupplyfly, "Wählen Sie zuerst eine Bestellung in der Tabelle aus!");
+					}
+				} else {
+					JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Bestellungen zu loeschen.");
+				}
 			}
 		});
 	

@@ -581,6 +581,20 @@ public class DBAccess {
 			return maxNummer;		
 		}
 		
+		public static void loescheBestellungInDB(Integer bestellNr) {
+			try {
+				Statement stmt = conn.createStatement();
+				Integer rs1 = stmt.executeUpdate("DELETE FROM bestellung_produkt WHERE BestellNr='"+bestellNr+"'");
+				
+				Integer rs2 = stmt.executeUpdate("DELETE FROM bestellung WHERE BestellNr='"+bestellNr+"'");
+				
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		}
+		
 		//(Philipp) Legt Bestellung direkt, ohne Objekt in der DB an und speichert gesamtBestellwert in DB 'bestellung'
 		public static void legeBestellungInDBan(Integer bestellNr, String bestellArt, String mitarbeiter, String datum, String status, String lieferant, String kommentar, String bestellwert) {
 			System.out.println("Bestellung wird angelegt...");
