@@ -232,7 +232,7 @@ public class DBAccess {
 			ResultSet rs = stmt.executeQuery("SELECT db2.produkt.ProduktID, db2.produkt.Produktbezeichnung, db2.lief_produkt.preis, db2.lieferant.Lieferantenbezeichnung\n"
 					+ "FROM ((db2.produkt INNER JOIN db2.lief_produkt ON db2.produkt.ProduktID = db2.lief_produkt.ProduktID)\n"
 					+ "INNER JOIN db2.lieferant ON db2.lief_produkt.LieferantenNr = db2.lieferant.LieferantenNr)\n"
-					+ "WHERE db2.produkt.Standardlieferant = db2.lief_produkt.LieferantenNr\n");
+					+ "WHERE db2.produkt.Standardlieferant = db2.lief_produkt.LieferantenNr AND db2.produkt.WirdAngezeigt = 1");
 			
 			while(rs.next()) {
 				Integer produktID = rs.getInt("produkt.ProduktID");
@@ -355,8 +355,8 @@ public class DBAccess {
 	//Diese Methode fï¿½gt ein Produkt in unsere Datenbank hinzu.
 	public static void insertProduktInDatabase(Produkte p) throws Exception{
 		try{
-			PreparedStatement posted = conn.prepareStatement("INSERT INTO produkt (ProduktID, Produktbezeichnung, Mindestbestand, Menge, Produktspezifikation) "
-					+ "VALUES ('"+p.getArtikelNr()+"', '"+p.getBezeichnung()+"', '"+p.getMindestbestand()+"' , '"+p.getMenge()+"','"+p.getProduktspezifikation()+"')");
+			PreparedStatement posted = conn.prepareStatement("INSERT INTO produkt (ProduktID, Produktbezeichnung, Mindestbestand, Menge, Produktspezifikation, Standardlieferant) "
+					+ "VALUES ('"+p.getArtikelNr()+"', '"+p.getBezeichnung()+"', '"+p.getMindestbestand()+"' , '"+p.getMenge()+"','"+p.getProduktspezifikation()+"', '"+p.getLieferantenNr()+"')");
 			
 			
 			posted.executeUpdate();
@@ -635,5 +635,14 @@ public class DBAccess {
 			return preis;
 		}
 		
-		
+		//(Philipp) Produkt löschen (nicht richtig löschen, nur "nicht sichtbar" setzten
+		public static void loescheProdukt(String id) {
+			try {
+				Statement stmt = conn.createStatement();
+				Integer rs1 = stmt.executeUpdate("UPDATE produkt SET WirdAngezeigt='0' WHERE ProduktID = '"+id+"'");
+				
+			}catch(Exception e){
+				System.out.println(e);
+			}	
+		}
 }
