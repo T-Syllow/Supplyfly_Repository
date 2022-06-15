@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import java.awt.Insets;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Objects;
 
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -372,14 +373,14 @@ public class BestellungenUerbersichtGUI {
 		JPanel pnl_tab_Bestellung = new JPanel();
 		tabbedPane.addTab("Bestellung", null, pnl_tab_Bestellung, null);
 		
-		JButton btn_bestellungenHinzufuegen = new JButton("Bestellung hinzuf\u00FCgen");
+		JButton btn_bestellungenHinzufuegen = new JButton("Bestellung hinzufügen");
 		btn_bestellungenHinzufuegen.addActionListener(e -> {
 			if(aktuellerNutzer.getNutzerRolle().equals("MitarbeiterBeschaffung") || aktuellerNutzer.getNutzerRolle().equals("LeiterBeschaffung")) {
-			BestellungHinzufuegeGUI gui = new BestellungHinzufuegeGUI();
-			gui.loadBestellungHinzufuegenGUI();
+//			BestellungHinzufuegeGUI gui = new BestellungHinzufuegeGUI(aktuellerNutzer);
+			BestellungHinzufuegeGUI.loadBestellungHinzufuegenGUI(aktuellerNutzer);
 			} else if (aktuellerNutzer.getNutzerRolle().equals("MitarbeiterLager")){
-			BestellungHinzufuegeGUI gui = new BestellungHinzufuegeGUI();
-			gui.loadBestellungHinzufuegenGUI();
+//			BestellungHinzufuegeGUI gui = new BestellungHinzufuegeGUI(aktuellerNutzer);
+			BestellungHinzufuegeGUI.loadBestellungHinzufuegenGUI(aktuellerNutzer);
 			} else {
 				JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT!*\nNur die Beschaffungsabteilung hat Zugriff auf die Bearbeitung von Bestellungen.");
 			}

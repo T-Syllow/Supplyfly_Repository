@@ -41,28 +41,28 @@ public class BestellungHinzufuegeGUI {
 	private JTextField txt_name_kommentar;
 	private JTextField tf_produktId;
 	private JTextField tf_menge;
-	private Einkaeufer aktuellerNutzer;
+	private static Einkaeufer aktuellerNutzer;
 
 	/**
 	 * Launch the application.
 	 */
-	public void loadBestellungHinzufuegenGUI() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BestellungHinzufuegeGUI window = new BestellungHinzufuegeGUI();
-					window.frmNeueBestellung.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public void loadBestellungHinzufuegenGUI() {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					BestellungHinzufuegeGUI window = new BestellungHinzufuegeGUI();
+//					window.frmNeueBestellung.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 	
 	//(TOMMY) Neuer Konstruktor für das Rechtesystem. Hier wird der Parameter aktuellerNutzer nur fuer 'MitarbeiterLager' gebraucht,
 	//(TOMMY) weil MitarbeiterLager nur Bestellungen bis zu einem bestimmten Preis aufgeben duerfen!
-	public void loadBestellungHinzufuegenGUI(Einkaeufer aktuellerNutzer) {
-		this.aktuellerNutzer = aktuellerNutzer;
+	public static void loadBestellungHinzufuegenGUI(Einkaeufer user) {
+		aktuellerNutzer = user;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -277,7 +277,7 @@ public class BestellungHinzufuegeGUI {
 					
 					
 					//Das Attribut 'mitarbeitername' soll aus dem Login entnommen werden. -> Wer ist eingeloggt?
-					String mitarbeiterName = "MitarbeiterTest";
+					String mitarbeiterName = aktuellerNutzer.getNutzername();
 					
 					
 					//'Datum' soll automatisch uebertragen werden.
