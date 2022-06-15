@@ -557,11 +557,11 @@ public class DBAccess {
 		}
 		
 		//(Philipp) Legt Bestellung direkt, ohne Objekt in der DB an
-		public static void legeBestellungInDBan(Integer bestellNr, String bestellArt, String mitarbeiter, String datum, String status, String lieferant, String kommentar) {
+		public static void legeBestellungInDBan(Integer bestellNr, String bestellArt, String mitarbeiter, String datum, String status, String lieferant, String kommentar, String bestellwert) {
 			System.out.println("Bestellung wird angelegt...");
 			try{
-				PreparedStatement posted = conn.prepareStatement("INSERT INTO bestellung (BestellNr, BestellArt, Mitarbeiter, Datum, Status, LieferantenNr , Kommentar) "
-						+ "VALUES ('"+bestellNr+"', '"+bestellArt+"', '"+mitarbeiter+"' , '"+datum+"','"+status+"', '"+lieferant+"', '"+kommentar+"' )");
+				PreparedStatement posted = conn.prepareStatement("INSERT INTO bestellung (BestellNr, BestellArt, Bestellwert, Mitarbeiter, Datum, Status, LieferantenNr , Kommentar) "
+						+ "VALUES ('"+bestellNr+"', '"+bestellArt+"','"+bestellwert+"', '"+mitarbeiter+"' , '"+datum+"','"+status+"', '"+lieferant+"', '"+kommentar+"' )");
 				posted.executeUpdate();
 			}catch(Exception e){System.out.println(e);
 		}
@@ -571,11 +571,11 @@ public class DBAccess {
 		}
 
 		//(Philipp) Legt Positionen aus der GUI in der DB an (wird mit Bestellung �ber Fremdschl�ssel) verkn�pft
-		public static void legePositionenInDBan(Integer aktuelleBestellNr, String produktID, String menge) {
+		public static void legePositionenInDBan(Integer aktuelleBestellNr, String produktID, String menge, String preis) {
 			System.out.println("Position wird angelegt...");
 			try{
-				PreparedStatement posted = conn.prepareStatement("INSERT INTO bestellung_produkt (BestellNr, ProduktID, Menge) "
-						+ "VALUES ('"+aktuelleBestellNr+"', '"+produktID+"', '"+menge+"' )");
+				PreparedStatement posted = conn.prepareStatement("INSERT INTO bestellung_produkt (BestellNr, ProduktID, Menge, zwischenBestellwert) "
+						+ "VALUES ('"+aktuelleBestellNr+"', '"+produktID+"', '"+menge+"', '"+preis+"')");
 				posted.executeUpdate();
 			}catch(Exception e){System.out.println(e);
 		}
@@ -633,4 +633,6 @@ public class DBAccess {
 				}	
 			return preis;
 		}
+		
+		
 }

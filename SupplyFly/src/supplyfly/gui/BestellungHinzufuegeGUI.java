@@ -118,8 +118,11 @@ public class BestellungHinzufuegeGUI {
 			DefaultTableModel model_table_bestellungErstellen = (DefaultTableModel) table_produkteDerBestellung.getModel();
 		
 			JButton btn_zurueck = new JButton("Zurück");
-			btn_zurueck.addActionListener(e -> {
-				frmNeueBestellung.setVisible(false);
+			btn_zurueck.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frmNeueBestellung.setVisible(false);
+					BestellungenUerbersichtGUI bestellungenUerbersichtGUI = new BestellungenUerbersichtGUI(aktuellerNutzer.getNutzername(), aktuellerNutzer.getNutzerId(), aktuellerNutzer.getNutzerRolle());
+				}
 			});
 			
 			
@@ -156,7 +159,9 @@ public class BestellungHinzufuegeGUI {
 			//(Philipp) benï¿½tigt fï¿½r btnHiinzufï¿½gen UND btnBestï¿½tigen
 			ArrayList<String> produktliste = new ArrayList<>();
 			ArrayList<String> mengenliste = new ArrayList<>();
+
 			
+			//(Philipp) Produkt hinzufügen
 			JButton btn_produktHinzufuegen = new JButton("Produkt hinzufügen");
 			btn_produktHinzufuegen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -242,7 +247,7 @@ public class BestellungHinzufuegeGUI {
 						}
 					}
 					
-//					//Gesamtwert aktualisieren (nur bei dem neusten Produkt)
+//					// (Philipp) Gesamtwert aktualisieren (nur bei dem neusten Produkt)
 					Integer bestellwert = 0;
 					for (int i = 0; i < model_table_bestellungErstellen.getRowCount(); i++) {
 						try {
@@ -251,8 +256,9 @@ public class BestellungHinzufuegeGUI {
 							Integer posPreis = produktPreis * mengePos;
 							bestellwert = bestellwert + posPreis;
 							lbl_wertGesamtwert.setText(bestellwert.toString());
+							
 						}catch (Exception e1) {
-							// TODO: handle exception
+							// extra leer, dient dazu, dass weitergezählt wird, auch wenn ein Feld mal leer ist
 						}
 
 					}
@@ -264,7 +270,7 @@ public class BestellungHinzufuegeGUI {
 			});
 			
 			
-			//Bestï¿½tigen Button (legt eine Bestellung in "Bestellung" an und Je position die einzelnen Positionen in "bestellung-produkt"
+			//(Philipp) Bestätigen Button (legt eine Bestellung in "Bestellung" an und Je position die einzelnen Positionen in "bestellung-produkt"
 			JButton btn_bestellungBestaetigen = new JButton("Bestätigen");
 			btn_bestellungBestaetigen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -299,6 +305,8 @@ public class BestellungHinzufuegeGUI {
 					//'Kommentar' fï¿½r Bestellung aus textfeld
 					String kommentar = txt_name_kommentar.getText();
 					
+					//Gesamtwert Bestellung
+					String gesamtbestellwert = lbl_wertGesamtwert.getText();
 					
 					// (Philipp) Bestellung direkt in der DB anlegen:
 					if(produktliste.isEmpty() || mengenliste.isEmpty()) {
@@ -306,10 +314,10 @@ public class BestellungHinzufuegeGUI {
 						JOptionPane.showMessageDialog(frmNeueBestellung, "Kann keine leere Bestellung anlegen, fügen Sie Produkte hinzu");
 					}else {
 						Integer aktuelleBestellNr = DBAccess.getAktuelleBestellNr() + 1;
-						DBAccess.legeBestellungInDBan(aktuelleBestellNr, bestellart, mitarbeiterName, datum, status, lieferantenNr, kommentar);
+						DBAccess.legeBestellungInDBan(aktuelleBestellNr, bestellart, mitarbeiterName, datum, status, lieferantenNr, kommentar, gesamtbestellwert);
 						//(Philipp) Positionen in DB anlegen - mit Bestellung verknï¿½pft
 						for (int i = 0; i < produktliste.size(); i++) {
-							DBAccess.legePositionenInDBan(aktuelleBestellNr, produktliste.get(i), mengenliste.get(i));
+							DBAccess.legePositionenInDBan(aktuelleBestellNr, produktliste.get(i), mengenliste.get(i), (String)model_table_bestellungErstellen.getValueAt(i, 3));
 						}	
 						JOptionPane.showMessageDialog(frmNeueBestellung, "Bestellung erfolgreich angelegt");
 					}				
