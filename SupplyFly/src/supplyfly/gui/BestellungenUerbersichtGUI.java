@@ -118,8 +118,8 @@ public class BestellungenUerbersichtGUI {
 		
 		frmSupplyfly = new JFrame();
 		frmSupplyfly.setTitle("SupplyFly");
-		frmSupplyfly.setExtendedState(JFrame.MAXIMIZED_BOTH);	//VOLLBILD Einstellung
-//		frmSupplyfly.setBounds(100, 100, 1000, 500);
+//		frmSupplyfly.setExtendedState(JFrame.MAXIMIZED_BOTH);	//VOLLBILD Einstellung
+		frmSupplyfly.setBounds(100, 100, 1000, 500);
 		frmSupplyfly.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
 		frmSupplyfly.setIconImage(logo.getImage());
@@ -160,7 +160,7 @@ public class BestellungenUerbersichtGUI {
 		
 		DefaultTableModel model = (DefaultTableModel) table_2.getModel();
 		
-		JButton btn_produktHinzufuegen = new JButton("Produkt hinzuf¸gen");
+		JButton btn_produktHinzufuegen = new JButton("Produkt hinzufÔøΩgen");
 		btn_produktHinzufuegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ProduktHinzufuegenGUI produktFenster = new ProduktHinzufuegenGUI();
@@ -184,8 +184,8 @@ public class BestellungenUerbersichtGUI {
 		txt_Produktloeschen.setColumns(10);
 		
 		
-		//(Philipp) Produkt lˆschen
-		JButton btn_Produktloeschen = new JButton("Produkt lˆschen");
+		//(Philipp) Produkt lÔøΩschen
+		JButton btn_Produktloeschen = new JButton("Produkt lÔøΩschen");
 		btn_Produktloeschen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String loescheProduktID = txt_Produktloeschen.getText();
@@ -394,7 +394,7 @@ public class BestellungenUerbersichtGUI {
 		JPanel pnl_tab_Bestellung = new JPanel();
 		tabbedPane.addTab("Bestellung", null, pnl_tab_Bestellung, null);
 		
-		JButton btn_bestellungenHinzufuegen = new JButton("Bestellung hinzuf¸gen");
+		JButton btn_bestellungenHinzufuegen = new JButton("Bestellung hinzufÔøΩgen");
 		btn_bestellungenHinzufuegen.addActionListener(e -> {
 			if(aktuellerNutzer.getNutzerRolle().equals("MitarbeiterBeschaffung") || aktuellerNutzer.getNutzerRolle().equals("LeiterBeschaffung")) {
 //			BestellungHinzufuegeGUI gui = new BestellungHinzufuegeGUI(aktuellerNutzer);
@@ -408,24 +408,6 @@ public class BestellungenUerbersichtGUI {
 		});
 		
 		JScrollPane scrollPane_Bestellung = new JScrollPane();
-	
-		GroupLayout gl_pnl_tab_Bestellung = new GroupLayout(pnl_tab_Bestellung);
-		gl_pnl_tab_Bestellung.setHorizontalGroup(
-			gl_pnl_tab_Bestellung.createParallelGroup(Alignment.LEADING)
-				.addComponent(scrollPane_Bestellung, GroupLayout.DEFAULT_SIZE, 747, Short.MAX_VALUE)
-				.addGroup(Alignment.TRAILING, gl_pnl_tab_Bestellung.createSequentialGroup()
-					.addContainerGap(549, Short.MAX_VALUE)
-					.addComponent(btn_bestellungenHinzufuegen)
-					.addGap(14))
-		);
-		gl_pnl_tab_Bestellung.setVerticalGroup(
-			gl_pnl_tab_Bestellung.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_pnl_tab_Bestellung.createSequentialGroup()
-					.addComponent(scrollPane_Bestellung, GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
-					.addGap(26)
-					.addComponent(btn_bestellungenHinzufuegen)
-					.addGap(16))
-		);
 		
 		table_bestellungen = new JTable();
 		table_bestellungen.setModel(new DefaultTableModel(
@@ -444,6 +426,37 @@ public class BestellungenUerbersichtGUI {
 		});
 		
 		DefaultTableModel model_table_Bestellungen = (DefaultTableModel) table_bestellungen.getModel();
+		
+		JButton btn_bestellungLoeschen = new JButton("Bestellung l√∂schen");
+		btn_bestellungLoeschen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+	
+		GroupLayout gl_pnl_tab_Bestellung = new GroupLayout(pnl_tab_Bestellung);
+		gl_pnl_tab_Bestellung.setHorizontalGroup(
+			gl_pnl_tab_Bestellung.createParallelGroup(Alignment.TRAILING)
+				.addComponent(scrollPane_Bestellung, GroupLayout.DEFAULT_SIZE, 969, Short.MAX_VALUE)
+				.addGroup(gl_pnl_tab_Bestellung.createSequentialGroup()
+					.addContainerGap(637, Short.MAX_VALUE)
+					.addComponent(btn_bestellungLoeschen)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btn_bestellungenHinzufuegen)
+					.addGap(14))
+		);
+		gl_pnl_tab_Bestellung.setVerticalGroup(
+			gl_pnl_tab_Bestellung.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_pnl_tab_Bestellung.createSequentialGroup()
+					.addComponent(scrollPane_Bestellung, GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+					.addGap(26)
+					.addGroup(gl_pnl_tab_Bestellung.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btn_bestellungenHinzufuegen)
+						.addComponent(btn_bestellungLoeschen))
+					.addGap(16))
+		);
+		
+		
 		
 		refreshTableBestellungen(model_table_Bestellungen);
 		table_bestellungen.addMouseListener(new MouseAdapter() {
