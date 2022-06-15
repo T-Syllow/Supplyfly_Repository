@@ -46,18 +46,6 @@ public class BestellungHinzufuegeGUI {
 	/**
 	 * Launch the application.
 	 */
-//	public void loadBestellungHinzufuegenGUI() {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					BestellungHinzufuegeGUI window = new BestellungHinzufuegeGUI();
-//					window.frmNeueBestellung.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 	
 	//(TOMMY) Neuer Konstruktor fÃ¼r das Rechtesystem. Hier wird der Parameter aktuellerNutzer nur fuer 'MitarbeiterLager' gebraucht,
 	//(TOMMY) weil MitarbeiterLager nur Bestellungen bis zu einem bestimmten Preis aufgeben duerfen!
@@ -322,7 +310,7 @@ public class BestellungHinzufuegeGUI {
 						JOptionPane.showMessageDialog(frmNeueBestellung, "Bestellung erfolgreich angelegt");
 						
 						//(Philipp) CSV Datei für Lieferanten erstellen
-//						DBAccess.erstelleBestellungsCSV(aktuelleBestellNr.toString());
+						DBAccess.erstelleBestellungsTXT(aktuelleBestellNr.toString());
 					}				
 				}
 			});

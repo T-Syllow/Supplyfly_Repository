@@ -427,7 +427,7 @@ public class BestellungenUerbersichtGUI {
 		
 		DefaultTableModel model_table_Bestellungen = (DefaultTableModel) table_bestellungen.getModel();
 		
-		JButton btn_bestellungLoeschen = new JButton("Bestellung löschen");
+		JButton btn_bestellungLoeschen = new JButton("Bestellung stornieren");
 		btn_bestellungLoeschen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(aktuellerNutzer.getNutzerRolle().equals("LeiterBeschaffung")) {
@@ -437,7 +437,7 @@ public class BestellungenUerbersichtGUI {
 			
 						//loescht die ausgewaehlte Bestellung zuerst in DB 'bestellung_produkt' und danach in DB 'bestellung'
 						DBAccess.loescheBestellungInDB(bestellNr);
-						JOptionPane.showMessageDialog(btn_bestellungLoeschen, "Die Bestellung "+bestellNr+" wurde gelöscht!");
+						JOptionPane.showMessageDialog(btn_bestellungLoeschen, "Die Bestellung "+bestellNr+" wurde storniert!");
 						refreshTableBestellungen(model_table_Bestellungen);
 					} catch (ArrayIndexOutOfBoundsException aoe) {
 						JOptionPane.showMessageDialog(frmSupplyfly, "Wählen Sie zuerst eine Bestellung in der Tabelle aus!");

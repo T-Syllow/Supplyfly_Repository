@@ -688,32 +688,57 @@ public class DBAccess {
 			}	
 		}
 		
-		//(Philipp) CSV fï¿½r Bestellung anlegen
-//		public static boolean erstelleBestellungsCSV(String bestellID) {
-//			boolean geklappt = false;
-//			
-//			try(PrintWriter writer = new PrintWriter(new File("Bestellung.txt"))){
-//				
-//				try {
-//					Statement stmt = conn.createStatement();
-//					ResultSet rs = stmt.executeQuery("SELECT bestellung.BestellNr, bestellung.Bestellart, bestellung.Datum, bestellung.LieferantenNr\n"
-//							+ ", bestellung_produkt.Menge, bestellung_produkt.zwischenBestellwert, produkt.Produktbezeichnung"
-//							+ "FROM ((produkt INNER JOIN bestellung_produkt ON produkt.BestellNr = bestellung_produkt.BestellNr)\n"
-//							+ "INNER JOIN produkt ON bestellung_produkt.ProduktID = produkt.ProduktID)\n"
-//							+ "WHERE bestellung.BestellNr = '"+ bestellID+"'");
-//					
-//					writer.write("Bestellung: " + bestellID + "\n" + "---------------------------------------------------"+ "\n");
-//					while(rs.next()) {
-//						
-//					}
-//				}catch(Exception e){
-//					System.out.println(e);
-//				}	
-//				
-//			} catch (FileNotFoundException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//			return geklappt;
-//		}
+		//(Philipp) txt fï¿½r Bestellung anlegen
+				public static boolean erstelleBestellungsTXT(String bestellID) {
+					boolean geklappt = false;
+					
+					try(PrintWriter writer = new PrintWriter(new File("newBestellung.txt"))){
+
+						try {
+							Statement stmt = conn.createStatement(); 
+							ResultSet rs = stmt.executeQuery("SELECT bestellung.BestellNr, bestellung.Bestellart, bestellung.Datum, bestellung.LieferantenNr\n, bestellung.Bestellwert"
+									+ ", lieferant.Lieferantenbezeichnung\n"
+									+ "FROM (((bestellung INNER JOIN bestellung_produkt ON bestellung.BestellNr = bestellung_produkt.BestellNr)\n"
+									+ "INNER JOIN produkt ON bestellung_produkt.ProduktID = produkt.ProduktID)\n"
+									+ "INNER JOIN lieferant ON bestellung.LieferantenNr = lieferant.LieferantenNr)\n"
+									+ "WHERE bestellung.BestellNr = '"+ bestellID+"'");
+							
+							String liefBezeichnung = null;
+							String bestellart = null;
+							String date = null;
+							String gesamtbetrag = null;
+							while(rs.next()) {
+								liefBezeichnung = rs.getString("lieferant.Lieferantenbezeichnung");
+								bestellart = rs.getString("bestellung.Bestellart");
+								date = rs.getString("bestellung.Datum");
+								gesamtbetrag = rs.getString("bestellung.Bestellwert");
+							}
+							
+							writer.write("Bestellung: " + bestellID + " | Für: " + liefBezeichnung + "\n" + "---------------------------------------------------" + "\n");
+							writer.write("Bestellart: " + bestellart + " | Bestellt am: " + date + "\n" + "---------------------------------------------------" + "\n" + "\n");
+							
+							System.out.println("weiter");
+							
+							ResultSet rs2 = stmt.executeQuery("SELECT bestellung.BestellNr, bestellung.Bestellart, bestellung.Datum, bestellung.LieferantenNr\n"
+									+ ", bestellung_produkt.Menge, bestellung_produkt.zwischenBestellwert, produkt.Produktbezeichnung, lieferant.Lieferantenbezeichnung\n"
+									+ "FROM (((bestellung INNER JOIN bestellung_produkt ON bestellung.BestellNr = bestellung_produkt.BestellNr)\n"
+									+ "INNER JOIN produkt ON bestellung_produkt.ProduktID = produkt.ProduktID)\n"
+									+ "INNER JOIN lieferant ON bestellung.LieferantenNr = lieferant.LieferantenNr)\n"
+									+ "WHERE bestellung.BestellNr = '"+ bestellID+"'");
+							
+							while(rs2.next()) {
+								writer.write(rs2.getString("produkt.produktbezeichnung") + " | " + rs2.getString("bestellung_produkt.Menge") + " | " + rs2.getString("bestellung_produkt.zwischenBestellwert") + "€" + "\n");
+							}	
+							writer.write("\n" + "---------------------------------------------------" + "\n" + "Gesamtwert: " + gesamtbetrag + "€");
+						}catch(Exception e){
+							System.out.println(e);
+						}	
+						
+					} catch (FileNotFoundException e1) {
+						System.out.println("Problem beim Erstellen der Datei");
+						e1.printStackTrace();
+					}
+					
+				return geklappt;
+			}
 }
