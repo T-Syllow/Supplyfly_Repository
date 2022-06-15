@@ -1,5 +1,8 @@
 package supplyfly.datenbankzugriff;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -225,7 +228,7 @@ public class DBAccess {
 		}
 	}
 	
-	//Diese Methode fï¿½gt alle produkte in unsere Tabelle hinzu.
+	//(Philipp) Diese Methode fï¿½gt alle produkte in unsere Tabelle hinzu.
 	public static void getAlleProdukte(DefaultTableModel m) throws Exception{
 		try {
 			Statement stmt = conn.createStatement();
@@ -645,4 +648,33 @@ public class DBAccess {
 				System.out.println(e);
 			}	
 		}
+		
+		//(Philipp) CSV für Bestellung anlegen
+//		public static boolean erstelleBestellungsCSV(String bestellID) {
+//			boolean geklappt = false;
+//			
+//			try(PrintWriter writer = new PrintWriter(new File("Bestellung.txt"))){
+//				
+//				try {
+//					Statement stmt = conn.createStatement();
+//					ResultSet rs = stmt.executeQuery("SELECT bestellung.BestellNr, bestellung.Bestellart, bestellung.Datum, bestellung.LieferantenNr\n"
+//							+ ", bestellung_produkt.Menge, bestellung_produkt.zwischenBestellwert, produkt.Produktbezeichnung"
+//							+ "FROM ((produkt INNER JOIN bestellung_produkt ON produkt.BestellNr = bestellung_produkt.BestellNr)\n"
+//							+ "INNER JOIN produkt ON bestellung_produkt.ProduktID = produkt.ProduktID)\n"
+//							+ "WHERE bestellung.BestellNr = '"+ bestellID+"'");
+//					
+//					writer.write("Bestellung: " + bestellID + "\n" + "---------------------------------------------------"+ "\n");
+//					while(rs.next()) {
+//						
+//					}
+//				}catch(Exception e){
+//					System.out.println(e);
+//				}	
+//				
+//			} catch (FileNotFoundException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//			return geklappt;
+//		}
 }

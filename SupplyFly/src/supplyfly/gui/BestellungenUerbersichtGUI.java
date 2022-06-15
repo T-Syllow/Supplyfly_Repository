@@ -42,6 +42,7 @@ import java.awt.Color;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 public class BestellungenUerbersichtGUI {
 
@@ -60,6 +61,7 @@ public class BestellungenUerbersichtGUI {
 	private JTable table_1;
 	private JTable table_bestellungen;
 	Einkaeufer aktuellerNutzer;
+	private JTextField txt_Produktloeschen;
 
 	/**
 	 * Launch the application.
@@ -117,7 +119,7 @@ public class BestellungenUerbersichtGUI {
 		frmSupplyfly = new JFrame();
 		frmSupplyfly.setTitle("SupplyFly");
 		frmSupplyfly.setExtendedState(JFrame.MAXIMIZED_BOTH);	//VOLLBILD Einstellung
-//		frmSupplyfly.setBounds(100, 100, 633, 422);
+//		frmSupplyfly.setBounds(100, 100, 1000, 500);
 		frmSupplyfly.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
 		frmSupplyfly.setIconImage(logo.getImage());
@@ -158,7 +160,7 @@ public class BestellungenUerbersichtGUI {
 		
 		DefaultTableModel model = (DefaultTableModel) table_2.getModel();
 		
-		JButton btn_produktHinzufuegen = new JButton("Produkt hinzuf\u00FCgen");
+		JButton btn_produktHinzufuegen = new JButton("Produkt hinzufügen");
 		btn_produktHinzufuegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ProduktHinzufuegenGUI produktFenster = new ProduktHinzufuegenGUI();
@@ -174,6 +176,25 @@ public class BestellungenUerbersichtGUI {
 				refreshTable(model);
 			}
 		});
+		
+		txt_Produktloeschen = new JTextField();
+		txt_Produktloeschen.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_Produktloeschen.setText("ProduktID... ->");
+		panel.add(txt_Produktloeschen);
+		txt_Produktloeschen.setColumns(10);
+		
+		
+		//(Philipp) Produkt löschen
+		JButton btn_Produktloeschen = new JButton("Produkt löschen");
+		btn_Produktloeschen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String loescheProduktID = txt_Produktloeschen.getText();
+				DBAccess.loescheProdukt(loescheProduktID);
+				JOptionPane.showMessageDialog(frmSupplyfly, "Produkt aus dem aktuellen Katalog entfernt");
+			}
+		});
+		btn_Produktloeschen.setHorizontalAlignment(SwingConstants.LEFT);
+		panel.add(btn_Produktloeschen);
 		panel.add(btn_produktHinzufuegen);
 		
 		JLabel lbl_search = new JLabel("Suche:");

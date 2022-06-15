@@ -20,6 +20,7 @@ import supplyfly.objects.Produkte;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -76,8 +77,8 @@ public class ProduktHinzufuegenGUI {
 	private void initialize() {
 		textField_2.setColumns(10);
 		frame = new JFrame();
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); //Vollbild Einstellung
-//		frame.setBounds(100, 100, 633, 410);
+//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); //Vollbild Einstellung
+		frame.setBounds(100, 100, 1000, 500);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
@@ -111,29 +112,39 @@ public class ProduktHinzufuegenGUI {
 		
 		txtField_derzMenge = new JTextField();
 		txtField_derzMenge.setColumns(10);
+		
+		JLabel lbl_standardlieferant_1 = new JLabel("Standardlieferant:");
+		ArrayList<String> lieferantenliste = DBAccess.getLieferanten();
+		JComboBox comboB_standardlieferant = new JComboBox(lieferantenliste.toArray());
+		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lbl_produktspezifikation)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblNewLabel)
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addComponent(lblNewLabel)
+									.addGap(18)
+									.addComponent(txtField_derzMenge, 0, 0, Short.MAX_VALUE))
+								.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lbl_produktname)
+										.addComponent(lbl_artikelnummer)
+										.addComponent(lbl_mindestmenge))
+									.addGap(32)
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(txtField_proName, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+										.addComponent(txtField_artNummer)
+										.addComponent(txtField_mindMenge))))
 							.addGap(18)
-							.addComponent(txtField_derzMenge, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
-						.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lbl_produktname)
-								.addComponent(lbl_artikelnummer)
-								.addComponent(lbl_mindestmenge))
-							.addGap(32)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtField_proName, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(txtField_artNummer, Alignment.LEADING)
-									.addComponent(txtField_mindMenge, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-						.addComponent(lbl_produktspezifikation))
+							.addComponent(lbl_standardlieferant_1)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(comboB_standardlieferant, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 485, GroupLayout.PREFERRED_SIZE))
 					.addGap(306))
 		);
 		gl_panel.setVerticalGroup(
@@ -142,7 +153,9 @@ public class ProduktHinzufuegenGUI {
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lbl_produktname)
-						.addComponent(txtField_proName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtField_proName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lbl_standardlieferant_1)
+						.addComponent(comboB_standardlieferant, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(10)
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lbl_artikelnummer)
@@ -158,8 +171,8 @@ public class ProduktHinzufuegenGUI {
 					.addGap(8)
 					.addComponent(lbl_produktspezifikation)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-					.addContainerGap())
+					.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(97, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		
@@ -193,7 +206,14 @@ public class ProduktHinzufuegenGUI {
 				int mindestbestand = Integer.valueOf(txtField_mindMenge.getText());
 				int menge = Integer.valueOf(txtField_derzMenge.getText());
 				String spezifikation = textArea.getText();
-				Produkte p = new Produkte(menge, artikelnr, bezeichnung, mindestbestand,spezifikation);
+				
+				//Speichert erneut die Lieferantennummer - Lieferant darf nicht ver�ndert werdern 
+				String gewaehlterLieferant = (String) comboB_standardlieferant.getSelectedItem();
+				String[] geteilterLieferantInNummerUndName = gewaehlterLieferant.split(",");
+				String lieferantenNr = geteilterLieferantInNummerUndName[0];
+				
+				Produkte p = new Produkte(menge, artikelnr, bezeichnung, mindestbestand, spezifikation, lieferantenNr);
+				
 				
 				try {
 					DBAccess.insertProduktInDatabase(p);

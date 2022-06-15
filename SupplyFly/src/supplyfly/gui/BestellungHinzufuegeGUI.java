@@ -320,11 +320,14 @@ public class BestellungHinzufuegeGUI {
 							DBAccess.legePositionenInDBan(aktuelleBestellNr, produktliste.get(i), mengenliste.get(i), (String)model_table_bestellungErstellen.getValueAt(i, 3));
 						}	
 						JOptionPane.showMessageDialog(frmNeueBestellung, "Bestellung erfolgreich angelegt");
+						
+						//(Philipp) CSV Datei für Lieferanten erstellen
+//						DBAccess.erstelleBestellungsCSV(aktuelleBestellNr.toString());
 					}				
 				}
 			});
 			
-			
+
 			
 			JLabel lbl_Lieferant_1_1 = new JLabel("Lieferant (muss für alle Produkte gleich sein):");
 			GroupLayout gl_panel = new GroupLayout(panel);
