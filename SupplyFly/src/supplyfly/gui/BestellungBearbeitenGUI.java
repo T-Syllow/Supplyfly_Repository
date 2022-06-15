@@ -80,11 +80,11 @@ public class BestellungBearbeitenGUI {
 				new Object[][] {
 				},
 				new String[] {
-					"BestellNr", "Bestellart", "Bestellwert", "Mitarbeiter", "Datum", "Status", "Produkte", "Menge"
+					"BestellNr", "Bestellart", "Bestellwert", "Mitarbeiter", "Datum", "Status", "Produkte", "Menge", "LieferantenNr"
 				}
 			) {
 				boolean[] columnEditables = new boolean[] {
-					false, true, true, true, true, true, true, true
+					false, true, true, true, true, true, true, true, false
 				};
 				public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];
@@ -138,24 +138,28 @@ public class BestellungBearbeitenGUI {
 				String datum = "";
 				String status = "";
 				Integer produkt = 404;
+				Integer lieferantenNr = 9999;
 				Double menge = 0.0;
+				Integer rowCount = model_table_Bestellungen.getRowCount(); 
 				;
 				try {				
+					for (int i = 0; i < rowCount; i++) {
 					
-					bestellNrBestellung = Integer.valueOf(bestellNr);
-					bestellart = (String) model_table_Bestellungen.getValueAt(0, 1);
-					bestellwert = Double.valueOf((String) model_table_Bestellungen.getValueAt(0, 2));
-					mitarbeiter = model_table_Bestellungen.getValueAt(0, 3).toString();
-					datum = model_table_Bestellungen.getValueAt(0, 4).toString();
-					status = model_table_Bestellungen.getValueAt(0, 5).toString();
-					produkt = Integer.valueOf(model_table_Bestellungen.getValueAt(0, 6).toString());
-					menge = Double.valueOf(model_table_Bestellungen.getValueAt(0, 7).toString());
+						bestellNrBestellung = Integer.valueOf(bestellNr);
+						bestellart = (String) model_table_Bestellungen.getValueAt(i, 1);
+						mitarbeiter = model_table_Bestellungen.getValueAt(i, 3).toString();
+						datum = model_table_Bestellungen.getValueAt(i, 4).toString();
+						status = model_table_Bestellungen.getValueAt(i, 5).toString();
+						produkt = Integer.valueOf(model_table_Bestellungen.getValueAt(i, 6).toString());
+						menge = Double.valueOf(model_table_Bestellungen.getValueAt(i, 7).toString());
+						lieferantenNr = Integer.valueOf(model_table_Bestellungen.getValueAt(i, 8).toString());
+						bestellwert = Bestellung.bestellwert(menge, produkt, lieferantenNr);	
 					
-					
-					//Lege neue Instanz von Bestellung an.
-					supplyfly.objects.Bestellung bestellungEdit = new Bestellung(bestellNrBestellung, bestellart, bestellwert, mitarbeiter, datum, status, produkt, menge);
-					DBAccess.ueberschreibeDatenInDatabase(bestellungEdit,model_table_Bestellungen);	
-					System.out.println("Die Bestellung mit BestellNr. "+bestellNr+" wurde ueberschrieben: 'bestellung = neue '"+bestellungEdit.toString());
+						//Lege neue Instanz von Bestellung an.
+						supplyfly.objects.Bestellung bestellungEdit = new Bestellung(bestellNrBestellung, bestellart, bestellwert, mitarbeiter, datum, status, produkt, menge, lieferantenNr);
+						DBAccess.ueberschreibeDatenInDatabase(bestellungEdit,model_table_Bestellungen);	
+						System.out.println("Die Bestellung mit BestellNr. "+bestellNr+" und ProduktID. "+model_table_Bestellungen.getValueAt(i, 6).toString()+" wurde ueberschrieben: 'bestellung = neue '"+bestellungEdit.toString());
+					}
 					JOptionPane popUpFenster = new JOptionPane();
 					popUpFenster.setVisible(true);
 					popUpFenster.showMessageDialog(null, "Bestellung wurde erfolgreich aktualisiert");
@@ -164,6 +168,8 @@ public class BestellungBearbeitenGUI {
 //				model_table_Bestellungen.getValueAt(3, 0).toString(), model_table_Bestellungen.getValueAt(4, 0).toString(), model_table_Bestellungen.getValueAt(5, 0).toString(),DBAccess.getProduktIdsAsIntegerArrayList(model_table_Bestellungen.getValueAt(6, 0).toString())
 				} catch(InputMismatchException ime) {
 					System.out.println("FEHLER! BestellNr darf nur Zahlen beinhalten. Bitte in DB ändern.");
+				} catch(Exception e1) {
+					e1.printStackTrace();
 				}
 				
 			}

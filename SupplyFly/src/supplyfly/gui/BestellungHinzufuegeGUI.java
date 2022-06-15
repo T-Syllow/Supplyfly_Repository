@@ -161,10 +161,6 @@ public class BestellungHinzufuegeGUI {
 					String produktID = tf_produktId.getText();
 					String menge = tf_menge.getText();
 					model_table_bestellungErstellen.addRow(new Object[] {produktID,menge, "wird gepr�ft"}); 
-					
-								
-					//Variable soll Bestellwert für ein Produkt der Bestellung beinhalten. Er wird weitergegeben an das DefaultTableModel.
-					String produktBestellwert = supplyfly.objects.Bestellung.calculateBestellwert(produktID, menge); 
 
 					//alle aktuellen Produkte, die eingekauft werden k�nnen - Produkte, die der Lieferant NICHT liefert = Produkte, die bestellt werden k�nnen
 					ArrayList<String> dbProduktliste = DBAccess.getProduktliste();	
@@ -174,6 +170,8 @@ public class BestellungHinzufuegeGUI {
 					String lieferantenNr = geteilterLieferantInNummerUndName[0];
 					//Nun die Produkte ausselektieren, die der gew�hlte Lieferant NICHT Liefert
 					ArrayList<String> dbLieferantProduktliste = new ArrayList<>();
+					//Variable soll Bestellwert für ein Produkt der Bestellung beinhalten. Er wird weitergegeben an das DefaultTableModel.
+					Double produktBestellwert = supplyfly.objects.Bestellung.bestellwert(Double.valueOf(produktID),Integer.valueOf(menge),Integer.valueOf(lieferantenNr)); 
 					ResultSet rs = DBAccess.wasLiefertLieferantMitPreisUndMenge(lieferantenNr);
 					try {
 						while(rs.next()) {

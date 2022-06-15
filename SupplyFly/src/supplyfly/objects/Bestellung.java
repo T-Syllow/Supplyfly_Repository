@@ -1,6 +1,9 @@
 package supplyfly.objects;
 
+import java.sql.Statement;
 import java.util.ArrayList;
+
+import supplyfly.datenbankzugriff.DBAccess;
 
 public class Bestellung {
 
@@ -12,6 +15,7 @@ public class Bestellung {
 	private String status;
 	private Integer produkt;
 	private Double menge;
+	private Integer lieferantenNr;
 	
 	public Bestellung() {
 		
@@ -27,6 +31,18 @@ public class Bestellung {
 		this.produkt = produkt;
 		this.menge = menge;
 	}
+	
+	public Bestellung(Integer bestellnummer, String bestellart, Double bestellwert, String name, String datum, String status, Integer produkt, Double menge, Integer lieferantenNr) {
+		this.bestellnummer=bestellnummer;
+		this.bestellart = bestellart;
+		this.bestellwert = bestellwert;
+		this.name = name;
+		this.datum = datum;
+		this.status = status;
+		this.produkt = produkt;
+		this.menge = menge;
+		this.lieferantenNr = lieferantenNr;
+	}
 
 	//Essentiell, damit ProduktIDs wieder richtig abespeichert werden. => naemlich als String..in der Form "1002,1003,1005,..."
 	public String convertArrayListToString(ArrayList<Integer> produkte) {
@@ -40,10 +56,26 @@ public class Bestellung {
 		return produkteAsString;
 	}
 	
-	//Diese Methode soll den WERT = (produktID * menge) ausrechnen und ihn unbedingt als String return.
-	public static String calculateBestellwert(String produktID, String menge) {
-		
-		return "2000";
+	public static Double bestellwert(Double menge, Integer produkt, Integer lieferantenNr) {
+		Double produktpreis = DBAccess.getProduktpreis(produkt.toString(), lieferantenNr.toString());
+		System.out.println("Menge: " + menge);
+		System.out.println("Preis: " + produktpreis);
+		System.out.println(menge * produktpreis);
+		return menge * produktpreis;
+	}
+	
+//	//Diese Methode soll den WERT = (produktID * menge) ausrechnen und ihn unbedingt als String return.
+//	public static String calculateBestellwert(String produktID, String menge) {
+//		
+//		return "2000";
+//	}
+	
+	public Integer getLieferantenNr() {
+		return lieferantenNr;
+	}
+
+	public void setLieferantenNr(Integer lieferantenNr) {
+		this.lieferantenNr = lieferantenNr;
 	}
 	
 	public Double getMenge() {
