@@ -581,13 +581,17 @@ public class DBAccess {
 			return maxNummer;		
 		}
 		
-		//(Philipp) Legt Bestellung direkt, ohne Objekt in der DB an
+		//(Philipp) Legt Bestellung direkt, ohne Objekt in der DB an und speichert gesamtBestellwert in DB 'bestellung'
 		public static void legeBestellungInDBan(Integer bestellNr, String bestellArt, String mitarbeiter, String datum, String status, String lieferant, String kommentar, String bestellwert) {
 			System.out.println("Bestellung wird angelegt...");
 			try{
 				PreparedStatement posted = conn.prepareStatement("INSERT INTO bestellung (BestellNr, BestellArt, Bestellwert, Mitarbeiter, Datum, Status, LieferantenNr , Kommentar) "
 						+ "VALUES ('"+bestellNr+"', '"+bestellArt+"','"+bestellwert+"', '"+mitarbeiter+"' , '"+datum+"','"+status+"', '"+lieferant+"', '"+kommentar+"' )");
 				posted.executeUpdate();
+				Statement stmt = conn.createStatement();
+				Integer rs = stmt.executeUpdate("UPDATE bestellung SET Bestellwert='"+bestellwert+"' "
+						+ "WHERE BestellNr='"+bestellNr+"'");
+				
 			}catch(Exception e){System.out.println(e);
 		}
 			finally {
