@@ -232,10 +232,11 @@ public class DBAccess {
 	public static void getAlleProdukte(DefaultTableModel m) throws Exception{
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT db2.produkt.ProduktID, db2.produkt.Produktbezeichnung, db2.lief_produkt.preis, db2.lieferant.Lieferantenbezeichnung\n"
-					+ "FROM ((db2.produkt INNER JOIN db2.lief_produkt ON db2.produkt.ProduktID = db2.lief_produkt.ProduktID)\n"
-					+ "INNER JOIN db2.lieferant ON db2.lief_produkt.LieferantenNr = db2.lieferant.LieferantenNr)\n"
-					+ "WHERE db2.produkt.Standardlieferant = db2.lief_produkt.LieferantenNr AND db2.produkt.WirdAngezeigt = 1");
+			ResultSet rs = stmt.executeQuery("SELECT db2.produkt.ProduktID, db2.produkt.Produktbezeichnung, db2.lief_produkt.Preis, db2.lieferant.Lieferantenbezeichnung\n"
+					+ "FROM ((db2.produkt LEFT JOIN db2.lief_produkt ON db2.produkt.ProduktID = db2.lief_produkt.ProduktID)\n"
+					+ "LEFT JOIN db2.lieferant ON db2.lief_produkt.LieferantenNr = db2.lieferant.LieferantenNr)\n"
+					+ "WHERE db2.produkt.WirdAngezeigt = 1"); // AND db2.produkt.Standardlieferant = db2.lief_produkt.LieferantenNr");
+
 			
 			while(rs.next()) {
 				Integer produktID = rs.getInt("produkt.ProduktID");

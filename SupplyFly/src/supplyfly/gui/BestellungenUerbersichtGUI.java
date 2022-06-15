@@ -179,22 +179,11 @@ public class BestellungenUerbersichtGUI {
 		
 		txt_Produktloeschen = new JTextField();
 		txt_Produktloeschen.setHorizontalAlignment(SwingConstants.LEFT);
-		txt_Produktloeschen.setText("ProduktID... ->");
+		txt_Produktloeschen.setText("ProduktID...");
 		panel.add(txt_Produktloeschen);
 		txt_Produktloeschen.setColumns(10);
 		
-		
-		//(Philipp) Produkt l�schen
-		JButton btn_Produktloeschen = new JButton("Produkt l�schen");
-		btn_Produktloeschen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String loescheProduktID = txt_Produktloeschen.getText();
-				DBAccess.loescheProdukt(loescheProduktID);
-				JOptionPane.showMessageDialog(frmSupplyfly, "Produkt aus dem aktuellen Katalog entfernt");
-			}
-		});
-		btn_Produktloeschen.setHorizontalAlignment(SwingConstants.LEFT);
-		panel.add(btn_Produktloeschen);
+	
 		panel.add(btn_produktHinzufuegen);
 		
 		JLabel lbl_search = new JLabel("Suche:");
@@ -276,6 +265,34 @@ public class BestellungenUerbersichtGUI {
 		}));
 		
 		btn_hinzufuegen = new JButton("Hinzuf\u00fcgen");
+		
+		
+		//(Philipp) Produkt l�schen
+		JButton btn_Produktloeschen = new JButton("Produkt l�schen");
+		btn_Produktloeschen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(aktuellerNutzer.getNutzerRolle().equals("LeiterBeschaffung")) {
+					try {
+						Integer row = table_1.getSelectedRow();
+						String produktID = (String) model.getValueAt(row, 0);
+			
+						//loescht die ausgewaehltes Produkt nicht, sondern setzt es auf nichtAnzeigen
+						DBAccess.loescheProdukt(produktID);
+						JOptionPane.showMessageDialog(frmSupplyfly, "Produkt aus dem aktuellen Katalog entfernt");
+						refreshTableBestellungen(model);
+					} catch (ArrayIndexOutOfBoundsException aoe) {
+						JOptionPane.showMessageDialog(frmSupplyfly, "Wählen Sie zuerst ein Produkt in der Tabelle aus!");
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(frmSupplyfly, "Wählen Sie zuerst ein Produkt in der Tabelle aus!");
+					}
+				} else {
+					JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Produkte zu l�schen.");
+				}
+			}
+		});
+		btn_Produktloeschen.setHorizontalAlignment(SwingConstants.LEFT);
+		panel.add(btn_Produktloeschen);
+		
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		GroupLayout gl_pnl_tab_Lieferanten = new GroupLayout(pnl_tab_Lieferanten);
