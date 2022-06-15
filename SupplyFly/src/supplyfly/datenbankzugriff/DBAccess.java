@@ -482,11 +482,11 @@ public class DBAccess {
 					"',db2.bestellung.Status='"+b.getStatus()+"',db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"', db2.bestellung_produkt.Menge='"+b.getMenge()+"'"
 					+" WHERE (db2.bestellung_produkt.BestellNr='"+b.getBestellnummer()+"' AND db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"')");	//AND db2.bestellung.lieferantenNR='"+String.valueOf(b.getLieferantenNr())+"'"
 			
-			Integer rs2 = stmt.executeUpdate("UPDATE db2.bestellung,db2.bestellung_produkt SET db2.bestellung_produkt.BestellNr='"+b.getBestellnummer()+"',db2.bestellung.Bestellart='"+b.getBestellart()+""
-					+ "',db2.bestellung_produkt.zwischenBestellwert='"+b.getBestellwert()+"',db2.bestellung.Mitarbeiter='"+b.getName()+"',db2.bestellung.Datum='"+b.getDatum()+
-					"',db2.bestellung.Status='"+b.getStatus()+"',db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"', db2.bestellung_produkt.Menge='"+b.getMenge()+"'"
-					+" WHERE (db2.bestellung_produkt.BestellNr='"+b.getBestellnummer()+"' AND db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"')");	//AND db2.bestellung.lieferantenNR='"+String.valueOf(b.getLieferantenNr())+"'"
-			
+//			Integer rs2 = stmt.executeUpdate("UPDATE db2.bestellung,db2.bestellung_produkt SET db2.bestellung_produkt.BestellNr='"+b.getBestellnummer()+"',db2.bestellung.Bestellart='"+b.getBestellart()+""
+//					+ "',db2.bestellung_produkt.zwischenBestellwert='"+b.getBestellwert()+"',db2.bestellung.Mitarbeiter='"+b.getName()+"',db2.bestellung.Datum='"+b.getDatum()+
+//					"',db2.bestellung.Status='"+b.getStatus()+"',db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"', db2.bestellung_produkt.Menge='"+b.getMenge()+"'"
+//					+" WHERE (db2.bestellung_produkt.BestellNr='"+b.getBestellnummer()+"' AND db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"')");	//AND db2.bestellung.lieferantenNR='"+String.valueOf(b.getLieferantenNr())+"'"
+//			
 			
 			
 			//Das soll gemacht werden: Der Name soll von "Jordan" -> "Gordon" geändert werden & dann in die DB 'bestellung' ueberschrieben werden.
