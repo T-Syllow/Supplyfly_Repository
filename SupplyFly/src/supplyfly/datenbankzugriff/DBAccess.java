@@ -583,11 +583,12 @@ public class DBAccess {
 			ArrayList<String> dbProduktliste = new ArrayList<>();
 			try {
 				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT ProduktID, WirdAngezeigt FROM db2.produkt");	
+				ResultSet rs = stmt.executeQuery("SELECT ProduktID, WirdAngezeigt, Standardlieferant FROM db2.produkt");	
 				
 				while(rs.next()) {
 					String geloeschtJaNein = rs.getString("WirdAngezeigt");
-					if(geloeschtJaNein.equals("1")){
+					String lieferant = rs.getString("Standardlieferant");
+					if(geloeschtJaNein.equals("1") && !lieferant.equals("")){
 						String dbProduktID = rs.getString("ProduktID");
 						dbProduktliste.add(dbProduktID);
 					}
@@ -608,5 +609,21 @@ public class DBAccess {
 				System.out.println(e);
 			}
 			return lieferantenMitPreis;
+		}
+		
+		//(Philipp) gibt den Preis des Produkts beim Lieferanen als Integer zurück
+		public static Integer getProduktpreisfuerLieferant(String lieferantenNr, String produkt) {
+			Integer preis = null;
+				try {
+					Statement stmt = conn.createStatement();
+					ResultSet rs = stmt.executeQuery("SELECT Preis FROM lief_produkt WHERE LieferantenNr='"+lieferantenNr+"' AND ProduktID = '"+produkt+"'");	
+					
+					while(rs.next()) {
+						preis = rs.getInt("Preis");
+					}			
+				}catch(Exception e){
+					System.out.println(e);
+				}	
+			return preis;
 		}
 }
