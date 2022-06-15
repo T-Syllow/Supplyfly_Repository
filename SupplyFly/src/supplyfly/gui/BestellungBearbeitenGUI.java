@@ -84,7 +84,7 @@ public class BestellungBearbeitenGUI {
 				}
 			) {
 				boolean[] columnEditables = new boolean[] {
-					false, true, true, true, true, true, true, true, false
+					false, true, false, false, false, true, true, true, false
 				};
 				public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];

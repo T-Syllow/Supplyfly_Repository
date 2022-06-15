@@ -477,9 +477,11 @@ public class DBAccess {
 //					"',db2.bestellung.Status='"+b.getStatus()+"',db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"', db2.bestellung_produkt.Menge='"+b.getMenge()+"'"
 //					+" WHERE db2.bestellung.BestellNr='"+b.getBestellnummer()+"' AND db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"' AND db2.bestellung.lieferantenNR='"+String.valueOf(b.getLieferantenNr())+"'");
 			
-			Integer rs1 = stmt.executeUpdate("UPDATE db2.bestellung,db2.bestellung_produkt SET db2.bestellung_produkt.BestellNr='"+b.getBestellnummer()+"',db2.bestellung.Bestellart='"+b.getBestellart()+""
-					+ "',db2.bestellung_produkt.zwischenBestellwert='"+b.getBestellwert()+"',db2.bestellung.Mitarbeiter='"+b.getName()+"',db2.bestellung.Datum='"+b.getDatum()+
-					"',db2.bestellung.Status='"+b.getStatus()+"',db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"', db2.bestellung_produkt.Menge='"+b.getMenge()+"'"
+			Integer rs1 = stmt.executeUpdate("UPDATE bestellung SET Bestellart='"+b.getBestellart()+"', Mitarbeiter='"+b.getName()+"', Datum='"+b.getDatum()+"', bestellung.Status='"+b.getStatus()+"'"
+					+ "WHERE (BestellNr='"+b.getBestellnummer()+"' AND LieferantenNr='"+b.getLieferantenNr()+"')");	//AND db2.bestellung.lieferantenNR='"+String.valueOf(b.getLieferantenNr())+"'"
+			
+			Integer rs2 = stmt.executeUpdate("UPDATE db2.bestellung_produkt SET db2.bestellung_produkt.zwischenBestellwert='"+b.getBestellwert()+"'"
+					+ ",db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"', db2.bestellung_produkt.Menge='"+b.getMenge()+"'"
 					+" WHERE (db2.bestellung_produkt.BestellNr='"+b.getBestellnummer()+"' AND db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"')");	//AND db2.bestellung.lieferantenNR='"+String.valueOf(b.getLieferantenNr())+"'"
 			
 //			Integer rs2 = stmt.executeUpdate("UPDATE db2.bestellung,db2.bestellung_produkt SET db2.bestellung_produkt.BestellNr='"+b.getBestellnummer()+"',db2.bestellung.Bestellart='"+b.getBestellart()+""
@@ -487,7 +489,6 @@ public class DBAccess {
 //					"',db2.bestellung.Status='"+b.getStatus()+"',db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"', db2.bestellung_produkt.Menge='"+b.getMenge()+"'"
 //					+" WHERE (db2.bestellung_produkt.BestellNr='"+b.getBestellnummer()+"' AND db2.bestellung_produkt.ProduktID='"+b.getProdukt()+"')");	//AND db2.bestellung.lieferantenNR='"+String.valueOf(b.getLieferantenNr())+"'"
 //			
-			
 			
 			//Das soll gemacht werden: Der Name soll von "Jordan" -> "Gordon" geÃ¤ndert werden & dann in die DB 'bestellung' ueberschrieben werden.
 			//							Die Bestellung 2002 soll also vom Mitarbeiter ueberarbeitet werden..
@@ -618,7 +619,7 @@ public class DBAccess {
 			return lieferantenMitPreis;
 		}
 		
-		//(Philipp) gibt den Preis des Produkts beim Lieferanen als Integer zurück
+		//(Philipp) gibt den Preis des Produkts beim Lieferanen als Integer zurï¿½ck
 		public static Integer getProduktpreisfuerLieferant(String lieferantenNr, String produkt) {
 			Integer preis = null;
 				try {
