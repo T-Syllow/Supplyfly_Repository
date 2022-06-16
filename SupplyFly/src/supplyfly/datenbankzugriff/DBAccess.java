@@ -279,6 +279,41 @@ public class DBAccess {
 		
 	}
 	
+	public static void getAlleLieferantenShort(DefaultTableModel m) {
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT LieferantenNr, Lieferantenbezeichnung FROM lieferant WHERE WirdAngezeigt = '"+1+"'");
+			
+			while(rs.next()) {
+				Integer lieferantenNr = rs.getInt("LieferantenNr");
+				String lieferantenBezeichnung = rs.getString("Lieferantenbezeichnung");
+				
+				m.addRow(new Object[] {lieferantenNr, lieferantenBezeichnung});
+			}
+			System.out.println("Lieferanten erfolgreich der Tabelle hinzugef\u00FCgt");
+		}catch(Exception e){
+			System.out.println(e);
+		}
+	}
+	
+	public static void getAlleProdukteLieferanten(DefaultTableModel m) {
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT ProduktID, Produktbezeichnung FROM produkt");
+			
+			while(rs.next()) {
+				Integer produktID = rs.getInt("ProduktID");
+				String produktbezeichnung = rs.getString("Produktbezeichnung");
+				
+				m.addRow(new Object[] {produktID, produktbezeichnung});
+			}
+			System.out.println("Produkte erfolgreich der Tabelle hinzugef\u00FCgt");
+		}catch(Exception e){
+			System.out.println(e);
+		}
+		
+	}
+	
 
 	//Connection methods der Nutzer
 	
@@ -424,6 +459,23 @@ public class DBAccess {
 	}
 		finally {
 			System.out.println("Complete, 'Lieferant' with the ID: " +l.getIdNr()+ " has been updated.");
+		};
+	}
+	
+	//Diese methode fuegt Lieferanten Produkte hinzu.
+	public static void lieferantenProdukteHinzufuegen( int produktID ,int lieferantID, double preis)throws Exception {
+		try{
+
+			PreparedStatement posted = conn.prepareStatement("INSERT INTO lief_produkt(ProduktID, LieferantenNr, Preis) Values('"+produktID+"','"+lieferantID+"','"+preis+"')");
+			
+			posted.executeUpdate();
+		}catch (SQLIntegrityConstraintViolationException sqle) {
+			JOptionPane.showMessageDialog(null, "*FEHLER*\nDie Artikelnummer ist bereits vorhanden!\n\nWaehlen Sie bitte eine andere Artikelnummer.");
+		}
+		catch(Exception e){System.out.println(e);
+		}
+		finally {
+			System.out.println("Complete, 'Lieferant' with the ID: " + " has been updated.");
 		};
 	}
 	
@@ -756,6 +808,27 @@ public class DBAccess {
 					
 				return geklappt;
 			}
+				public static void refreshLieferantenTableShort(DefaultTableModel model) {
+					
+					model.setRowCount(0);
+					
+					try {
+						DBAccess.getAlleLieferantenShort(model);
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+				}
+				
+				public static void refreshProdukteTableShort(DefaultTableModel model) {
+					
+					model.setRowCount(0);
+					
+					try {
+						DBAccess.getAlleProdukteLieferanten(model);
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+				}
 				
 				public void refreshLieferantenTable(DefaultTableModel model) {
 					

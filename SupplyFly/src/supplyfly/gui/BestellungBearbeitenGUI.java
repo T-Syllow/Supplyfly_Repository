@@ -124,7 +124,12 @@ public class BestellungBearbeitenGUI {
 		btn_zurueck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				BestellungenUerbersichtGUI bestellungenUerbersichtGUI = new BestellungenUerbersichtGUI(aktuellerNutzer.getNutzername(), aktuellerNutzer.getNutzerId(), aktuellerNutzer.getNutzerRolle());
+				try {
+					BestellungenUerbersichtGUI bestellungenUerbersichtGUI = new BestellungenUerbersichtGUI(aktuellerNutzer.getNutzername(), aktuellerNutzer.getNutzerId(), aktuellerNutzer.getNutzerRolle());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
