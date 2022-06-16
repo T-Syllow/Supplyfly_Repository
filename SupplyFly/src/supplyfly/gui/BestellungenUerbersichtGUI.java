@@ -280,17 +280,18 @@ public class BestellungenUerbersichtGUI {
 			public void actionPerformed(ActionEvent e) {
 				if(aktuellerNutzer.getNutzerRolle().equals("LeiterBeschaffung")) {
 					try {
-						Integer row = table_1.getSelectedRow();
-						String produktID = (String) model.getValueAt(row, 0);
+						Integer row = table_2.getSelectedRow();
+						String produktID = String.valueOf(model.getValueAt(row, 0));
 			
 						//loescht die ausgewaehltes Produkt nicht, sondern setzt es auf nichtAnzeigen
 						DBAccess.loescheProdukt(produktID);
 						JOptionPane.showMessageDialog(frmSupplyfly, "Produkt aus dem aktuellen Katalog entfernt");
-						refreshTableBestellungen(model);
+						refreshTable(model);
 					} catch (ArrayIndexOutOfBoundsException aoe) {
 						JOptionPane.showMessageDialog(frmSupplyfly, "Wählen Sie zuerst ein Produkt in der Tabelle aus!");
 					} catch (Exception e1) {
 						JOptionPane.showMessageDialog(frmSupplyfly, "Wählen Sie zuerst ein Produkt in der Tabelle aus!");
+						e1.printStackTrace();
 					}
 				} else {
 					JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Produkte zu l�schen.");
