@@ -592,13 +592,22 @@ public class BestellungenUerbersichtGUI {
 				}
 			}
 		});
+		
+		JButton btn_aktualisiereBestellungen = new JButton("Aktualisieren");
+		btn_aktualisiereBestellungen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refreshTableBestellungen(model_table_Bestellungen);
+			}
+		});
 	
 		GroupLayout gl_pnl_tab_Bestellung = new GroupLayout(pnl_tab_Bestellung);
 		gl_pnl_tab_Bestellung.setHorizontalGroup(
 			gl_pnl_tab_Bestellung.createParallelGroup(Alignment.TRAILING)
-				.addComponent(scrollPane_Bestellung, GroupLayout.DEFAULT_SIZE, 969, Short.MAX_VALUE)
+				.addComponent(scrollPane_Bestellung, GroupLayout.DEFAULT_SIZE, 1078, Short.MAX_VALUE)
 				.addGroup(gl_pnl_tab_Bestellung.createSequentialGroup()
-					.addContainerGap(637, Short.MAX_VALUE)
+					.addContainerGap(551, Short.MAX_VALUE)
+					.addComponent(btn_aktualisiereBestellungen)
+					.addGap(18)
 					.addComponent(btn_bestellungLoeschen)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btn_bestellungenHinzufuegen)
@@ -611,7 +620,8 @@ public class BestellungenUerbersichtGUI {
 					.addGap(26)
 					.addGroup(gl_pnl_tab_Bestellung.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btn_bestellungenHinzufuegen)
-						.addComponent(btn_bestellungLoeschen))
+						.addComponent(btn_bestellungLoeschen)
+						.addComponent(btn_aktualisiereBestellungen))
 					.addGap(16))
 		);
 		
@@ -678,7 +688,6 @@ public class BestellungenUerbersichtGUI {
 		}
 		
 	}
-	
 }
 
 
