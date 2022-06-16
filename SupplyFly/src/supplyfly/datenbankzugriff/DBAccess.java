@@ -416,6 +416,7 @@ public class DBAccess {
 			JOptionPane.showMessageDialog(null, "*FEHLER*\nDie Artikelnummer ist bereits vorhanden!\n\nWaehlen Sie bitte eine andere Artikelnummer.");
 		} catch(Exception e){
 			System.out.println(e);
+			e.printStackTrace();
 		}
 		
 	}
