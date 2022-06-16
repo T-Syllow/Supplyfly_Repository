@@ -187,7 +187,7 @@ public class BestellungenUerbersichtGUI {
 					JTable clickedRow = (JTable) me.getSource();
 					int zeile = clickedRow.getSelectedRow();
 					int produktID = (int) table_2.getValueAt(zeile, 0);
-					ProduktBearbeitenGUI2 produktBearbeiten = new ProduktBearbeitenGUI2(produktID);
+//					ProduktBearbeitenGUI2 produktBearbeiten = new ProduktBearbeitenGUI2(produktID);
 					
 					model.fireTableDataChanged();
 				}

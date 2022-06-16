@@ -234,7 +234,7 @@ public class DBAccess {
 	public static void getAlleProdukte(DefaultTableModel m) throws Exception{
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT db2.produkt.ProduktID, db2.produkt.Produktbezeichnung, db2.lief_produkt.Preis, db2.lieferant.Lieferantenbezeichnung, db2.produkt.Standardlieferant\n"
+			ResultSet rs = stmt.executeQuery("SELECT db2.produkt.ProduktID, db2.produkt.Produktbezeichnung, db2.lief_produkt.Preis, db2.lieferant.Lieferantenbezeichnung, db2.lief_produkt.LieferantenNr\n"
 					+ "FROM ((db2.produkt LEFT JOIN db2.lief_produkt ON db2.produkt.ProduktID = db2.lief_produkt.ProduktID)\n"
 					+ "LEFT JOIN db2.lieferant ON db2.lief_produkt.LieferantenNr = db2.lieferant.LieferantenNr)\n"
 					+ "WHERE db2.produkt.WirdAngezeigt = 1"); // AND db2.produkt.Standardlieferant = db2.lief_produkt.LieferantenNr");
@@ -245,7 +245,7 @@ public class DBAccess {
 				String produktbezeichnung = rs.getString("produkt.Produktbezeichnung");
 				String preis = rs.getString("lief_produkt.Preis");
 				String lieferantenbezeichnung = rs.getString("lieferant.Lieferantenbezeichnung");
-				String lieferantenNr = rs.getString("produkt.Standardlieferant");
+				String lieferantenNr = rs.getString("lief_produkt.LieferantenNr");
 				m.addRow(new Object[] {produktID, produktbezeichnung, preis, lieferantenbezeichnung,lieferantenNr});
 			}
 		}catch(Exception e){
