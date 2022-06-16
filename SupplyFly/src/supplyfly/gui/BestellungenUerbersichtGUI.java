@@ -119,8 +119,8 @@ public class BestellungenUerbersichtGUI {
 		
 		frmSupplyfly = new JFrame();
 		frmSupplyfly.setTitle("SupplyFly");
-//		frmSupplyfly.setExtendedState(JFrame.MAXIMIZED_BOTH);	//VOLLBILD Einstellung
-		frmSupplyfly.setBounds(100, 100, 1000, 500);
+		frmSupplyfly.setExtendedState(JFrame.MAXIMIZED_BOTH);	//VOLLBILD Einstellung
+//		frmSupplyfly.setBounds(100, 100, 1000, 500);
 		frmSupplyfly.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		ImageIcon logo = new ImageIcon("img/Logo SupplyFly2.png");
 		frmSupplyfly.setIconImage(logo.getImage());
