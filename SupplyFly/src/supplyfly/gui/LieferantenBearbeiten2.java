@@ -13,6 +13,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import supplyfly.datenbankzugriff.DBAccess;
+import supplyfly.objects.Einkaeufer;
 
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -21,11 +22,12 @@ public class LieferantenBearbeiten2 {
 
 	private JFrame frame;
 	private JTable table;
-
+	private static Einkaeufer aktuellerNutzer;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void loadLieferantenBearbeiten2(Einkaeufer e) {
+		aktuellerNutzer = e;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -42,7 +44,9 @@ public class LieferantenBearbeiten2 {
 	 * Create the application.
 	 * @throws Exception 
 	 */
+	
 	public LieferantenBearbeiten2() throws Exception {
+		
 		initialize();
 	}
 
@@ -101,6 +105,7 @@ public class LieferantenBearbeiten2 {
 		
 		btn_lieferantLoeschen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(aktuellerNutzer.getNutzerRolle().equals("LeiterBeschaffung")||aktuellerNutzer.getNutzerRolle().equals("MitarbeiterBeschaffung")) {
 					try {
 						Integer row = table.getSelectedRow();
 						Integer lieferantenNr = Integer.valueOf(m.getValueAt(row, 0).toString());
@@ -115,9 +120,11 @@ public class LieferantenBearbeiten2 {
 						DBAccess d = new DBAccess();
 						d.refreshLieferantenTable(m);
 					}
+				}else {
+					JOptionPane.showMessageDialog(frame, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Lieferanten hinzuzufügen.");
 				}
 			
-		});
+		}});
 		
 	}
 

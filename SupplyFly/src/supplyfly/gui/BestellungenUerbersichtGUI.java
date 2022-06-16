@@ -246,26 +246,28 @@ public class BestellungenUerbersichtGUI {
 		btn_hinzufuegen = new JButton("Hinzuf\u00fcgen");
 		btn_hinzufuegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
-				try {
-				Lieferant l = new Lieferant(txt_lieferanntenName.getText(), txt_ansprechPartner.getText(), Integer.parseInt(txt_lieferantennNummer.getText()), 
+				if(aktuellerNutzer.getNutzerRolle().equals("LeiterBeschaffung")||aktuellerNutzer.getNutzerRolle().equals("MitarbeiterBeschaffung")) {
+					try {
+						Lieferant l = new Lieferant(txt_lieferanntenName.getText(), txt_ansprechPartner.getText(), Integer.parseInt(txt_lieferantennNummer.getText()), 
 						txt_strasse.getText(), Integer.parseInt(txt_hausnummer.getText()),Integer.parseInt(txt_plz.getText()),txt_ort.getText());
-				DBAccess d = new DBAccess();
-				d.insertLieferantInDatabase(l);
-				System.out.println("Lieferant hinzugefügt.");
-				}catch(Exception ex) {
-					ex.printStackTrace();
-				}finally {
-					txt_lieferanntenName.setText("");
-					txt_ansprechPartner.setText("");
-					txt_lieferantennNummer.setText("");
-					txt_strasse.setText("");
-					txt_hausnummer.setText("");
-					txt_plz.setText("");
-					txt_ort.setText("");
-					
+						DBAccess d = new DBAccess();
+						d.insertLieferantInDatabase(l);
+						System.out.println("Lieferant hinzugefügt.");
+					}catch(Exception ex) {
+						ex.printStackTrace();
+					}finally {
+						txt_lieferanntenName.setText("");
+						txt_ansprechPartner.setText("");
+						txt_lieferantennNummer.setText("");
+						txt_strasse.setText("");
+						txt_hausnummer.setText("");
+						txt_plz.setText("");
+						txt_ort.setText("");
 				}
+			}else {
+				JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Lieferanten hinzuzufügen.");
 			}
-		});
+		}});
 		
 		
 		//(Philipp) Produkt lï¿½schen
@@ -307,8 +309,7 @@ public class BestellungenUerbersichtGUI {
 			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent e) {
 				try {
-					LieferantenBearbeiten2 lb = new LieferantenBearbeiten2();
-					lb.main(null);
+					LieferantenBearbeiten2.loadLieferantenBearbeiten2(aktuellerNutzer);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
