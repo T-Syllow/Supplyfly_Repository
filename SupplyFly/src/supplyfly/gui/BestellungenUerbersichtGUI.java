@@ -177,6 +177,14 @@ public class BestellungenUerbersichtGUI {
 			}
 		});
 		
+		JButton btn_refreshProduktportfolio = new JButton("Aktualisieren");
+		btn_refreshProduktportfolio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refreshTable(model);
+			}
+		});
+		panel.add(btn_refreshProduktportfolio);
+		
 		txt_Produktloeschen = new JTextField();
 		txt_Produktloeschen.setHorizontalAlignment(SwingConstants.LEFT);
 		txt_Produktloeschen.setText("ProduktID...");

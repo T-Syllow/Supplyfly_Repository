@@ -125,16 +125,16 @@ public class ProduktHinzufuegenGUI {
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(lbl_produktspezifikation)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addComponent(lblNewLabel)
 									.addGap(18)
 									.addComponent(txtField_derzMenge, 0, 0, Short.MAX_VALUE))
-								.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+								.addGroup(gl_panel.createSequentialGroup()
 									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 										.addComponent(lbl_produktname)
-										.addComponent(lbl_artikelnummer)
-										.addComponent(lbl_mindestmenge))
+										.addComponent(lbl_mindestmenge)
+										.addComponent(lbl_artikelnummer))
 									.addGap(32)
 									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 										.addComponent(txtField_proName, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
@@ -157,9 +157,9 @@ public class ProduktHinzufuegenGUI {
 						.addComponent(lbl_standardlieferant_1)
 						.addComponent(comboB_standardlieferant, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(10)
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lbl_artikelnummer)
-						.addComponent(txtField_artNummer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtField_artNummer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lbl_artikelnummer))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(txtField_mindMenge, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -172,7 +172,7 @@ public class ProduktHinzufuegenGUI {
 					.addComponent(lbl_produktspezifikation)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(97, Short.MAX_VALUE))
+					.addContainerGap(78, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		
@@ -201,10 +201,10 @@ public class ProduktHinzufuegenGUI {
 		btn_produkthinzufuegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				int artikelnr = Integer.valueOf(txtField_artNummer.getText());
+				Integer artikelnr = Integer.valueOf(txtField_artNummer.getText());
 				String bezeichnung = txtField_proName.getText();	
-				int mindestbestand = Integer.valueOf(txtField_mindMenge.getText());
-				int menge = Integer.valueOf(txtField_derzMenge.getText());
+				Integer mindestbestand = Integer.valueOf(txtField_mindMenge.getText());
+				Integer menge = Integer.valueOf(txtField_derzMenge.getText());
 				String spezifikation = textArea.getText();
 				
 				//Speichert erneut die Lieferantennummer - Lieferant darf nicht ver�ndert werdern 
@@ -217,10 +217,9 @@ public class ProduktHinzufuegenGUI {
 				
 				try {
 					DBAccess.insertProduktInDatabase(p);
-					JOptionPane.showMessageDialog(null, "Produkt wurde erfolgreich hinzugef�gt!");
-					
 					frame.dispose();
 				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(frame, "*FEHLER*\nProdukt wurde nicht erfolgreich hinzugefuegt.");
 					System.out.println("Fehler beim insert into Database!");
 					e1.printStackTrace();
 				}

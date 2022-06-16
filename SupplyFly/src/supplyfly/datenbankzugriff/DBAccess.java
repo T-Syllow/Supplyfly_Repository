@@ -7,10 +7,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -364,11 +366,14 @@ public class DBAccess {
 			
 			
 			posted.executeUpdate();
-		}catch(Exception e){System.out.println(e);
-	}
-		finally {
+			JOptionPane.showMessageDialog(null, "Produkt wurde erfolgreich hinzugef�gt!");
 			System.out.println("Complete, 'Produkt' has been added.");
-		};
+		} catch (SQLIntegrityConstraintViolationException sqle) {
+			JOptionPane.showMessageDialog(null, "*FEHLER*\nDie Artikelnummer ist bereits vorhanden!\n\nWaehlen Sie bitte eine andere Artikelnummer.");
+		} catch(Exception e){
+			System.out.println(e);
+		}
+		
 	}
 	
 	//L�scht Lieferanten von der Tabelle.
