@@ -148,11 +148,11 @@ public class BestellungenUerbersichtGUI {
 			new Object[][] {
 			},
 			new String[] {
-				"ProduktID", "Produktname", "Preis", "Standardlieferant"
+				"ProduktID", "Produktname", "Preis", "Standardlieferant","LieferantenNr"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false
+				false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -227,7 +227,7 @@ public class BestellungenUerbersichtGUI {
 		txt_ort = new JTextField();
 		txt_ort.setColumns(10);
 		
-		//Fügt Lieferanten hinzu.
+		//Fï¿½gt Lieferanten hinzu.
 		btn_hinzufuegen = new JButton("Hinzuf\u00fcgen");
 		
 		
@@ -461,7 +461,7 @@ public class BestellungenUerbersichtGUI {
 								Double preis = Double.parseDouble(txt_preisProdukteVonLieferanten.getText());
 								DBAccess.lieferantenProdukteHinzufuegen(produktID, lieferantenID, preis);
 								
-								JOptionPane.showMessageDialog(btn_addProdukteZuLieferanten, "Erfolgreich hinzugefügt!");
+								JOptionPane.showMessageDialog(btn_addProdukteZuLieferanten, "Erfolgreich hinzugefï¿½gt!");
 								
 							} catch (ArrayIndexOutOfBoundsException aoe) {
 								JOptionPane.showMessageDialog( null ,"WÃ¤hlen Sie zuerst ein Produkt in der Tabelle aus!");
@@ -470,7 +470,7 @@ public class BestellungenUerbersichtGUI {
 							}finally {
 							}
 						}else {
-							JOptionPane.showMessageDialog(null, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Lieferanten hinzuzufügen.");
+							JOptionPane.showMessageDialog(null, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Lieferanten hinzuzufï¿½gen.");
 						}
 					
 				}});
@@ -488,9 +488,9 @@ public class BestellungenUerbersichtGUI {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						System.out.println("Lieferant hinzugefügt.");
+						System.out.println("Lieferant hinzugefï¿½gt.");
 					}catch(NumberFormatException ex) {
-						System.out.println("Die Felder dürfen nicht leer sein.");
+						System.out.println("Die Felder dï¿½rfen nicht leer sein.");
 						JOptionPane.showMessageDialog(frmSupplyfly, "Die Felder nicht leer lassen. Bei PLZ, Hausnummer und LieferantenNr bitte NUMMERN eingeben!");
 					}
 					finally {
@@ -505,7 +505,7 @@ public class BestellungenUerbersichtGUI {
 						
 				}
 			}else {
-				JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Lieferanten hinzuzufügen.");
+				JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Lieferanten hinzuzufï¿½gen.");
 			}
 		}});
 		
