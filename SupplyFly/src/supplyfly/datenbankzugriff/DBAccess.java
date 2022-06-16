@@ -259,12 +259,18 @@ public class DBAccess {
 	public static void getAlleLieferanten(DefaultTableModel m) throws Exception{
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT LieferantenNr, Lieferantenbezeichnung FROM lieferant");
+			ResultSet rs = stmt.executeQuery("SELECT LieferantenNr, Lieferantenbezeichnung, Ansprechpartner, Strasse, Hausnummer, PLZ, Ort FROM lieferant WHERE WirdAngezeigt = '"+1+"'");
 			
 			while(rs.next()) {
 				Integer lieferantenNr = rs.getInt("LieferantenNr");
 				String lieferantenBezeichnung = rs.getString("Lieferantenbezeichnung");
-				m.addRow(new Object[] {lieferantenNr, lieferantenBezeichnung});
+				String ansprechpartner = rs.getString("Ansprechpartner");
+				String strasse = rs.getString("Strasse");
+				Integer hausnummer = rs.getInt("Hausnummer");
+				Integer plz = rs.getInt("PLZ");
+				String ort = rs.getString("Ort");
+				
+				m.addRow(new Object[] {lieferantenNr, lieferantenBezeichnung, ansprechpartner, strasse, hausnummer, plz, ort});
 			}
 			System.out.println("Lieferanten erfolgreich der Tabelle hinzugef\u00FCgt");
 		}catch(Exception e){
@@ -352,12 +358,14 @@ public class DBAccess {
 		
 			
 			posted.executeUpdate();
-		}catch(Exception e){System.out.println(e);
-	}
-		finally {
-			System.out.println("Complete, 'Lieferant' has been added.");
+			
+		} catch (SQLIntegrityConstraintViolationException sqle) {
+			JOptionPane.showMessageDialog(null, "*FEHLER*\nDie LieferantenNr ist bereits vorhanden!\n\nWaehlen Sie bitte eine andere Artikelnummer.");
+		} catch(Exception e){
+			System.out.println(e);
 		};
 	}
+	
 	//Diese Methode f�gt ein Produkt in unsere Datenbank hinzu.
 	public static void insertProduktInDatabase(Produkte p) throws Exception{
 		try{
@@ -377,16 +385,16 @@ public class DBAccess {
 	}
 	
 	//L�scht Lieferanten von der Tabelle.
-	public static void deleteLieferantInDatabase(Lieferant l) throws Exception{
+	public static void deleteLieferantInDatabase(int lieferantenNr) throws Exception{
 		try{
 			
-			PreparedStatement posted = conn.prepareStatement("DELETE FROM lieferant WHERE (LieferantenNr = '"+l.getIdNr()+"')");
+			PreparedStatement posted = conn.prepareStatement("UPDATE lieferant SET WirdAngezeigt = 0 WHERE LieferantenNr = '"+lieferantenNr+"'");
 			
 			posted.executeUpdate();
 		}catch(Exception e){System.out.println(e);
 	}
 		finally {
-			System.out.println("Completed, 'Lieferant' with ID: " +l.getIdNr()+ " has been deleted.");
+			System.out.println("Completed, 'Lieferant' with ID: " +lieferantenNr+ " has been deleted.");
 		};
 	}
 	
@@ -748,4 +756,15 @@ public class DBAccess {
 					
 				return geklappt;
 			}
+				
+				public void refreshLieferantenTable(DefaultTableModel model) {
+					
+					model.setRowCount(0);
+					
+					try {
+						DBAccess.getAlleLieferanten(model);
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+				}
 }
