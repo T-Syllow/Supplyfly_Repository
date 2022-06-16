@@ -435,6 +435,7 @@ public class BestellungenUerbersichtGUI {
 		
 		btn_produktHinzufuegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(aktuellerNutzer.getNutzerRolle().equals("MitarbeiterBeschaffung") || aktuellerNutzer.getNutzerRolle().equals("LeiterBeschaffung")) {
 				ProduktHinzufuegenGUI produktFenster = new ProduktHinzufuegenGUI();
 				produktFenster.loadLieferantenProdukteHinzufuegenGUI();
 				while(produktFenster.isFrameVisible()) {
@@ -447,6 +448,9 @@ public class BestellungenUerbersichtGUI {
 				}
 				refreshTable(model);
 				DBAccess.refreshProdukteTableShort(m);
+				} else {
+					JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt neue Produkte hinzuzufuegen!");
+				}
 			}
 		});
 		
