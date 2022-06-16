@@ -151,7 +151,7 @@ public class BestellungenUerbersichtGUI {
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false
+				false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
