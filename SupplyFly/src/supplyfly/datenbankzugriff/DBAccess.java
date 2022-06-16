@@ -582,6 +582,7 @@ public class DBAccess {
 			return maxNummer;		
 		}
 		
+		//loescht die ausgewaehlte Bestellung zuerst in DB 'bestellung_produkt' und danach in DB 'bestellung'
 		public static void loescheBestellungInDB(Integer bestellNr) {
 			try {
 				Statement stmt = conn.createStatement();
@@ -715,7 +716,7 @@ public class DBAccess {
 								gesamtbetrag = rs.getString("bestellung.Bestellwert");
 							}
 							
-							writer.write("Bestellung: " + bestellID + " | Für: " + liefBezeichnung + "\n" + "---------------------------------------------------" + "\n");
+							writer.write("Bestellung: " + bestellID + " | Fï¿½r: " + liefBezeichnung + "\n" + "---------------------------------------------------" + "\n");
 							writer.write("Bestellart: " + bestellart + " | Bestellt am: " + date + "\n" + "---------------------------------------------------" + "\n" + "\n");
 							
 							System.out.println("weiter");
@@ -728,9 +729,9 @@ public class DBAccess {
 									+ "WHERE bestellung.BestellNr = '"+ bestellID+"'");
 							
 							while(rs2.next()) {
-								writer.write(rs2.getString("produkt.produktbezeichnung") + " | " + rs2.getString("bestellung_produkt.Menge") + " | " + rs2.getString("bestellung_produkt.zwischenBestellwert") + "€" + "\n");
+								writer.write(rs2.getString("produkt.produktbezeichnung") + " | " + rs2.getString("bestellung_produkt.Menge") + " | " + rs2.getString("bestellung_produkt.zwischenBestellwert") + "ï¿½" + "\n");
 							}	
-							writer.write("\n" + "---------------------------------------------------" + "\n" + "Gesamtwert: " + gesamtbetrag + "€");
+							writer.write("\n" + "---------------------------------------------------" + "\n" + "Gesamtwert: " + gesamtbetrag + "ï¿½");
 						}catch(Exception e){
 							System.out.println(e);
 						}	

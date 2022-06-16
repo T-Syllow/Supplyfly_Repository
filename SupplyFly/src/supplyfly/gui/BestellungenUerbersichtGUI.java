@@ -141,7 +141,7 @@ public class BestellungenUerbersichtGUI {
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		pnl_tab_Produkte.add(panel, BorderLayout.NORTH);
 		
-		
+		//Das Produktportfolio mit dem besten Lieferanten und seinem Preis fuer das Produkt.
 		table_2 = new JTable();
 		table_2.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -199,7 +199,7 @@ public class BestellungenUerbersichtGUI {
 		
 		table_2.getColumnModel().getColumn(0).setResizable(false);
 		try {
-			db.getAlleProdukte(model);
+			DBAccess.getAlleProdukte(model);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -210,7 +210,6 @@ public class BestellungenUerbersichtGUI {
 					JTable clickedRow = (JTable) me.getSource();
 					int zeile = clickedRow.getSelectedRow();
 					int produktID = (int) table_2.getValueAt(zeile, 0);
-//					model.setRowCount(0);
 					ProduktBearbeitenGUI2 produktBearbeiten = new ProduktBearbeitenGUI2(produktID);
 					
 					model.fireTableDataChanged();
@@ -286,7 +285,7 @@ public class BestellungenUerbersichtGUI {
 						JOptionPane.showMessageDialog(frmSupplyfly, "WÃ¤hlen Sie zuerst ein Produkt in der Tabelle aus!");
 					}
 				} else {
-					JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Produkte zu löschen.");
+					JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Produkte zu lï¿½schen.");
 				}
 			}
 		});
@@ -373,6 +372,7 @@ public class BestellungenUerbersichtGUI {
 							.addGap(22))))
 		);
 		
+		//Dies ist die Tabelle aus dem Tab Lieferanten..
 		table_1 = new JTable();
 		table_1.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -411,13 +411,12 @@ public class BestellungenUerbersichtGUI {
 		JPanel pnl_tab_Bestellung = new JPanel();
 		tabbedPane.addTab("Bestellung", null, pnl_tab_Bestellung, null);
 		
+		// Button erlaubt nur LeiterBeschaffung und Mitarbeiter aus Beschaffung bzw. Lager eine neue Bestellung aufzugeben.
 		JButton btn_bestellungenHinzufuegen = new JButton("Bestellung hinzufï¿½gen");
 		btn_bestellungenHinzufuegen.addActionListener(e -> {
 			if(aktuellerNutzer.getNutzerRolle().equals("MitarbeiterBeschaffung") || aktuellerNutzer.getNutzerRolle().equals("LeiterBeschaffung")) {
-//			BestellungHinzufuegeGUI gui = new BestellungHinzufuegeGUI(aktuellerNutzer);
 			BestellungHinzufuegeGUI.loadBestellungHinzufuegenGUI(aktuellerNutzer);
 			} else if (aktuellerNutzer.getNutzerRolle().equals("MitarbeiterLager")){
-//			BestellungHinzufuegeGUI gui = new BestellungHinzufuegeGUI(aktuellerNutzer);
 			BestellungHinzufuegeGUI.loadBestellungHinzufuegenGUI(aktuellerNutzer);
 			} else {
 				JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT!*\nNur die Beschaffungsabteilung hat Zugriff auf die Bearbeitung von Bestellungen.");
@@ -444,6 +443,7 @@ public class BestellungenUerbersichtGUI {
 		
 		DefaultTableModel model_table_Bestellungen = (DefaultTableModel) table_bestellungen.getModel();
 		
+		//Dieser Button erlaubt nur dem LeiterBeschaffung bestellungen zu stornieren.
 		JButton btn_bestellungLoeschen = new JButton("Bestellung stornieren");
 		btn_bestellungLoeschen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -451,8 +451,6 @@ public class BestellungenUerbersichtGUI {
 					try {
 						Integer row = table_bestellungen.getSelectedRow();
 						Integer bestellNr = Integer.valueOf(model_table_Bestellungen.getValueAt(row, 0).toString());
-			
-						//loescht die ausgewaehlte Bestellung zuerst in DB 'bestellung_produkt' und danach in DB 'bestellung'
 						DBAccess.loescheBestellungInDB(bestellNr);
 						JOptionPane.showMessageDialog(btn_bestellungLoeschen, "Die Bestellung "+bestellNr+" wurde storniert!");
 						refreshTableBestellungen(model_table_Bestellungen);
@@ -492,6 +490,8 @@ public class BestellungenUerbersichtGUI {
 		
 		
 		refreshTableBestellungen(model_table_Bestellungen);
+		
+		//Button erlaubt nur LeiterBeschaffung un MitarbeiterBeschaffung den Zugriff auf die Bestellungsbearbeitung.
 		table_bestellungen.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -524,6 +524,7 @@ public class BestellungenUerbersichtGUI {
 		frmSupplyfly.getContentPane().setLayout(groupLayout);
 	}
 
+	//fuegt die Produkte aus produkt in table neu ein.. (aktualisiert)..
 	public void refreshTable(DefaultTableModel model) {
 		
 		model.setRowCount(0);
@@ -531,12 +532,11 @@ public class BestellungenUerbersichtGUI {
 		try {
 			DBAccess.getAlleProdukte(model);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
-	
+	// fuegt die Bestellungen aus bestellung_produkt in table_bestellung neu ein.. (aktualisiert)..
 public void refreshTableBestellungen(DefaultTableModel model) {
 		
 		model.setRowCount(0);
@@ -544,7 +544,6 @@ public void refreshTableBestellungen(DefaultTableModel model) {
 		try {
 			DBAccess.getAlleBestellung(model);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

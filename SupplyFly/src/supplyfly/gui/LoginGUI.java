@@ -53,8 +53,6 @@ public class LoginGUI {
 				}
 			}
 		});	
-		
-		
 	}
 
 	/**
@@ -128,6 +126,8 @@ public class LoginGUI {
 		gbc_pwdField_password.gridy = 3;
 		panel.add(pwdField_password, gbc_pwdField_password);
 		
+		
+		// Button gewaehrt nur bei richtigen Eingaben mit der DB Tabelle nutzer Zugriff auf das Programm.
 		JButton btn_login = new JButton("Login");
 		btn_login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -151,7 +151,6 @@ public class LoginGUI {
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
-					//bestellungsWindow.main(null);
 					frmSupplyfly.dispose();
 					
 				}else {
