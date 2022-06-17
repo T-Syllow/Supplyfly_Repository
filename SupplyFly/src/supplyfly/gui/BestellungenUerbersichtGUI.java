@@ -161,7 +161,7 @@ public class BestellungenUerbersichtGUI {
 		
 		DefaultTableModel model = (DefaultTableModel) table_2.getModel();
 		
-		JButton btn_produktHinzufuegen = new JButton("Produkt hinzuf�gen");
+		JButton btn_produktHinzufuegen = new JButton("Produkt hinzuf\u00fcgen");
 		
 		
 		JButton btn_refreshProduktportfolio = new JButton("Aktualisieren");
@@ -233,7 +233,7 @@ public class BestellungenUerbersichtGUI {
 		
 		
 		//(Philipp) Produkt l�schen
-		JButton btn_Produktloeschen = new JButton("Produkt l�schen");
+		JButton btn_Produktloeschen = new JButton("Produkt l\u00f6schen");
 		btn_Produktloeschen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(aktuellerNutzer.getNutzerRolle().equals("LeiterBeschaffung")) {
@@ -252,7 +252,7 @@ public class BestellungenUerbersichtGUI {
 						e1.printStackTrace();
 					}
 				} else {
-					JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Produkte zu l�schen.");
+					JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Produkte zu l\u00f6schen.");
 				}
 			}
 		});
@@ -449,7 +449,7 @@ public class BestellungenUerbersichtGUI {
 				refreshTable(model);
 				DBAccess.refreshProdukteTableShort(m);
 				} else {
-					JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt neue Produkte hinzuzufuegen!");
+					JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt neue Produkte hinzuzuf\u00fcgen!");
 				}
 			}
 		});
@@ -465,7 +465,7 @@ public class BestellungenUerbersichtGUI {
 								Double preis = Double.parseDouble(txt_preisProdukteVonLieferanten.getText());
 								DBAccess.lieferantenProdukteHinzufuegen(produktID, lieferantenID, preis);
 								
-								JOptionPane.showMessageDialog(btn_addProdukteZuLieferanten, "Erfolgreich hinzugef�gt!");
+								JOptionPane.showMessageDialog(btn_addProdukteZuLieferanten, "Erfolgreich hinzugef\u00fcgt!");
 								
 							} catch (ArrayIndexOutOfBoundsException aoe) {
 								JOptionPane.showMessageDialog( null ,"Wählen Sie zuerst ein Produkt in der Tabelle aus!");
@@ -474,7 +474,7 @@ public class BestellungenUerbersichtGUI {
 							}finally {
 							}
 						}else {
-							JOptionPane.showMessageDialog(null, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Lieferanten hinzuzuf�gen.");
+							JOptionPane.showMessageDialog(null, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Lieferanten hinzuzuf\u00fcgen.");
 						}
 					
 				}});
@@ -492,9 +492,9 @@ public class BestellungenUerbersichtGUI {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						System.out.println("Lieferant hinzugef�gt.");
+						System.out.println("Lieferant hinzugef\u00fcgt.");
 					}catch(NumberFormatException ex) {
-						System.out.println("Die Felder d�rfen nicht leer sein.");
+						System.out.println("Die Felder d\u00fcrfen nicht leer sein.");
 						JOptionPane.showMessageDialog(frmSupplyfly, "Die Felder nicht leer lassen. Bei PLZ, Hausnummer und LieferantenNr bitte NUMMERN eingeben!");
 					}
 					finally {
@@ -509,7 +509,7 @@ public class BestellungenUerbersichtGUI {
 						
 				}
 			}else {
-				JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Lieferanten hinzuzuf�gen.");
+				JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Lieferanten hinzuzuf\u00fcgen.");
 			}
 		}});
 		
@@ -540,7 +540,7 @@ public class BestellungenUerbersichtGUI {
 		tabbedPane.addTab("Bestellung", null, pnl_tab_Bestellung, null);
 		
 		// Button erlaubt nur LeiterBeschaffung und Mitarbeiter aus Beschaffung bzw. Lager eine neue Bestellung aufzugeben.
-		JButton btn_bestellungenHinzufuegen = new JButton("Bestellung hinzuf�gen");
+		JButton btn_bestellungenHinzufuegen = new JButton("Bestellung hinzuf\u00fcgen");
 		btn_bestellungenHinzufuegen.addActionListener(e -> {
 			if(aktuellerNutzer.getNutzerRolle().equals("MitarbeiterBeschaffung") || aktuellerNutzer.getNutzerRolle().equals("LeiterBeschaffung")) {
 			BestellungHinzufuegeGUI.loadBestellungHinzufuegenGUI(aktuellerNutzer);
@@ -588,7 +588,7 @@ public class BestellungenUerbersichtGUI {
 						JOptionPane.showMessageDialog(frmSupplyfly, "Wählen Sie zuerst eine Bestellung in der Tabelle aus!");
 					}
 				} else {
-					JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Bestellungen zu loeschen.");
+					JOptionPane.showMessageDialog(frmSupplyfly, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Bestellungen zu l\u00f6schen.");
 				}
 			}
 		});

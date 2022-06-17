@@ -120,7 +120,7 @@ public class BestellungBearbeitenGUI {
 		
 		JLabel lbl_targetBestellwert = new JLabel(DBAccess.getBestellInfo(bestellNr, "Bestellwert"));
 		
-		JButton btn_zurueck = new JButton("Zurueck");
+		JButton btn_zurueck = new JButton("Zur\u00fcck");
 		btn_zurueck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
@@ -133,7 +133,7 @@ public class BestellungBearbeitenGUI {
 			}
 		});
 		
-		JButton btn_bestaetigen1 = new JButton("Bestaetigen");
+		JButton btn_bestaetigen1 = new JButton("Best\u00e4tigen");
 		btn_bestaetigen1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Integer bestellNrBestellung = 0;

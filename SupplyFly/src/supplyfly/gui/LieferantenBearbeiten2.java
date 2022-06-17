@@ -62,7 +62,7 @@ public class LieferantenBearbeiten2 {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
-		JButton btn_lieferantLoeschen = new JButton("Lieferant l\u00F6schen");
+		JButton btn_lieferantLoeschen = new JButton("Lieferant l\u00f6schen");
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -116,7 +116,7 @@ public class LieferantenBearbeiten2 {
 						Integer row = table.getSelectedRow();
 						Integer lieferantenNr = Integer.valueOf(m.getValueAt(row, 0).toString());
 						DBAccess.deleteLieferantInDatabase(lieferantenNr);
-						JOptionPane.showMessageDialog(btn_lieferantLoeschen, "Der Lieferant "+ lieferantenNr +" wurde gelöscht!");
+						JOptionPane.showMessageDialog(btn_lieferantLoeschen, "Der Lieferant "+ lieferantenNr +" wurde gel\u00f6scht!");
 						
 					} catch (ArrayIndexOutOfBoundsException aoe) {
 						JOptionPane.showMessageDialog( null ,"WÃ¤hlen Sie zuerst einen Lieferanten in der Tabelle aus!");
@@ -127,7 +127,7 @@ public class LieferantenBearbeiten2 {
 						d.refreshLieferantenTable(m);
 					}
 				}else {
-					JOptionPane.showMessageDialog(frame, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Lieferanten hinzuzufügen.");
+					JOptionPane.showMessageDialog(frame, "*ZUGRIFF VERWEIGERT*\nSie sind nicht berechtigt Lieferanten hinzuzuf\u00fcgen.");
 				}
 			
 		}});

@@ -92,7 +92,7 @@ public class BestellungHinzufuegeGUI {
 				new Object[][] {
 				},
 				new String[] {
-					"Produkt", "Menge", "Wert", "g�ltig"
+					"Produkt", "Menge", "Wert", "g\u00fcltig"
 				}
 			) {
 				boolean[] columnEditables = new boolean[] {
@@ -105,7 +105,7 @@ public class BestellungHinzufuegeGUI {
 			
 			DefaultTableModel model_table_bestellungErstellen = (DefaultTableModel) table_produkteDerBestellung.getModel();
 		
-			JButton btn_zurueck = new JButton("Zur�ck");
+			JButton btn_zurueck = new JButton("Zur\u00fcck");
 			btn_zurueck.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					frmNeueBestellung.setVisible(false);
@@ -155,14 +155,14 @@ public class BestellungHinzufuegeGUI {
 
 			
 			//(Philipp) Produkt hinzuf�gen
-			JButton btn_produktHinzufuegen = new JButton("Produkt hinzuf�gen");
+			JButton btn_produktHinzufuegen = new JButton("Produkt hinzuf\u00fcgen");
 			btn_produktHinzufuegen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
 					//'ProduktID' und 'menge' werden dem Textfeld entnommen. Danach der JTable hinzugefuegt. (Philipp) Ebenfalls wird angezeigt, ob das Produkt exisitiert / gel�scht bzw "G�ltig" ist
 					String produktID = tf_produktId.getText();
 					String menge = tf_menge.getText();
-					model_table_bestellungErstellen.addRow(new Object[] {produktID,menge, "wird gepr�ft"}); 
+					model_table_bestellungErstellen.addRow(new Object[] {produktID,menge, "wird gepr\u00fcft"}); 
 
 					//alle aktuellen Produkte, die eingekauft werden k�nnen - Produkte, die der Lieferant NICHT liefert = Produkte, die bestellt werden k�nnen
 					ArrayList<String> dbProduktliste = DBAccess.getProduktliste();	
@@ -203,9 +203,9 @@ public class BestellungHinzufuegeGUI {
 					for (int i = 0; i < model_table_bestellungErstellen.getRowCount(); i++) {
 						{
 							if(model_table_bestellungErstellen.getValueAt(i, 0).equals("") || model_table_bestellungErstellen.getValueAt(i, 1).equals("")) {
-								System.out.println("Zeile: " + (i+1) + " Felder d�rfen nicht leer sein!");
-								JOptionPane.showMessageDialog(frmNeueBestellung, "Zeile: " + (i+1) + " Felder d�rfen nicht leer sein!");
-								model_table_bestellungErstellen.setValueAt("ung�ltig", i, 2);
+								System.out.println("Zeile: " + (i+1) + " Felder d\u00fcrfen nicht leer sein!");
+								JOptionPane.showMessageDialog(frmNeueBestellung, "Zeile: " + (i+1) + " Felder d\u00fcrfen nicht leer sein!");
+								model_table_bestellungErstellen.setValueAt("ung\u00fcltig", i, 2);
 								model_table_bestellungErstellen.setValueAt("0", i, 3);
 							}			
 							else {
@@ -214,7 +214,7 @@ public class BestellungHinzufuegeGUI {
 										produktliste.add((String)model_table_bestellungErstellen.getValueAt(i, 0));
 										mengenliste.add((String) model_table_bestellungErstellen.getValueAt(i, 1));
 										System.out.println("Zeile: " + (i+1) + " Produkt: " + model_table_bestellungErstellen.getValueAt(i, 0) + " Menge: " + model_table_bestellungErstellen.getValueAt(i, 1) + " als Position zwischengemerkt");
-										model_table_bestellungErstellen.setValueAt("g�ltig", i, 2);
+										model_table_bestellungErstellen.setValueAt("g\u00fcltig", i, 2);
 										
 										//Noch den Preis der Postition hinzuf�gen:
 										Integer produktPreis = DBAccess.getProduktpreisfuerLieferant(lieferantenNr, (String)model_table_bestellungErstellen.getValueAt(i, 0));
@@ -224,16 +224,16 @@ public class BestellungHinzufuegeGUI {
 										model_table_bestellungErstellen.setValueAt(posPreisString, i, 3);									
 									}
 									else {
-										System.out.println("Produkt nicht bei diesem Lieferanten bestellbar! Machen Sie hierf�r eine neue Bestellung");
-										JOptionPane.showMessageDialog(frmNeueBestellung, "Produkt nicht bei diesem Lieferanten bestellbar! Machen Sie hierf�r eine neue Bestellung");
-										model_table_bestellungErstellen.setValueAt("ung�ltig", i, 2);
+										System.out.println("Produkt nicht bei diesem Lieferanten bestellbar! Machen Sie hierf\u00fcr eine neue Bestellung");
+										JOptionPane.showMessageDialog(frmNeueBestellung, "Produkt nicht bei diesem Lieferanten bestellbar! Machen Sie hierf\u00fcr eine neue Bestellung");
+										model_table_bestellungErstellen.setValueAt("ung\u00fcltig", i, 2);
 										model_table_bestellungErstellen.setValueAt("0", i, 3);
 									}
 								}
 								else {
-									System.out.println("Zeile: " + (i+1) + " Produkt exisitiert nicht, nicht vom Lieferanten lieferbar, hat keinen Standardlieferanten oder wurde gel�scht");
-									JOptionPane.showMessageDialog(frmNeueBestellung, "Zeile: " + (i+1) + " Produkt exisitiert nicht, nicht vom Lieferanten lieferbar, hat keinen Standardlieferanten oder wurde gel�scht");
-									model_table_bestellungErstellen.setValueAt("ung�ltig", i, 2);
+									System.out.println("Zeile: " + (i+1) + " Produkt exisitiert nicht, nicht vom Lieferanten lieferbar, hat keinen Standardlieferanten oder wurde gel\u00f6scht");
+									JOptionPane.showMessageDialog(frmNeueBestellung, "Zeile: " + (i+1) + " Produkt exisitiert nicht, nicht vom Lieferanten lieferbar, hat keinen Standardlieferanten oder wurde gel\u00f6scht");
+									model_table_bestellungErstellen.setValueAt("ung\u00fcltig", i, 2);
 									model_table_bestellungErstellen.setValueAt("0", i, 3);
 								}
 							}
@@ -264,12 +264,12 @@ public class BestellungHinzufuegeGUI {
 			
 			
 			//(Philipp) Best�tigen Button (legt eine Bestellung in "Bestellung" an und Je position die einzelnen Positionen in "bestellung-produkt"
-			JButton btn_bestellungBestaetigen = new JButton("Best�tigen");
+			JButton btn_bestellungBestaetigen = new JButton("Best\u00e4tigen");
 			btn_bestellungBestaetigen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
 					//'bestellart' soll aus checkbox entnommen werden und in String variable gespeichert werden.
-					String bestellart = "Regul�re Bestellung";
+					String bestellart = "Regul\u00e4re Bestellung";
 					if(cbox_bestellart.isSelected()) {
 						bestellart = "Eilbestellung";
 					}
@@ -303,8 +303,8 @@ public class BestellungHinzufuegeGUI {
 					
 					// (Philipp) Bestellung direkt in der DB anlegen:
 					if(produktliste.isEmpty() || mengenliste.isEmpty()) {
-						System.out.println("Kann keine leere Bestellung anlegen, f�gen Sie Produkte hinzu");
-						JOptionPane.showMessageDialog(frmNeueBestellung, "Kann keine leere Bestellung anlegen, f�gen Sie Produkte hinzu");
+						System.out.println("Kann keine leere Bestellung anlegen, f\u00fcgen Sie Produkte hinzu");
+						JOptionPane.showMessageDialog(frmNeueBestellung, "Kann keine leere Bestellung anlegen, f\u00fcgen Sie Produkte hinzu");
 					}else {
 						Integer aktuelleBestellNr = DBAccess.getAktuelleBestellNr() + 1;
 						DBAccess.legeBestellungInDBan(aktuelleBestellNr, bestellart, mitarbeiterName, datum, status, lieferantenNr, kommentar, gesamtbestellwert);
@@ -322,7 +322,7 @@ public class BestellungHinzufuegeGUI {
 			
 
 			
-			JLabel lbl_Lieferant_1_1 = new JLabel("Lieferant (muss f�r alle Produkte gleich sein):");
+			JLabel lbl_Lieferant_1_1 = new JLabel("Lieferant (muss f\u00fcr alle Produkte gleich sein):");
 			GroupLayout gl_panel = new GroupLayout(panel);
 			gl_panel.setHorizontalGroup(
 				gl_panel.createParallelGroup(Alignment.TRAILING)
